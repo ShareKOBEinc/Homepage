@@ -1,2 +1,2 @@
 # Homepage
-ShareKOBEの公式HPです。
+ShareKOBEの公式HPです
