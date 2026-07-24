@@ -44,7 +44,7 @@ const WORKS_NEW = [
     day: 8,
     desc: 'からあげ謎の謎解きキット。',
     hue: 35,
-    image: 'からあげ謎.JPG',
+    image: 'からあげ謎.JPG',
   },
   {
     id: 'na-ha-tai-o-arawasu',
@@ -66,9 +66,9 @@ const WORKS_NEW = [
     day: 12,
     desc: '株式会社GO様の合宿イベント',
     hue: 55,
-    image: 'GO.JPG',
+    image: 'GO.jpg',
   },
-    {
+  {
     id: 'sodenashi',
     title: 'タンクトップバトラー!! 袖無',
     category: 'イベント',

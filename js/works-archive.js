@@ -8,7 +8,7 @@ const WORKS_ARCHIVE = [
     day: 20,
     desc: '姫路で楽しむなぞときクロスロード。',
     hue: 20,
-    image: '姫路なぞ解きクロスロード.png',
+    image: '姫路なぞ解きクロスロード.png',
   },
   {
     id: 'docchi',
@@ -66,7 +66,7 @@ const WORKS_ARCHIVE = [
     day: 22,
     desc: 'どっち謎シリーズの関連作品。',
     hue: 45,
-    image: 'どっち謎R.jpeg',
+    image: 'どっち謎R.jpeg',
   },
   {
     id: 'nazokaruta-ex',

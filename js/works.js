@@ -6,7 +6,6 @@
   const homeGrid = document.getElementById('homeWorksGrid');
   const worksGrid = document.getElementById('worksGrid');
   const filterBar = document.getElementById('worksFilter');
-  const countEl = document.getElementById('worksCount');
   const counterEl = document.querySelector('[data-count]');
 
   if (counterEl) {
@@ -218,10 +217,6 @@
         : sortedWorks.filter((w) => getWorkCategories(w).includes(activeCategory));
 
       renderGrid(worksGrid, filtered);
-
-      if (countEl) {
-        countEl.textContent = `${filtered.length} Projects`;
-      }
     };
 
     filterBar.querySelectorAll('[data-filter]').forEach((btn) => {
