@@ -336,31 +336,63 @@ input, textarea {
   font-family: var(--font-body);
   font-size: clamp(1.35rem, 0.55rem + 5.2vw, 5.25rem);
   font-weight: 700;
-  line-height: 1.4;
+  line-height: 1.45;
   letter-spacing: 0.06em;
   color: var(--black);
-  white-space: nowrap;
   margin: 0;
   position: relative;
   max-width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: baseline;
+  white-space: nowrap;
 }
 
-.hero__title-break {
-  display: none;
+.hero__title-line {
+  position: relative;
+  display: inline-block;
+  z-index: 0;
 }
 
-.hero__title::after {
+.hero__title-mark {
+  position: relative;
+  display: inline;
+  z-index: 0;
+}
+
+.hero__title-mark::after {
   content: '';
   position: absolute;
-  left: 8%;
-  right: 8%;
+  left: -0.08em;
+  right: -0.08em;
   bottom: 0.08em;
-  height: 3px;
-  background: var(--accent);
-  transform: scaleX(0);
+  height: 0.38em;
+  background: color-mix(in srgb, var(--accent) 42%, transparent);
+  border-radius: 0.08em;
+  transform: skewX(-6deg) scaleX(0);
   transform-origin: left center;
-  opacity: 0.85;
-  animation: underlineDraw 0.9s var(--ease-out) 0.4s forwards;
+  z-index: -1;
+  pointer-events: none;
+  animation: markerDraw 0.45s var(--ease-out) forwards;
+}
+
+/* 「おもろい」だけ線を短く */
+.hero__title-line:nth-child(1) .hero__title-mark::after {
+  left: 0.22em;
+  right: 0.22em;
+  animation-delay: 0.25s;
+}
+
+/* 「おもろい」完了のあと、少し間を空けて「関西」 */
+.hero__title-line:nth-child(2) .hero__title-mark::after {
+  animation-delay: 0.85s;
+}
+
+@keyframes markerDraw {
+  to {
+    transform: skewX(-6deg) scaleX(1);
+  }
 }
 
 @keyframes underlineDraw {
@@ -1299,13 +1331,16 @@ input, textarea {
   }
 
   .hero__title {
+    flex-direction: column;
+    align-items: center;
     white-space: normal;
     font-size: clamp(1.35rem, 1rem + 4.8vw, 2.35rem);
     letter-spacing: 0.04em;
     padding-inline: 0.25rem;
+    gap: 0.12em;
   }
 
-  .hero__title-break {
+  .hero__title-line {
     display: block;
   }
 
@@ -2414,7 +2449,12 @@ body:has(#workDetail) .header {
   padding: 1.5rem 0 0.5rem;
 }
 
-.work-detail__actions .btn-outline:hover {
+.work-hero__official {
+  margin-top: 1.25rem;
+}
+
+.work-detail__actions .btn-outline:hover,
+.work-hero__official .btn-outline:hover {
   background: var(--work-main, var(--accent));
   border-color: var(--work-main, var(--accent));
   color: var(--white);
@@ -2479,9 +2519,13 @@ body:has(#workDetail) .header {
     animation: none !important;
   }
 
-  .hero__title::after,
+  .hero__title-mark::after,
   .about__catchphrase::after {
     animation: none;
+    transform: skewX(-6deg) scaleX(1);
+  }
+
+  .about__catchphrase::after {
     transform: scaleX(1);
   }
 

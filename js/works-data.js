@@ -46,6 +46,8 @@
  *       note: '補足',
  *     },
  *     notes: ['注意事項1', '注意事項2'],
+ *     officialUrl: 'https://example.com/', // 特設サイト等（任意）
+ *     officialLabel: '特設サイトを見る',   // リンク文言（任意）
  *   },
  *
  *     colors: {                  // 任意（未指定時はビジュアルから自動抽出）
@@ -70,9 +72,27 @@ const WORKS_NEW = [
     year: 2024,
     month: 2,
     day: 23,
-    desc: 'IT\'S A PIECE OF CAKEの謎解きキット。',
+    desc: "IT'S A PIECE OF CAKE",
     hue: 25,
     image: "IT'S A PIECE OF CAKE.JPG",
+    tagline: "IT'S A PIECE OF CAKE",
+    point: '（公開チケット文面の詳細は後ほど追記予定）',
+    story: [
+      '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
+    ],
+    overview: {
+      team: '—',
+      duration: '—',
+      start: '—',
+      location: '—',
+      format: 'イベント',
+    },
+    schedule: {
+      period: '2024.2.23',
+    },
+    notes: [
+      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
+    ],
   },
   {
     id: 'karaage-nazo',
@@ -138,9 +158,12 @@ const WORKS_NEW = [
     hue: 55,
     image: 'そでなしKV.png',
     tagline: '袖なしで、勝負せよ。',
-    point: 'タンクトップバトラー!! 袖無として実施した謎解きイベントです。',
+    point: 'タンクトップバトラー!! 袖無として実施した謎解きイベントです。\n（公開チケット文面の詳細は後ほど追記予定）',
     storyLead: '熱量高めのバトラーたちが集う。',
-    story: 'タンクトップバトラー!! 袖無の世界観で楽しむ謎解きイベント。\n笑いとひらめきが交差する、ShareKOBEらしい体験をお届けしました。',
+    story: [
+      'タンクトップバトラー!! 袖無の世界観で楽しむ謎解きイベント。',
+      '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
+    ],
     overview: {
       team: '—',
       duration: '—',
@@ -151,6 +174,9 @@ const WORKS_NEW = [
     schedule: {
       period: '2026.2.21',
     },
+    notes: [
+      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
+    ],
   },
 ];
 

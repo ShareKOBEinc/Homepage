@@ -452,6 +452,19 @@
         )
         : '';
 
+      const officialUrl = work.officialUrl || work.siteUrl || '';
+      const officialLabel = work.officialLabel || '特設サイトを見る';
+      const officialHtml = officialUrl
+        ? `
+          <a
+            href="${escapeText(officialUrl)}"
+            class="btn-outline work-detail__official"
+            target="_blank"
+            rel="noopener noreferrer"
+          >${escapeText(officialLabel)} →</a>
+        `
+        : '';
+
       workDetail.innerHTML = `
         <section class="work-hero">
           <a href="${backHref}" class="page-hero__back work-hero__back reveal">
@@ -477,6 +490,7 @@
                 <h1 class="work-hero__title">${escapeText(work.title)}</h1>
                 ${work.tagline ? `<p class="work-hero__tagline">${escapeText(work.tagline)}</p>` : ''}
                 ${date ? `<time class="work-hero__date"${work.year && work.month && work.day ? ` datetime="${work.year}-${String(work.month).padStart(2, '0')}-${String(work.day).padStart(2, '0')}"` : ''}>${escapeText(date)}</time>` : ''}
+                ${officialHtml ? `<div class="work-hero__official">${officialHtml}</div>` : ''}
               </div>
 
               <div class="work-sections">
@@ -489,6 +503,7 @@
                 ${noteHtml}
 
                 <div class="work-detail__actions reveal">
+                  ${officialHtml}
                   <a href="${backHref}" class="btn-outline">Works一覧へ →</a>
                   <a href="${contactHref}" class="btn-outline">Contact Us →</a>
                 </div>
