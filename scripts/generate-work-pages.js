@@ -84,6 +84,9 @@ const template = (work) => `<!DOCTYPE html>
       <a href="../works.html">Works</a>
       <a href="../goods.html">Goods</a>
       <a href="../contact.html">Contact</a>
+      <a href="https://x.com/shareKOBE_" class="mobile-nav__social" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
+        <img src="../assets/logo-black.png" alt="" width="28" height="28">
+      </a>
     </nav>
   </div>
 
