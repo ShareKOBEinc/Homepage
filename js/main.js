@@ -15,20 +15,29 @@
     onScroll();
   }
 
-  // Mobile menu
+  // Mobile menu（右上ハンバーガー）
   if (menuBtn && mobileNav) {
     const toggleMenu = (open) => {
       const isOpen = open ?? !menuBtn.classList.contains('active');
       menuBtn.classList.toggle('active', isOpen);
       menuBtn.setAttribute('aria-expanded', String(isOpen));
+      menuBtn.setAttribute('aria-label', isOpen ? 'メニューを閉じる' : 'メニューを開く');
       mobileNav.classList.toggle('open', isOpen);
       mobileNav.setAttribute('aria-hidden', String(!isOpen));
       document.body.style.overflow = isOpen ? 'hidden' : '';
     };
 
-    menuBtn.addEventListener('click', () => toggleMenu());
+    menuBtn.addEventListener('click', (event) => {
+      event.stopPropagation();
+      toggleMenu();
+    });
     mobileNav.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => toggleMenu(false));
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menuBtn.classList.contains('active')) {
+        toggleMenu(false);
+      }
     });
   }
 
