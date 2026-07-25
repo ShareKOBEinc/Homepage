@@ -2,7 +2,8 @@
  * Works 個別ページを生成します。
  * 使い方: node scripts/generate-work-pages.js
  *
- * works-data.js / works-archive.js を更新したあと実行してください。
+ * works-archive.js / works-data.js を更新したあと実行してください。
+ * （キットは goods-data.js のため、個別ページ生成対象外です）
  */
 const fs = require('fs');
 const path = require('path');
@@ -24,14 +25,7 @@ vm.runInContext(
   ctx
 );
 
-const goodsCategory = ctx.GOODS_CATEGORY || 'キット';
-const getCategories = (work) => {
-  if (Array.isArray(work.categories) && work.categories.length) return work.categories;
-  if (work.category) return [work.category];
-  return [];
-};
-
-const portfolio = ctx.WORKS.filter((work) => !getCategories(work).includes(goodsCategory));
+const portfolio = Array.isArray(ctx.WORKS) ? ctx.WORKS : [];
 
 const escapeHtml = (str) => String(str)
   .replace(/&/g, '&amp;')
@@ -107,6 +101,7 @@ const template = (work) => `<!DOCTYPE html>
 
   <script src="../js/works-archive.js"></script>
   <script src="../js/works-data.js"></script>
+  <script src="../js/goods-data.js"></script>
   <script src="../js/work-colors.js"></script>
   <script src="../js/works.js"></script>
   <script src="../js/main.js"></script>

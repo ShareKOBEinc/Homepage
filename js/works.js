@@ -1,7 +1,7 @@
 (() => {
   'use strict';
 
-  if (typeof WORKS === 'undefined') return;
+  if (typeof WORKS === 'undefined' && typeof GOODS === 'undefined') return;
 
   const homeGrid = document.getElementById('homeWorksGrid');
   const homeGoodsGrid = document.getElementById('homeGoodsGrid');
@@ -9,7 +9,16 @@
   const filterBar = document.getElementById('worksFilter');
   const counterEl = document.querySelector('[data-count]');
 
-  const goodsCategory = typeof GOODS_CATEGORY === 'string' ? GOODS_CATEGORY : 'キット';
+  const goodsCategory = 'キット';
+  const worksList = Array.isArray(WORKS) ? WORKS : [];
+  const goodsList = Array.isArray(typeof GOODS !== 'undefined' ? GOODS : null)
+    ? GOODS
+    : worksList.filter((work) => {
+        const cats = Array.isArray(work.categories) && work.categories.length
+          ? work.categories
+          : (work.category ? [work.category] : []);
+        return cats.includes(goodsCategory);
+      });
 
   const getWorkCategories = (work) => {
     if (Array.isArray(work.categories) && work.categories.length) return work.categories;
@@ -87,8 +96,8 @@
     })
     .map(({ work }) => work);
 
-  const portfolioWorks = sortWorks(WORKS.filter((work) => !isGoods(work)));
-  const goodsWorks = sortWorks(WORKS.filter((work) => isGoods(work)));
+  const portfolioWorks = sortWorks(worksList.filter((work) => !isGoods(work)));
+  const goodsWorks = sortWorks(goodsList);
 
   if (counterEl) {
     counterEl.dataset.count = String(portfolioWorks.length);
@@ -261,10 +270,9 @@
     const workId = workDetail.dataset.workId
       || new URLSearchParams(window.location.search).get('id')
       || '';
-    const work = WORKS.find((item) => item.id === workId);
+    const work = [...worksList, ...goodsWorks].find((item) => item.id === workId);
     const assetBase = document.body.dataset.assetBase || '';
     const backHref = `${assetBase}works.html`;
-    const contactHref = `${assetBase}contact.html`;
 
     const escapeText = (value) => String(value ?? '')
       .replace(/&/g, '&amp;')
@@ -309,11 +317,9 @@
         </section>
       `;
     } else {
-      const cats = getWorkCategories(work).filter((cat) => cat !== goodsCategory);
       const date = formatWorkDate(work);
       const storyLead = work.storyLead || '';
       const storyBody = work.story || work.desc || '';
-      const pointBody = work.point || '';
       const overview = work.overview || {};
       const overviewItems = [
         ['チーム人数', overview.team],
@@ -345,10 +351,6 @@
         : '<div class="work-hero__placeholder"></div>';
 
       document.title = `${work.title} | ShareKOBE`;
-
-      const pointHtml = pointBody
-        ? renderBlock('POINT', 'ポイント', `<div class="work-block__text">${toParagraphs(pointBody)}</div>`)
-        : '';
 
       const storyHtml = (storyLead || storyBody)
         ? renderBlock(
@@ -481,11 +483,6 @@
 
             <div class="work-detail__content">
               <div class="work-hero__copy reveal">
-                ${cats.length ? `
-                  <div class="work-hero__cats">
-                    ${cats.map((cat) => `<span class="work-hero__cat">${escapeText(cat)}</span>`).join('')}
-                  </div>
-                ` : ''}
                 ${work.place ? `<p class="work-hero__place">${escapeText(work.place)}</p>` : ''}
                 <h1 class="work-hero__title">${escapeText(work.title)}</h1>
                 ${work.tagline ? `<p class="work-hero__tagline">${escapeText(work.tagline)}</p>` : ''}
@@ -494,32 +491,57 @@
               </div>
 
               <div class="work-sections">
-                ${pointHtml}
                 ${storyHtml}
                 ${overviewHtml}
                 ${scheduleHtml}
                 ${ticketHtml}
                 ${accessHtml}
                 ${noteHtml}
-
-                <div class="work-detail__actions reveal">
-                  ${officialHtml}
-                  <a href="${backHref}" class="btn-outline">Works一覧へ →</a>
-                  <a href="${contactHref}" class="btn-outline">Contact Us →</a>
-                </div>
               </div>
             </div>
           </div>
         </section>
       `;
 
+      const tintHeaderLogo = (color) => {
+        const logoImg = document.querySelector('.logo__img');
+        if (!logoImg) return;
+
+        let filterEl = document.getElementById('workLogoTint');
+        if (!filterEl) {
+          const svgNs = 'http://www.w3.org/2000/svg';
+          const svg = document.createElementNS(svgNs, 'svg');
+          svg.setAttribute('aria-hidden', 'true');
+          svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden';
+          svg.innerHTML = `
+            <defs>
+              <filter id="workLogoTint" color-interpolation-filters="sRGB">
+                <feFlood id="workLogoTintFlood" flood-color="${color}" result="flood"></feFlood>
+                <feComposite in="flood" in2="SourceAlpha" operator="in"></feComposite>
+              </filter>
+            </defs>
+          `;
+          document.body.appendChild(svg);
+          filterEl = document.getElementById('workLogoTint');
+        }
+
+        const flood = document.getElementById('workLogoTintFlood');
+        if (flood) flood.setAttribute('flood-color', color);
+        logoImg.style.filter = 'url(#workLogoTint)';
+      };
+
       const applyWorkTheme = (main, sub, deep) => {
         const root = document.documentElement;
+        const resolvedDeep = deep || main;
         [root, document.body, workDetail].forEach((el) => {
           el.style.setProperty('--work-main', main);
           el.style.setProperty('--work-sub', sub);
-          el.style.setProperty('--work-main-deep', deep || main);
+          el.style.setProperty('--work-main-deep', resolvedDeep);
         });
+        root.style.backgroundColor = sub;
+        document.body.style.backgroundColor = sub;
+        document.body.classList.add('is-work-theme');
+        tintHeaderLogo(main);
       };
 
       const mixWithWhite = (r, g, b, amount) => {

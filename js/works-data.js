@@ -1,5 +1,10 @@
 /**
- * 作品データ — 新規作品はこのファイルだけ編集してください
+ * Works データ — Works の追加・編集はこのファイル（と works-archive.js）
+ *
+ * 【役割分担】
+ *   js/works-archive.js … 既存の Works（イベント・周遊・企業案件）
+ *   js/works-data.js     … 新しい Works の追加（このファイルの WORKS_NEW）
+ *   js/goods-data.js     … Goods（キット）← キットはこちらへ
  *
  * 【追加方法】
  * WORKS_NEW の末尾に1件追加するだけです。
@@ -7,8 +12,8 @@
  *   {
  *     id: 'my-new-work',
  *     title: '作品タイトル',
- *     categories: ['キット', 'イベント'],  // 複数可（1つなら ['キット'] でも可）
- *     // category: 'キット',             // 旧形式（1つだけ）も引き続き使用可
+ *     categories: ['イベント'],  // 複数可（例: ['周遊', '企業案件']）
+ *     // category: 'イベント',  // 旧形式（1つだけ）も引き続き使用可
  *     year: 2026,               // 西暦（数字）
  *     month: 7,                 // 月
  *     day: 7,                   // 日
@@ -20,16 +25,15 @@
  *     // --- 個別ページ用（任意 / Tumbleweed風構成）---
  *     place: '会場名',
  *     tagline: 'キャッチコピー',
- *     point: 'ポイント本文（改行で段落分け可）',
  *     storyLead: 'ストーリーのリード文',
  *     story: 'ストーリー本文（未設定時は desc を使用）',
  *     overview: {
- *       team: '最大4名',        // チーム人数
- *       duration: '約90分',     // 所要時間
- *       start: '時間指定スタート', // スタート形式
- *       location: '屋内',       // 開催場所
- *       format: 'ホール型',     // 開催形式
- *       note: '補足説明',       // 任意
+ *       team: '最大4名',
+ *       duration: '約90分',
+ *       start: '時間指定スタート',
+ *       location: '屋内',
+ *       format: 'ホール型',
+ *       note: '補足説明',
  *     },
  *     schedule: {
  *       period: '2026.7.7〜2026.7.21',
@@ -46,17 +50,16 @@
  *       note: '補足',
  *     },
  *     notes: ['注意事項1', '注意事項2'],
- *     officialUrl: 'https://example.com/', // 特設サイト等（任意）
- *     officialLabel: '特設サイトを見る',   // リンク文言（任意）
- *   },
- *
- *     colors: {                  // 任意（未指定時はビジュアルから自動抽出）
+ *     officialUrl: 'https://example.com/',
+ *     officialLabel: '特設サイトを見る',
+ *     colors: {
  *       main: '#3a6b5a',
  *       sub: '#eef3f0',
  *     },
+ *   },
  *
  * 【個別ページ】
- *   Works（キット以外）は追加後に次を実行すると個別ページが生成されます。
+ *   追加後に次を実行すると個別ページが生成されます。
  *     node scripts/generate-work-pages.js
  *
  * 【日付】
@@ -81,11 +84,11 @@ const WORKS_NEW = [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
     overview: {
-      team: '—',
+      team: '1人〜',
       duration: '—',
       start: '—',
-      location: '—',
-      format: 'イベント',
+      location: '屋内',
+      format: 'ルーム型',
     },
     schedule: {
       period: '2024.2.23',
@@ -93,28 +96,6 @@ const WORKS_NEW = [
     notes: [
       '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
     ],
-  },
-  {
-    id: 'karaage-nazo',
-    title: 'からあげ謎',
-    category: 'キット',
-    year: 2025,
-    month: 11,
-    day: 8,
-    desc: 'からあげ謎の謎解きキット。',
-    hue: 35,
-    image: 'からあげ謎.JPG',
-  },
-  {
-    id: 'na-ha-tai-o-arawasu',
-    title: '名は体を表す',
-    category: 'キット',
-    year: 2025,
-    month: 11,
-    day: 8,
-    desc: '名は体を表すの謎解きキット。',
-    hue: 55,
-    image: '名は体を表す.JPG',
   },
   {
     id: 'GO',
@@ -161,15 +142,16 @@ const WORKS_NEW = [
     point: 'タンクトップバトラー!! 袖無として実施した謎解きイベントです。\n（公開チケット文面の詳細は後ほど追記予定）',
     storyLead: '熱量高めのバトラーたちが集う。',
     story: [
-      'タンクトップバトラー!! 袖無の世界観で楽しむ謎解きイベント。',
-      '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
+      '無敵のタンクトップバトラー　袖無(ソデナシ)。',
+      'この街の秩序は彼によって保たれていた。',
+      'そう、ついこの間までは。タンクトップバトルを攻略し、袖無に勝利をもたらせ！',
     ],
     overview: {
-      team: '—',
-      duration: '—',
-      start: '—',
-      location: '会場開催',
-      format: 'イベント',
+      team: '最大4人',
+      duration: '約120分',
+      start: '一斉スタート',
+      location: '屋内',
+      format: 'ホール型',
     },
     schedule: {
       period: '2026.2.21',
@@ -186,9 +168,3 @@ const WORK_CATEGORIES = ['すべて', 'イベント', '周遊', '企業案件'];
 
 // トップページ Selected Works に表示する件数（日付の新しい順）
 const HOME_WORKS_COUNT = 3;
-
-// トップページ Goods に表示する件数（日付の新しい順）
-const HOME_GOODS_COUNT = 3;
-
-// Goods に掲載するカテゴリ（Works からは除外）
-const GOODS_CATEGORY = 'キット';

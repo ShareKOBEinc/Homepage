@@ -1,3 +1,9 @@
+/**
+ * Works アーカイブ（イベント・周遊・企業案件）
+ *
+ * キットは js/goods-data.js へ。
+ * 新しい Works は js/works-data.js の WORKS_NEW へ追加してください。
+ */
 const WORKS_ARCHIVE = [
   {
     id: 'himeji-nazotoki-crossroad',
@@ -90,30 +96,6 @@ const WORKS_ARCHIVE = [
     ],
   },
   {
-    id: 'dausle',
-    title: 'DAUSLE?!',
-    category: 'キット',
-    year: 2025,
-    month: 11,
-    day: 8,
-    desc: '土産謎第1弾　神戸銘菓ゴーフルをモチーフに作成',
-    hue: 0,
-    featured: true,
-    image: 'DAUSLE?!.jpeg',
-  },
-  {
-    id: 'shingitai',
-    title: '心技体',
-    category: 'キット',
-    year: 2025,
-    month: 11,
-    day: 8,
-    desc: '関西にゆかりのある制作団体が集まって作った謎解きキット',
-    hue: 30,
-    featured: true,
-    image: '心技体.jpeg',
-  },
-  {
     id: 'aimai',
     title: 'あいまいセツエーション',
     category: '周遊',
@@ -132,10 +114,10 @@ const WORKS_ARCHIVE = [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
     overview: {
-      team: '—',
+      team: '1人〜',
       duration: '—',
-      start: '—',
-      location: '屋外／周遊',
+      start: '随時スタート',
+      location: '屋内',
       format: '周遊型',
     },
     schedule: {
@@ -168,13 +150,13 @@ const WORKS_ARCHIVE = [
     overview: {
       team: '2〜4人',
       duration: '約100分',
-      start: '時間指定スタート',
+      start: '一斉スタート',
       location: '屋内（Mysteria宝塚）',
       format: 'ルーム型',
       note: '3枚ご購入の方は2チームに分かれていただきます。',
     },
     schedule: {
-      period: '2025.11.23〜2025.11.24（ナゾヒロバ掲載例）',
+      period: '2025.11.23〜2025.11.24',
     },
     tickets: [
       { label: '一般', price: '3,500', unit: '円' },
@@ -185,7 +167,6 @@ const WORKS_ARCHIVE = [
     notes: [
       '3人でチケットを購入いただいた場合も、2人・1人に分かれていただきます。',
       '前作「AnswerはどっちでSHOW!?」とは内容がすべて異なります。',
-      '出典：ESCAPE.ID / ナゾヒロバ',
     ],
   },
   {
@@ -211,7 +192,7 @@ const WORKS_ARCHIVE = [
     overview: {
       team: '1〜2人',
       duration: '約40分',
-      start: '時間指定スタート',
+      start: '一斉スタート',
       location: '屋内',
       format: 'カフェ型',
     },
@@ -244,11 +225,11 @@ const WORKS_ARCHIVE = [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
     overview: {
-      team: '—',
+      team: '最大4人',
       duration: '—',
-      start: '—',
-      location: '—',
-      format: 'イベント',
+      start: '一斉スタート',
+      location: '屋内',
+      format: 'ルーム型',
     },
     schedule: {
       period: '2025.7.19',
@@ -273,11 +254,11 @@ const WORKS_ARCHIVE = [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
     overview: {
-      team: '—',
+      team: '1人〜',
       duration: '—',
-      start: '—',
-      location: '—',
-      format: 'イベント',
+      start: '随時スタート',
+      location: '屋内',
+      format: 'ルーム型',
     },
     schedule: {
       period: '2025.7.19',
@@ -302,11 +283,11 @@ const WORKS_ARCHIVE = [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
     overview: {
-      team: '—',
+      team: '最大4人',
       duration: '—',
-      start: '—',
-      location: '—',
-      format: 'イベント',
+      start: '一斉スタート',
+      location: '屋内',
+      format: 'ホール型',
     },
     schedule: {
       period: '2024.9.24',
@@ -336,9 +317,9 @@ const WORKS_ARCHIVE = [
       '謎を解き、力を駆使して世界を救え！',
     ],
     overview: {
-      team: '1〜4人',
-      duration: '約90〜100分',
-      start: '時間指定スタート',
+      team: '最大4人',
+      duration: '約100分',
+      start: '一斉スタート',
       location: '屋内',
       format: 'ホール型',
     },
@@ -370,11 +351,11 @@ const WORKS_ARCHIVE = [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
     overview: {
-      team: '—',
+      team: '最大4人',
       duration: '—',
-      start: '—',
-      location: '—',
-      format: 'イベント',
+      start: '一斉スタート',
+      location: '屋内',
+      format: 'ルーム型',
     },
     schedule: {
       period: '2024.7.6',
@@ -402,11 +383,11 @@ const WORKS_ARCHIVE = [
       '最速タイムを目指して札を取る、カルタ形式の謎解きです。',
     ],
     overview: {
-      team: '1〜2人',
-      duration: '約40分（目安）',
-      start: '時間指定スタート',
+      team: '最大2人',
+      duration: '約40分',
+      start: '一斉スタート',
       location: '屋内',
-      format: 'カフェ型／ルーム型',
+      format: 'ブース型',
     },
     notes: [
       '前作（Standard Edition）とナゾカルタEX（Expert Edition）は公演内容が異なります。',
@@ -436,10 +417,10 @@ const WORKS_ARCHIVE = [
       '※動きやすい服装でお越しください。',
     ],
     overview: {
-      team: '1〜4人',
-      duration: '45分（15分解説込み）',
-      start: '時間指定スタート',
-      location: '東京タワー',
+      team: '最大4人',
+      duration: '約45分',
+      start: '一斉スタート',
+      location: '屋内',
       format: 'ルーム型',
     },
     schedule: {
@@ -477,9 +458,9 @@ const WORKS_ARCHIVE = [
     ],
     overview: {
       team: '1人〜',
-      duration: '約1時間（目安）',
-      start: '自由スタート',
-      location: '屋外（浪速区民センター周辺）',
+      duration: '約1時間',
+      start: '随時スタート',
+      location: '屋外',
       format: '周遊型',
       note: '最宴祭主催の依頼条件：浪速区民センター閉館後も可能／目安1時間程度。',
     },
@@ -511,7 +492,7 @@ const WORKS_ARCHIVE = [
       '疲れた時、心を癒したい時、いつどんな時でも「いこいの場所ホメタタエ」はあなたをお待ちしております。',
     ],
     overview: {
-      team: '1〜4人',
+      team: '最大4人',
       duration: '約90分',
       start: '一斉スタート',
       location: '屋内',
