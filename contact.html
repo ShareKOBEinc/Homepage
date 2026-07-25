@@ -5,29 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="ShareKOBEへのお問い合わせ。映像・イベント・舞台の制作ご相談はこちら。">
   <title>Contact | ShareKOBE</title>
-  <link rel="icon" type="image/png" sizes="48x48" href="favicon-48x48.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.typekit.net/btf8drg.css">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
-  <div class="cursor" aria-hidden="true"></div>
-  <div class="cursor-follower" aria-hidden="true"></div>
 
   <header class="header scrolled" id="header">
     <a href="index.html" class="logo" aria-label="ShareKOBE ホームへ">
       <img src="assets/ShareKOBE_AI.webp" alt="ShareKOBE" class="logo__img" width="399" height="118">
     </a>
-    <nav class="nav" aria-label="メインナビゲーション">
-      <a href="works.html">Works</a>
-      <a href="services.html">Services</a>
+        <nav class="nav" aria-label="メインナビゲーション">
+      <a href="news.html">News</a>
       <a href="about.html">About</a>
+      <a href="works.html">Works</a>
+      <a href="goods.html">Goods</a>
       <a href="contact.html" class="nav__active">Contact</a>
     </nav>
     <button class="menu-btn" id="menuBtn" aria-label="メニューを開く" aria-expanded="false">
@@ -36,11 +36,12 @@
     </button>
   </header>
 
-  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <nav>
-      <a href="works.html">Works</a>
-      <a href="services.html">Services</a>
+      <a href="news.html">News</a>
       <a href="about.html">About</a>
+      <a href="works.html">Works</a>
+      <a href="goods.html">Goods</a>
       <a href="contact.html">Contact</a>
     </nav>
   </div>
@@ -53,54 +54,15 @@
         </svg>
         Back to Home
       </a>
-      <p class="page-hero__label reveal">Get in Touch</p>
-      <h1 class="page-hero__title">
-        <span class="reveal-line"><span>Contact</span></span>
-        <span class="reveal-line"><span>Us</span></span>
-      </h1>
+      <h1 class="page-hero__title reveal">Contact</h1>
       <p class="page-hero__desc reveal">
-        新規プロジェクトのご相談、お見積りのご依頼など、<br>
+        イベント制作等のご相談、お見積りのご依頼など、<br>
         お気軽にお問い合わせください。
       </p>
     </section>
 
     <section class="contact contact--page">
       <div class="contact__layout">
-        <div class="contact__info reveal">
-          <h2 class="contact__info-title">お問い合わせ</h2>
-          <p class="contact__info-desc">
-            通常2営業日以内にご返信いたします。お急ぎの場合はメールの件名に「【急ぎ】」とご記載ください。
-          </p>
-
-          <dl class="contact__details">
-            <div>
-              <dt>Email</dt>
-              <dd><a href="mailto:sharekobe.sharekobe@gmail.com">sharekobe.sharekobe@gmail.com</a></dd>
-            </div>
-            <div>
-              <dt>Phone</dt>
-              <dd><a href="tel:0312345678">03-1234-5678</a></dd>
-            </div>
-            <div>
-              <dt>Office</dt>
-              <dd>東京都渋谷区〇〇 1-2-3<br>大阪府大阪市北区〇〇 4-5-6</dd>
-            </div>
-            <div>
-              <dt>Hours</dt>
-              <dd>平日 10:00 — 19:00</dd>
-            </div>
-          </dl>
-
-          <div class="contact__social">
-            <p>Follow Us</p>
-            <div class="footer__social">
-              <a href="https://x.com/shareKOBE_" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-          <img src="assets/logo-black.png" alt="" class="footer__social-icon" width="28" height="28">
-        </a>
-            </div>
-          </div>
-        </div>
-
         <div class="contact__form-wrap reveal">
           <form
             class="contact__form"
@@ -137,7 +99,7 @@
               <textarea id="message" name="message" rows="6" required placeholder="プロジェクトの概要、希望時期、予算感などをお聞かせください"></textarea>
             </div>
             <button type="submit" class="btn-submit">
-              <span>Send Message</span>
+              <span>送信</span>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                 <path d="M4 10h12M12 6l4 4-4 4" stroke="currentColor" stroke-width="1.5"/>
               </svg>
@@ -150,7 +112,7 @@
 
   <footer class="footer">
     <div class="footer__bottom">
-      <p>&copy; 2026 ShareKOBE All rights reserved.</p>
+      <p>&copy; 2026 ShareKOBE Inc. All rights reserved.</p>
       <div class="footer__social">
         <a href="https://x.com/shareKOBE_" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
           <img src="assets/logo-black.png" alt="" class="footer__social-icon" width="28" height="28">

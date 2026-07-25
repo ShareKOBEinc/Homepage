@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ShareKOBEの制作実績一覧。映像・イベント・舞台・ライブ・ブランディングのポートフォリオ。">
-  <title>Works | ShareKOBE</title>
+  <meta name="description" content="ShareKOBEのお知らせ・ニュース一覧。">
+  <title>News | ShareKOBE</title>
   <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png">
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
@@ -23,10 +23,10 @@
     <a href="index.html" class="logo" aria-label="ShareKOBE ホームへ">
       <img src="assets/ShareKOBE_AI.webp" alt="ShareKOBE" class="logo__img" width="399" height="118">
     </a>
-        <nav class="nav" aria-label="メインナビゲーション">
-      <a href="news.html">News</a>
+    <nav class="nav" aria-label="メインナビゲーション">
+      <a href="news.html" class="nav__active">News</a>
       <a href="about.html">About</a>
-      <a href="works.html" class="nav__active">Works</a>
+      <a href="works.html">Works</a>
       <a href="goods.html">Goods</a>
       <a href="contact.html">Contact</a>
     </nav>
@@ -36,7 +36,7 @@
     </button>
   </header>
 
-    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <nav>
       <a href="news.html">News</a>
       <a href="about.html">About</a>
@@ -54,18 +54,14 @@
         </svg>
         Back to Home
       </a>
-      <h1 class="page-hero__title reveal">Works</h1>
+      <h1 class="page-hero__title reveal">News</h1>
       <p class="page-hero__desc reveal">
-        これまでに手がけたイベントの一覧です。カテゴリで絞り込んでご覧いただけます。
+        ShareKOBEからのお知らせ一覧です。
       </p>
     </section>
 
-    <section class="works-list">
-      <div class="works-list__toolbar reveal">
-        <div class="works-filter" id="worksFilter" role="tablist" aria-label="作品カテゴリ"></div>
-      </div>
-
-      <div class="works__grid works__grid--page" id="worksGrid"></div>
+    <section class="home-news home-news--page">
+      <ul class="home-news__list" id="newsList"></ul>
     </section>
 
     <section class="page-cta page-cta--dark">
@@ -88,9 +84,8 @@
     </div>
   </footer>
 
-  <script src="js/works-archive.js"></script>
-  <script src="js/works-data.js"></script>
-  <script src="js/works.js"></script>
+  <script src="js/news-data.js"></script>
+  <script src="js/news.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

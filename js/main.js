@@ -4,8 +4,6 @@
   const header = document.getElementById('header');
   const menuBtn = document.getElementById('menuBtn');
   const mobileNav = document.getElementById('mobileNav');
-  const cursor = document.querySelector('.cursor');
-  const follower = document.querySelector('.cursor-follower');
   const contactForm = document.getElementById('contactForm');
 
   // Header scroll state
@@ -34,42 +32,6 @@
     });
   }
 
-  // Custom cursor (desktop only)
-  if (window.matchMedia('(pointer: fine)').matches && cursor && follower) {
-    let mouseX = 0;
-    let mouseY = 0;
-    let followerX = 0;
-    let followerY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.left = `${mouseX}px`;
-      cursor.style.top = `${mouseY}px`;
-    });
-
-    const animateFollower = () => {
-      followerX += (mouseX - followerX) * 0.12;
-      followerY += (mouseY - followerY) * 0.12;
-      follower.style.left = `${followerX}px`;
-      follower.style.top = `${followerY}px`;
-      requestAnimationFrame(animateFollower);
-    };
-    animateFollower();
-
-    const hoverTargets = 'a, button, .work-card, input, textarea, select';
-    document.addEventListener('mouseover', (e) => {
-      if (e.target.closest(hoverTargets)) {
-        document.body.classList.add('cursor-hover');
-      }
-    });
-    document.addEventListener('mouseout', (e) => {
-      if (e.target.closest(hoverTargets)) {
-        document.body.classList.remove('cursor-hover');
-      }
-    });
-  }
-
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   const revealLines = document.querySelectorAll('.reveal-line');
@@ -86,7 +48,16 @@
     { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
   );
 
-  revealEls.forEach((el) => revealObserver.observe(el));
+  revealEls.forEach((el, i) => {
+    if (!el.style.transitionDelay) {
+      const siblings = el.parentElement
+        ? [...el.parentElement.children].filter((child) => child.classList.contains('reveal'))
+        : [];
+      const index = Math.max(0, siblings.indexOf(el));
+      el.style.transitionDelay = `${Math.min(index * 0.08, 0.4)}s`;
+    }
+    revealObserver.observe(el);
+  });
 
   const lineObserver = new IntersectionObserver(
     (entries) => {

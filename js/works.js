@@ -4,13 +4,20 @@
   if (typeof WORKS === 'undefined') return;
 
   const homeGrid = document.getElementById('homeWorksGrid');
+  const homeGoodsGrid = document.getElementById('homeGoodsGrid');
   const worksGrid = document.getElementById('worksGrid');
   const filterBar = document.getElementById('worksFilter');
   const counterEl = document.querySelector('[data-count]');
 
-  if (counterEl) {
-    counterEl.dataset.count = String(WORKS.length);
-  }
+  const goodsCategory = typeof GOODS_CATEGORY === 'string' ? GOODS_CATEGORY : 'キット';
+
+  const getWorkCategories = (work) => {
+    if (Array.isArray(work.categories) && work.categories.length) return work.categories;
+    if (work.category) return [work.category];
+    return [];
+  };
+
+  const isGoods = (work) => getWorkCategories(work).includes(goodsCategory);
 
   const getWorkDateParts = (work) => {
     if (typeof work.year === 'number') {
@@ -80,16 +87,15 @@
     })
     .map(({ work }) => work);
 
-  const sortedWorks = sortWorks(WORKS);
+  const portfolioWorks = sortWorks(WORKS.filter((work) => !isGoods(work)));
+  const goodsWorks = sortWorks(WORKS.filter((work) => isGoods(work)));
 
-  const getWorkCategories = (work) => {
-    if (Array.isArray(work.categories) && work.categories.length) return work.categories;
-    if (work.category) return [work.category];
-    return [];
-  };
+  if (counterEl) {
+    counterEl.dataset.count = String(portfolioWorks.length);
+  }
 
   const renderCategories = (work) => {
-    const cats = getWorkCategories(work);
+    const cats = getWorkCategories(work).filter((cat) => cat !== goodsCategory);
     if (!cats.length) return '';
     return `<span class="work-card__cats">${cats.map((cat) => `<span class="work-card__cat">${cat}</span>`).join('')}</span>`;
   };
@@ -137,8 +143,8 @@
     });
   };
 
-  const renderCard = (work, { showDate = true } = {}) => {
-    const categories = renderCategories(work);
+  const renderCard = (work, { showDate = true, showCategory = true } = {}) => {
+    const categories = showCategory ? renderCategories(work) : '';
     const meta = showDate
       ? `<div class="work-card__meta">
           ${categories}
@@ -189,14 +195,26 @@
     observeCards(container);
   };
 
-  // トップページ: 直近の作品を表示（日付の新しい順）
+  // トップページ Works: キット以外の直近作品
   if (homeGrid) {
     const limit = typeof HOME_WORKS_COUNT === 'number' ? HOME_WORKS_COUNT : 6;
-    const recent = sortedWorks.slice(0, limit);
+    const recent = portfolioWorks.slice(0, limit);
     renderGrid(homeGrid, recent);
   }
 
-  // Works 一覧ページ: フィルター付き
+  // トップページ Goods: キット分類（件数制限）
+  if (homeGoodsGrid) {
+    const limit = typeof HOME_GOODS_COUNT === 'number' ? HOME_GOODS_COUNT : 3;
+    renderGrid(homeGoodsGrid, goodsWorks.slice(0, limit), { showCategory: false });
+  }
+
+  // Goods 一覧ページ
+  const goodsGrid = document.getElementById('goodsGrid');
+  if (goodsGrid) {
+    renderGrid(goodsGrid, goodsWorks, { showCategory: false });
+  }
+
+  // Works 一覧ページ: キット以外 + フィルター
   if (worksGrid && filterBar) {
     const allCategory = WORK_CATEGORIES[0];
     let activeCategory = allCategory;
@@ -213,8 +231,8 @@
 
     const render = () => {
       const filtered = activeCategory === allCategory
-        ? sortedWorks
-        : sortedWorks.filter((w) => getWorkCategories(w).includes(activeCategory));
+        ? portfolioWorks
+        : portfolioWorks.filter((w) => getWorkCategories(w).includes(activeCategory));
 
       renderGrid(worksGrid, filtered);
     };
