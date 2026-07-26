@@ -17,7 +17,6 @@ const WORKS_ARCHIVE = [
     image: '姫路なぞ解きクロスロード.png',
     place: '姫路・山陽電車沿線',
     tagline: '観光じゃ出会えない姫路',
-    point: '神姫バスと山陽電車に乗って沿線を巡るリアル謎解きゲーム。\n謎解きキットの情報をもとにデジタル乗車券を利用し、沿線に隠された様々な謎を解き明かします。\nキットには沿線対象店舗で使える参加者特典クーポン付き。',
     storyLead: '主人公「ヨウデン」「シンバ」と一緒に、ふしぎな地図の謎を解き明かそう！',
     story: [
       '神姫バス株式会社と山陽電気鉄道株式会社がタッグを組んだ、バスと電車で姫路を巡るリアル謎解きゲームです。',
@@ -107,7 +106,6 @@ const WORKS_ARCHIVE = [
     featured: true,
     image: 'あいまいセツエーション.png',
     tagline: 'あいまいな状況が、連鎖する。',
-    point: 'あいまいな状況が連鎖する周遊型の謎解きです。\n（公開チケット文面の詳細は後ほど追記予定）',
     storyLead: 'あいまいな状況が連鎖する謎解き周遊イベント。',
     story: [
       'あいまいな状況が連鎖する謎解き周遊イベントとして実施。',
@@ -180,7 +178,6 @@ const WORKS_ARCHIVE = [
     hue: 90,
     image: 'ナゾカルタEXKV（大阪.png',
     tagline: 'とってもたのしいナゾめくカルタ。',
-    point: 'EXPERT EDITIONとして登場。\n最速タイムを目指して次から次へと札を取れ！\n「ノーマルモード」と「パニックモード」はゲーム開始時に選択可能。',
     storyLead: 'とってもたのしいナゾめくカルタ。',
     story: [
       'とってもたのしいナゾめくカルタ。',
@@ -220,7 +217,6 @@ const WORKS_ARCHIVE = [
     hue: 120,
     image: 'トキシラズKV.png',
     tagline: 'トキシラズ',
-    point: '（公開チケット文面の詳細は後ほど追記予定）',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
@@ -249,7 +245,6 @@ const WORKS_ARCHIVE = [
     hue: 270,
     image: 'Leftover.jpeg',
     tagline: 'Leftover',
-    point: '（公開チケット文面の詳細は後ほど追記予定）',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
@@ -278,7 +273,6 @@ const WORKS_ARCHIVE = [
     hue: 150,
     image: 'KungFuuuu\u3000KV.png',
     tagline: 'KungFuuuu',
-    point: '（公開チケット文面の詳細は後ほど追記予定）',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
@@ -307,7 +301,6 @@ const WORKS_ARCHIVE = [
     hue: 240,
     image: 'wondertale.jpeg',
     tagline: 'Wondertale ~ホワイトドラゴンと2月の騎士~',
-    point: 'ShareKOBEがお届けする、ちょっと不思議な物語 Wonderaleシリーズの第一弾！\n2024年2月に「大阪最宴祭」で開催されたイベントの再演です。',
     storyLead: '伝説の悪しき龍「ホワイトドラゴン」の復活まで残り僅か。',
     story: [
       'SharekOBEがお届けする、ちょっと不思議な物語 Wonderaleシリーズの第一弾！',
@@ -345,7 +338,6 @@ const WORKS_ARCHIVE = [
     hue: 330,
     image: 'A4_MV_MM_240802.png',
     tagline: 'めちゃ盛れ！',
-    point: '（公開チケット文面の詳細は後ほど追記予定）',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
     ],
@@ -374,7 +366,6 @@ const WORKS_ARCHIVE = [
     hue: 345,
     image: 'KV.png',
     tagline: 'とってもたのしいナゾめくカルタ。',
-    point: 'ナゾカルタ Standard Edition。\n謎解きに慣れていない方・初めての方でも楽しめる公演をコンセプトに制作。\n後続のEXPERT EDITION（ナゾカルタEX）とは公演内容が異なります。',
     storyLead: 'とってもたのしいナゾめくカルタ。',
     story: [
       'とってもたのしいナゾめくカルタ。',
@@ -404,7 +395,6 @@ const WORKS_ARCHIVE = [
     image: 'あっちそっちたっち.jpg',
     place: '東京タワー（謎解きフェスタ）',
     tagline: 'あっちもそっちもたっち！',
-    point: '部屋に入ると、75枚のパネル。\n謎を解き、『あっちもそっちもたっち！』して答えよう。\n何分で最後の答えを入力できるか!? ライバルは他の回!?',
     storyLead: 'あなたが入った部屋には75枚のパネル。',
     story: [
       'あなたが入った部屋には75枚のパネル。',
@@ -445,7 +435,6 @@ const WORKS_ARCHIVE = [
     image: 'overmap mainviosual.png',
     place: '浪速区民センター周辺（大阪最宴祭）',
     tagline: '地図を重ねて、場所を探せ。',
-    point: 'ShareKOBEとして初めての周遊謎。\n『行くべき場所を見つけること自体を謎にして、解くべき問題を補助情報として利用する』構成。\n浪速区民センター周辺で遊べる、短時間向けの周遊です。',
     storyLead: '地図を重ねて、場所を特定せよ。',
     story: [
       '大阪最宴祭で実施した周遊型の謎解き。',
