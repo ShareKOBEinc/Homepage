@@ -83,8 +83,10 @@
   const formatWorkDate = (work) => {
     const { year, month, day } = getWorkDateParts(work);
     if (!year) return '';
-    if (month && day) return `${year}.${month}.${day}`;
-    return String(year);
+    const base = month && day ? `${year}.${month}.${day}` : String(year);
+    // 企業案件以外は継続・開催中のニュアンスで末尾に「〜」
+    if (getWorkCategories(work).includes('企業案件')) return base;
+    return `${base}〜`;
   };
 
   const sortWorks = (works) => [...works]
@@ -227,22 +229,29 @@
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-  // Hero: works presence rail
+  // Hero: works presence rail (same visual treatment as Works cards)
   const heroRail = document.getElementById('heroRail');
   if (heroRail && portfolioWorks.length) {
     const railWorks = portfolioWorks.filter((work) => work.image).slice(0, 10);
     const railItems = [...railWorks, ...railWorks].map((work) => {
-      const src = encodeImagePath(resolveImagePath(work.image));
       const href = work.url || `works/${encodeURIComponent(work.id)}.html`;
       const title = escapeText(work.title);
       return `
-        <a class="hero__rail-item" href="${href}" title="${title}">
-          <img src="${src}" alt="${title}" loading="lazy">
+        <a
+          class="hero__rail-item"
+          href="${href}"
+          title="${title}"
+          aria-label="${title}"
+        >
+          <div class="work-card__media" style="--hue: ${work.hue || 0}">
+            ${renderMedia(work)}
+          </div>
           <span class="hero__rail-name">${title}</span>
         </a>
       `;
     }).join('');
     heroRail.innerHTML = railItems;
+    fitWorkImages(heroRail);
   }
 
   const aboutFacts = document.getElementById('aboutFacts');
@@ -392,9 +401,6 @@
 
       const access = work.access || {};
       const tickets = Array.isArray(work.tickets) ? work.tickets : [];
-      const notes = Array.isArray(work.notes)
-        ? work.notes
-        : (work.note ? [work.note] : []);
 
       const media = work.image
         ? (() => {
@@ -499,18 +505,6 @@
         )
         : '';
 
-      const noteHtml = notes.length
-        ? renderBlock(
-          'NOTE',
-          '注意事項',
-          `
-            <ul class="work-note__list">
-              ${notes.map((item) => `<li>${escapeText(item)}</li>`).join('')}
-            </ul>
-          `
-        )
-        : '';
-
       const officialUrl = work.officialUrl || work.siteUrl || '';
       const officialLabel = work.officialLabel || '特設サイトを見る';
       const officialHtml = officialUrl
@@ -553,7 +547,6 @@
                 ${scheduleHtml}
                 ${ticketHtml}
                 ${accessHtml}
-                ${noteHtml}
               </div>
             </div>
           </div>

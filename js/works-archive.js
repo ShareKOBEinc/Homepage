@@ -425,7 +425,7 @@ const WORKS_ARCHIVE = [
   },
   {
     id: 'overmap',
-    title: 'overmap',
+    title: 'OverMap',
     category: '周遊',
     year: 2023,
     month: 10,

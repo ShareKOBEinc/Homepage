@@ -17,6 +17,55 @@
 
   // Mobile menu（右上ハンバーガー）
   if (menuBtn && mobileNav) {
+    const assetBase = document.body.dataset.assetBase || '';
+    const boneSrc = `${assetBase}assets/Bone.png`;
+    const makeBone = () => {
+      const img = document.createElement('img');
+      img.className = 'menu-btn__bone';
+      img.src = boneSrc;
+      img.alt = '';
+      img.width = 64;
+      img.height = 64;
+      img.decoding = 'async';
+      img.setAttribute('aria-hidden', 'true');
+      return img;
+    };
+    menuBtn.replaceChildren(makeBone(), makeBone());
+
+    const navIcons = {
+      news: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h12a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2V5Z" stroke="currentColor" stroke-width="1.6"/><path d="M18 9h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9h8M7 13h8M7 17h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      about: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.25" stroke="currentColor" stroke-width="1.6"/><path d="M5.5 19.5c1.6-3.2 4-4.8 6.5-4.8s4.9 1.6 6.5 4.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      works: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="3.5" width="7" height="7" stroke="currentColor" stroke-width="1.6"/><rect x="3.5" y="13.5" width="7" height="7" stroke="currentColor" stroke-width="1.6"/><rect x="13.5" y="13.5" width="7" height="7" stroke="currentColor" stroke-width="1.6"/></svg>',
+      goods: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6.5 9h11l-.8 9.2a2 2 0 0 1-2 1.8H9.3a2 2 0 0 1-2-1.8L6.5 9Z" stroke="currentColor" stroke-width="1.6"/><path d="M9 9V7.5A3 3 0 0 1 12 4.5v0A3 3 0 0 1 15 7.5V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      contact: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="m4.5 7.5 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    };
+
+    const resolveNavIcon = (link) => {
+      if (link.classList.contains('mobile-nav__social')) return null;
+      const href = (link.getAttribute('href') || '').toLowerCase();
+      const text = (link.textContent || '').trim().toLowerCase();
+      if (href.includes('news') || text === 'news') return navIcons.news;
+      if (href.includes('about') || text === 'about') return navIcons.about;
+      if (href.includes('works') || text === 'works') return navIcons.works;
+      if (href.includes('goods') || text === 'goods') return navIcons.goods;
+      if (href.includes('contact') || text === 'contact') return navIcons.contact;
+      return null;
+    };
+
+    mobileNav.querySelectorAll('nav > a').forEach((link) => {
+      const icon = resolveNavIcon(link);
+      if (!icon || link.querySelector('.mobile-nav__icon')) return;
+      link.classList.add('mobile-nav__link');
+      link.insertAdjacentHTML(
+        'afterbegin',
+        `<span class="mobile-nav__icon">${icon}</span><span class="mobile-nav__label">${link.textContent.trim()}</span>`
+      );
+      // Remove leftover text node after wrapping label
+      [...link.childNodes].forEach((node) => {
+        if (node.nodeType === Node.TEXT_NODE) node.remove();
+      });
+    });
+
     const toggleMenu = (open) => {
       const isOpen = open ?? !menuBtn.classList.contains('active');
       menuBtn.classList.toggle('active', isOpen);
@@ -30,6 +79,9 @@
     menuBtn.addEventListener('click', (event) => {
       event.stopPropagation();
       toggleMenu();
+    });
+    mobileNav.addEventListener('click', (event) => {
+      if (event.target === mobileNav) toggleMenu(false);
     });
     mobileNav.querySelectorAll('a').forEach((link) => {
       link.addEventListener('click', () => toggleMenu(false));
