@@ -75,4 +75,4 @@ const GOODS = [
 ];
 
 // トップページ Goods に表示する件数（日付の新しい順）
-const HOME_GOODS_COUNT = 3;
+const HOME_GOODS_COUNT = 4;

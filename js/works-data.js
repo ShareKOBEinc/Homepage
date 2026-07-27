@@ -164,4 +164,4 @@ const WORKS = [...WORKS_ARCHIVE, ...WORKS_NEW];
 const WORK_CATEGORIES = ['すべて', 'イベント', '周遊', '企業案件'];
 
 // トップページ Selected Works に表示する件数（日付の新しい順）
-const HOME_WORKS_COUNT = 3;
+const HOME_WORKS_COUNT = 6;

@@ -6,6 +6,12 @@
   const homeList = document.getElementById('homeNewsList');
   const newsList = document.getElementById('newsList');
 
+  const escapeText = (value) => String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
   const formatDate = (dateStr) => {
     const m = String(dateStr).match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
     if (!m) return dateStr;
@@ -14,12 +20,20 @@
 
   const sortNews = (items) => [...items].sort((a, b) => String(b.date).localeCompare(String(a.date)));
 
-  const renderItem = (item) => `
-    <li class="home-news__item reveal">
-      <time datetime="${item.date}">${formatDate(item.date)}</time>
-      <p>${item.title}</p>
-    </li>
-  `;
+  const renderItem = (item) => {
+    const title = escapeText(item.title);
+    const dateLabel = escapeText(formatDate(item.date));
+    const titleHtml = item.url
+      ? `<a class="home-news__link" href="${escapeText(item.url)}"${/^https?:\/\//.test(item.url) ? ' target="_blank" rel="noopener noreferrer"' : ''}>${title}</a>`
+      : title;
+
+    return `
+      <li class="home-news__item reveal">
+        <time datetime="${escapeText(item.date)}">${dateLabel}</time>
+        <p>${titleHtml}</p>
+      </li>
+    `;
+  };
 
   const observe = (container) => {
     container.querySelectorAll('.reveal').forEach((el, i) => {
@@ -42,20 +56,6 @@
   };
 
   const sorted = sortNews(NEWS);
-
-  const marquee = document.getElementById('headlineMarquee');
-  if (marquee) {
-    const base = [
-      '「おもろい」を、関西から。',
-      ...sorted.map((item) => item.title),
-      'ShareKOBE',
-      '笑いとひらめき',
-      '兵庫発 × 関西広域',
-    ];
-    // Duplicate for seamless loop
-    const items = [...base, ...base];
-    marquee.innerHTML = items.map((text) => `<span>${text}</span>`).join('');
-  }
 
   if (homeList) {
     const limit = typeof HOME_NEWS_COUNT === 'number' ? HOME_NEWS_COUNT : 3;

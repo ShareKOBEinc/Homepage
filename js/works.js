@@ -217,8 +217,65 @@
 
   // トップページ Goods: キット分類（件数制限）
   if (homeGoodsGrid) {
-    const limit = typeof HOME_GOODS_COUNT === 'number' ? HOME_GOODS_COUNT : 3;
+    const limit = typeof HOME_GOODS_COUNT === 'number' ? HOME_GOODS_COUNT : 4;
     renderGrid(homeGoodsGrid, goodsWorks.slice(0, limit), { showCategory: false });
+  }
+
+  const escapeText = (value) => String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  // Hero: works presence rail
+  const heroRail = document.getElementById('heroRail');
+  if (heroRail && portfolioWorks.length) {
+    const railWorks = portfolioWorks.filter((work) => work.image).slice(0, 10);
+    const railItems = [...railWorks, ...railWorks].map((work) => {
+      const src = encodeImagePath(resolveImagePath(work.image));
+      const href = work.url || `works/${encodeURIComponent(work.id)}.html`;
+      const title = escapeText(work.title);
+      return `
+        <a class="hero__rail-item" href="${href}" title="${title}">
+          <img src="${src}" alt="${title}" loading="lazy">
+          <span class="hero__rail-name">${title}</span>
+        </a>
+      `;
+    }).join('');
+    heroRail.innerHTML = railItems;
+  }
+
+  const aboutFacts = document.getElementById('aboutFacts');
+  if (aboutFacts) {
+    aboutFacts.innerHTML = `
+      <li><strong>${portfolioWorks.length}</strong><span>制作実績</span></li>
+      <li><strong>${goodsWorks.length}</strong><span>キット</span></li>
+      <li><strong>関西</strong><span>拠点の活動域</span></li>
+    `;
+  }
+
+  // Headline marquee: real titles / places / news
+  const marquee = document.getElementById('headlineMarquee');
+  if (marquee) {
+    const newsTitles = (typeof NEWS !== 'undefined' && Array.isArray(NEWS))
+      ? [...NEWS]
+          .sort((a, b) => String(b.date).localeCompare(String(a.date)))
+          .slice(0, 4)
+          .map((item) => item.title)
+      : [];
+    const workLines = portfolioWorks.slice(0, 8).map((work) => {
+      const place = work.place ? ` @ ${work.place}` : '';
+      return `${work.title}${place}`;
+    });
+    const base = [
+      ...workLines,
+      ...newsTitles,
+      '笑いとひらめき',
+      '兵庫発 × 関西広域',
+      'ShareKOBE',
+    ].filter(Boolean);
+    const items = [...base, ...base];
+    marquee.innerHTML = items.map((text) => `<span>${escapeText(text)}</span>`).join('');
   }
 
   // Goods 一覧ページ
@@ -538,7 +595,7 @@
           el.style.setProperty('--work-sub', sub);
           el.style.setProperty('--work-main-deep', resolvedDeep);
         });
-        root.style.backgroundColor = sub;
+        root.style.backgroundColor = '';
         document.body.style.backgroundColor = sub;
         document.body.classList.add('is-work-theme');
         tintHeaderLogo(main);

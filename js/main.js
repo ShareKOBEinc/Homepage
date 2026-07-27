@@ -82,10 +82,61 @@
 
   revealLines.forEach((line) => lineObserver.observe(line));
 
+  // Hero opening sequence
+  const hero = document.getElementById('hero');
+  const heroMap = hero?.querySelector('.hero__map');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (hero) {
+    const startHero = () => {
+      hero.classList.add('is-ready');
+    };
+
+    if (prefersReducedMotion) {
+      startHero();
+    } else {
+      requestAnimationFrame(() => {
+        requestAnimationFrame(startHero);
+      });
+    }
+  }
+
   // Hero title lines on load
   requestAnimationFrame(() => {
     revealLines.forEach((line) => line.classList.add('visible'));
   });
+
+  // Hero map parallax
+  if (hero && heroMap && !prefersReducedMotion) {
+    let rafId = 0;
+    let targetX = 0;
+    let targetY = 0;
+
+    const applyParallax = () => {
+      rafId = 0;
+      heroMap.style.setProperty('--hero-parallax-x', `${targetX.toFixed(2)}px`);
+      heroMap.style.setProperty('--hero-parallax-y', `${targetY.toFixed(2)}px`);
+    };
+
+    const onPointerMove = (event) => {
+      const rect = hero.getBoundingClientRect();
+      if (rect.height <= 0 || rect.width <= 0) return;
+      const nx = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+      const ny = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+      targetX = nx * -18;
+      targetY = ny * -12;
+      if (!rafId) rafId = requestAnimationFrame(applyParallax);
+    };
+
+    const onPointerLeave = () => {
+      targetX = 0;
+      targetY = 0;
+      if (!rafId) rafId = requestAnimationFrame(applyParallax);
+    };
+
+    hero.addEventListener('pointermove', onPointerMove, { passive: true });
+    hero.addEventListener('pointerleave', onPointerLeave);
+  }
 
   // Counter animation
   const counterEl = document.querySelector('[data-count]');

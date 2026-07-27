@@ -51,6 +51,7 @@
 
   <main>
     <section class="hero" id="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
       <div class="hero__map" aria-hidden="true">
         <img class="hero__map-img" src="assets/japan-kansai.svg" alt="">
       </div>
@@ -67,6 +68,10 @@
           width="399"
           height="118"
         >
+        <p class="hero__lede">兵庫発の謎解きクリエイティブ。会場も、街も、チームも、おもろく変える。</p>
+      </div>
+      <div class="hero__rail-wrap">
+        <div class="hero__rail" id="heroRail"></div>
       </div>
     </section>
 
@@ -82,6 +87,7 @@
     <section class="home-news" id="news">
       <div class="section-header">
         <h2 class="section-title reveal">News</h2>
+        <p class="section-lead reveal">現場と制作の、いちばん新しい声。</p>
       </div>
       <ul class="home-news__list" id="homeNewsList"></ul>
       <div class="works__footer reveal">
@@ -92,6 +98,7 @@
     <section class="about" id="about">
       <div class="section-header">
         <h2 class="section-title reveal">About</h2>
+        <p class="section-lead section-lead--on-dark reveal">笑いとひらめきが共存する、関西発の体験づくり。</p>
       </div>
       <div class="about__stage">
         <div class="about__visual reveal">
@@ -111,6 +118,7 @@
             兵庫県に縁のある謎解き好きがつくった団体、ShareKOBE（シャレコウベ）。
             関西を拠点に、「笑い」と「ひらめき」が共存するおもろい体験をお届けします。
           </p>
+          <ul class="about__facts reveal" id="aboutFacts"></ul>
           <a href="about.html" class="btn-outline reveal">View more →</a>
         </div>
       </div>
@@ -119,6 +127,7 @@
     <section class="works" id="works">
       <div class="section-header">
         <h2 class="section-title reveal">Works</h2>
+        <p class="section-lead reveal">ホールも周遊も企業案件も。関西各地のおもろい現場。</p>
       </div>
 
       <div class="works__grid" id="homeWorksGrid"></div>
@@ -131,6 +140,7 @@
     <section class="home-goods" id="goods">
       <div class="section-header">
         <h2 class="section-title reveal">Goods</h2>
+        <p class="section-lead reveal">持ち帰れる謎。土産にも、遊びにも。</p>
       </div>
       <div class="works__grid" id="homeGoodsGrid"></div>
       <div class="works__footer reveal">
@@ -141,8 +151,12 @@
     <section class="page-cta page-cta--dark" id="contact">
       <div class="page-cta__inner reveal">
         <h2 class="section-title section-title--light">Contact</h2>
-        <p class="page-cta__title">イベント制作等のご相談はこちら</p>
-        <a href="contact.html" class="btn-outline">Contact Us →</a>
+        <p class="page-cta__title">イベント制作・周遊・企業案件のご相談はこちら</p>
+        <p class="page-cta__note">神戸・姫路・大阪ほか、関西各地へフットワーク軽く伺います。</p>
+        <div class="page-cta__actions">
+          <a href="contact.html" class="btn-outline">Contact Us →</a>
+          <a href="https://x.com/shareKOBE_" class="btn-outline" target="_blank" rel="noopener noreferrer">Follow on X →</a>
+        </div>
       </div>
     </section>
   </main>
