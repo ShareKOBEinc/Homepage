@@ -2044,7 +2044,13 @@ body:has(#hero.is-ready) .marquee--headline {
 
   .page-cta,
   .works-cta {
-    padding-inline: 1rem;
+    padding-inline: 0.85rem;
+  }
+
+  .page-cta__title,
+  .works-cta__title {
+    font-size: clamp(0.58rem, 3.85cqi, 1.1rem);
+    letter-spacing: 0;
   }
 
   .works-list__toolbar {
@@ -2359,6 +2365,9 @@ body:has(#hero.is-ready) .marquee--headline {
   color: var(--white);
   padding: 3.75rem clamp(1.5rem, 4vw, 3rem);
   border-top: 4px solid var(--accent);
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: clip;
 }
 
 .page-cta__inner,
@@ -2369,6 +2378,9 @@ body:has(#hero.is-ready) .marquee--headline {
   padding-inline: 0;
   box-sizing: border-box;
   width: 100%;
+  min-width: 0;
+  container-type: inline-size;
+  container-name: page-cta;
 }
 
 .page-cta__inner.reveal,
@@ -2384,14 +2396,16 @@ body:has(#hero.is-ready) .marquee--headline {
 .page-cta__title,
 .works-cta__title {
   font-family: var(--font-display);
-  /* Keep one line on narrow screens without clipping the last characters */
-  font-size: clamp(0.7rem, calc((100vw - 3.5rem) / 14.5), 1.75rem);
+  /* Size from actual CTA width so text never exceeds the phone screen */
+  font-size: clamp(0.62rem, 4.05cqi, 1.75rem);
   font-weight: 700;
   line-height: 1.4;
   margin: 1rem auto 0.75rem;
   white-space: nowrap;
   max-width: 100%;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.01em;
+  display: block;
+  overflow: hidden;
 }
 
 .page-cta__note {
