@@ -212,14 +212,14 @@
 
   // トップページ Works: キット以外の直近作品
   if (homeGrid) {
-    const limit = typeof HOME_WORKS_COUNT === 'number' ? HOME_WORKS_COUNT : 6;
+    const limit = typeof HOME_WORKS_COUNT === 'number' ? HOME_WORKS_COUNT : 3;
     const recent = portfolioWorks.slice(0, limit);
     renderGrid(homeGrid, recent);
   }
 
   // トップページ Goods: キット分類（件数制限）
   if (homeGoodsGrid) {
-    const limit = typeof HOME_GOODS_COUNT === 'number' ? HOME_GOODS_COUNT : 4;
+    const limit = typeof HOME_GOODS_COUNT === 'number' ? HOME_GOODS_COUNT : 3;
     renderGrid(homeGoodsGrid, goodsWorks.slice(0, limit), { showCategory: false });
   }
 
@@ -229,9 +229,10 @@
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-  // Hero: works presence rail (same visual treatment as Works cards)
+  // Hero: works presence rail (always flowing + drag only while touching)
   const heroRail = document.getElementById('heroRail');
-  if (heroRail && portfolioWorks.length) {
+  const heroRailWrap = heroRail && heroRail.closest('.hero__rail-wrap');
+  if (heroRail && heroRailWrap && portfolioWorks.length) {
     const railWorks = portfolioWorks.filter((work) => work.image).slice(0, 10);
     const railItems = [...railWorks, ...railWorks].map((work) => {
       const href = work.url || `works/${encodeURIComponent(work.id)}.html`;
@@ -252,6 +253,112 @@
     }).join('');
     heroRail.innerHTML = railItems;
     fitWorkImages(heroRail);
+
+    let offset = 0;
+    let halfWidth = 0;
+    let dragging = false;
+    let dragMoved = false;
+    let activePointerId = null;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+
+    const normalize = (value) => {
+      if (halfWidth <= 1) return 0;
+      let next = value % halfWidth;
+      if (next < 0) next += halfWidth;
+      return next;
+    };
+
+    const apply = () => {
+      heroRail.style.transform = `translate3d(${-offset}px, 0, 0)`;
+    };
+
+    const measure = () => {
+      const items = [...heroRail.children];
+      const mid = Math.floor(items.length / 2);
+      if (!mid || !items[0] || !items[mid]) {
+        halfWidth = Math.max(1, heroRail.scrollWidth / 2);
+      } else {
+        halfWidth = Math.max(1, items[mid].offsetLeft - items[0].offsetLeft);
+      }
+      offset = normalize(offset);
+      apply();
+    };
+
+    measure();
+    window.addEventListener('resize', measure, { passive: true });
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(measure).catch(() => {});
+    }
+    heroRail.querySelectorAll('img').forEach((img) => {
+      if (img.complete) return;
+      img.addEventListener('load', measure, { once: true });
+    });
+
+    const tick = () => {
+      if (!dragging && halfWidth > 1) {
+        offset = normalize(offset + 0.55);
+        apply();
+      }
+      window.requestAnimationFrame(tick);
+    };
+    window.requestAnimationFrame(tick);
+
+    const stopDrag = () => {
+      dragging = false;
+      activePointerId = null;
+      heroRailWrap.classList.remove('is-dragging');
+    };
+
+    heroRailWrap.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      dragging = true;
+      dragMoved = false;
+      activePointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartOffset = offset;
+      heroRailWrap.classList.add('is-dragging');
+      heroRailWrap.setPointerCapture(event.pointerId);
+    });
+
+    heroRailWrap.addEventListener('pointermove', (event) => {
+      if (!dragging || event.pointerId !== activePointerId) return;
+      const dx = event.clientX - dragStartX;
+      if (Math.abs(dx) > 4) dragMoved = true;
+      offset = normalize(dragStartOffset - dx);
+      apply();
+    });
+
+    heroRailWrap.addEventListener('pointerup', (event) => {
+      if (event.pointerId !== activePointerId) return;
+      try {
+        heroRailWrap.releasePointerCapture(event.pointerId);
+      } catch (_) { /* ignore */ }
+      stopDrag();
+    });
+
+    heroRailWrap.addEventListener('pointercancel', (event) => {
+      if (activePointerId !== null && event.pointerId !== activePointerId) return;
+      stopDrag();
+    });
+
+    heroRailWrap.addEventListener('lostpointercapture', stopDrag);
+
+    heroRailWrap.addEventListener('click', (event) => {
+      if (!dragMoved) return;
+      event.preventDefault();
+      event.stopPropagation();
+    }, true);
+
+    heroRailWrap.addEventListener('wheel', (event) => {
+      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
+        ? event.deltaY
+        : event.deltaX;
+      if (!delta) return;
+      offset = normalize(offset + delta);
+      apply();
+      event.preventDefault();
+    }, { passive: false });
   }
 
   const aboutFacts = document.getElementById('aboutFacts');
@@ -263,26 +370,41 @@
     `;
   }
 
-  // Headline marquee: real titles / places / news
+  const formatHashtag = (work) => {
+    const raw = String(work.hashtag || '').trim();
+    if (!raw) return '';
+    return raw.startsWith('#') ? raw : `#${raw}`;
+  };
+
+  const hashtagSearchUrl = (hashtag) => {
+    const tag = String(hashtag || '').replace(/^#/, '');
+    if (!tag) return '';
+    return `https://x.com/hashtag/${encodeURIComponent(tag)}`;
+  };
+
+  const renderHashtagLink = (work, className = 'work-hero__hashtag') => {
+    const label = formatHashtag(work);
+    const url = hashtagSearchUrl(label);
+    if (!label || !url) return '';
+    return `
+      <a
+        class="${className}"
+        href="${escapeText(url)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >${escapeText(label)}</a>
+    `;
+  };
+
+  // Headline marquee: work hashtags (no site links)
   const marquee = document.getElementById('headlineMarquee');
   if (marquee) {
-    const newsTitles = (typeof NEWS !== 'undefined' && Array.isArray(NEWS))
-      ? [...NEWS]
-          .sort((a, b) => String(b.date).localeCompare(String(a.date)))
-          .slice(0, 4)
-          .map((item) => item.title)
-      : [];
-    const workLines = portfolioWorks.slice(0, 8).map((work) => {
-      const place = work.place ? ` @ ${work.place}` : '';
-      return `${work.title}${place}`;
-    });
-    const base = [
-      ...workLines,
-      ...newsTitles,
-      '笑いとひらめき',
-      '兵庫発 × 関西広域',
-      'ShareKOBE',
-    ].filter(Boolean);
+    const hashtags = portfolioWorks
+      .map((work) => formatHashtag(work))
+      .filter(Boolean);
+    const base = hashtags.length
+      ? hashtags
+      : ['#ShareKOBE', '「おもろい」を、関西から。'];
     const items = [...base, ...base];
     marquee.innerHTML = items.map((text) => `<span>${escapeText(text)}</span>`).join('');
   }
@@ -361,7 +483,6 @@
       return `
         <section class="work-block ${extraClass} reveal">
           <header class="work-block__head">
-            <p class="work-block__en">${en}</p>
             <h2 class="work-block__ja">${ja}</h2>
           </header>
           <div class="work-block__body">${inner}</div>
@@ -399,7 +520,6 @@
       const schedulePeriod = schedule.period || (date ? `${date}` : '');
       const scheduleSlots = Array.isArray(schedule.slots) ? schedule.slots : [];
 
-      const access = work.access || {};
       const tickets = Array.isArray(work.tickets) ? work.tickets : [];
 
       const media = work.image
@@ -481,30 +601,6 @@
         )
         : '';
 
-      const accessHtml = (access.address || access.station || access.note)
-        ? renderBlock(
-          'ACCESS',
-          'アクセス',
-          `
-            <dl class="work-access">
-              ${access.address ? `
-                <div class="work-access__row">
-                  <dt>住所</dt>
-                  <dd>${escapeText(access.address)}</dd>
-                </div>
-              ` : ''}
-              ${access.station ? `
-                <div class="work-access__row">
-                  <dt>最寄駅</dt>
-                  <dd>${escapeText(access.station)}</dd>
-                </div>
-              ` : ''}
-            </dl>
-            ${access.note ? `<div class="work-block__text" style="margin-top:1.25rem">${toParagraphs(access.note)}</div>` : ''}
-          `
-        )
-        : '';
-
       const officialUrl = work.officialUrl || work.siteUrl || '';
       const officialLabel = work.officialLabel || '特設サイトを見る';
       const officialHtml = officialUrl
@@ -538,6 +634,7 @@
                 <h1 class="work-hero__title">${escapeText(work.title)}</h1>
                 ${work.tagline ? `<p class="work-hero__tagline">${escapeText(work.tagline)}</p>` : ''}
                 ${date ? `<time class="work-hero__date"${work.year && work.month && work.day ? ` datetime="${work.year}-${String(work.month).padStart(2, '0')}-${String(work.day).padStart(2, '0')}"` : ''}>${escapeText(date)}</time>` : ''}
+                ${renderHashtagLink(work)}
                 ${officialHtml ? `<div class="work-hero__official">${officialHtml}</div>` : ''}
               </div>
 
@@ -546,7 +643,6 @@
                 ${overviewHtml}
                 ${scheduleHtml}
                 ${ticketHtml}
-                ${accessHtml}
               </div>
             </div>
           </div>
@@ -578,6 +674,9 @@
         const flood = document.getElementById('workLogoTintFlood');
         if (flood) flood.setAttribute('flood-color', color);
         logoImg.style.filter = 'url(#workLogoTint)';
+        document.querySelectorAll('.menu-btn__bone').forEach((bone) => {
+          bone.style.filter = 'url(#workLogoTint)';
+        });
       };
 
       const applyWorkTheme = (main, sub, deep) => {

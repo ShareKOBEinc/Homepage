@@ -44,14 +44,9 @@
  *       { label: '一般(1名)', price: '4,000', unit: '円' },
  *     ],
  *     ticketNotes: 'チケットに関する注意',
- *     access: {
- *       address: '住所',
- *       station: '最寄駅',
- *       note: '補足',
- *     },
- *     notes: ['注意事項1', '注意事項2'],
  *     officialUrl: 'https://example.com/',
  *     officialLabel: '特設サイトを見る',
+ *     hashtag: '#作品タグ',     // X検索用（個別ページ・トップマーキー）
  *     colors: {
  *       main: '#3a6b5a',
  *       sub: '#eef3f0',
@@ -93,9 +88,6 @@ const WORKS_NEW = [
     schedule: {
       period: '2024.2.23',
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
   {
     id: 'GO',
@@ -122,14 +114,11 @@ const WORKS_NEW = [
     schedule: {
       period: '2026.6.12',
     },
-    notes: [
-      '本ページは制作実績の紹介です。一般向けのチケット販売はありません。',
-      '類似の企業向けイベント制作のご相談は Contact よりお問い合わせください。',
-    ],
   },
   {
     id: 'sodenashi',
     title: 'タンクトップバトラー!! 袖無',
+    hashtag: '#ソデナシ',
     category: 'イベント',
     year: 2026,
     month: 2,
@@ -154,9 +143,6 @@ const WORKS_NEW = [
     schedule: {
       period: '2026.2.21',
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
 ];
 
@@ -165,4 +151,4 @@ const WORKS = [...WORKS_ARCHIVE, ...WORKS_NEW];
 const WORK_CATEGORIES = ['すべて', 'イベント', '周遊', '企業案件'];
 
 // トップページ Selected Works に表示する件数（日付の新しい順）
-const HOME_WORKS_COUNT = 6;
+const HOME_WORKS_COUNT = 3;

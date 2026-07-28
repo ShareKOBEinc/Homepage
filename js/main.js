@@ -31,6 +31,11 @@
       return img;
     };
     menuBtn.replaceChildren(makeBone(), makeBone());
+    if (document.getElementById('workLogoTint')) {
+      menuBtn.querySelectorAll('.menu-btn__bone').forEach((bone) => {
+        bone.style.filter = 'url(#workLogoTint)';
+      });
+    }
 
     const navIcons = {
       news: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h12a2 2 0 0 1 2 2v12H6a2 2 0 0 1-2-2V5Z" stroke="currentColor" stroke-width="1.6"/><path d="M18 9h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.6"/><path d="M7 9h8M7 13h8M7 17h5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',

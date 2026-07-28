@@ -29,11 +29,11 @@ const WORKS_ARCHIVE = [
       start: '自由スタート',
       location: '屋外（姫路・山陽電車沿線）',
       format: '周遊型',
-      note: '制作：ShareKOBE / 主催：神姫バス・山陽電車（特設サイト：謎解きゼペッツ）',
+      note: '制作：ShareKOBE / 主催：神姫バス・山陽電車（特設サイト：謎解きゼペッツ）'
     },
     schedule: {
       period: '2026.3.20〜2026.11.30',
-      note: '複数日に渡ってのプレイも可能（デジタル乗車券は利用開始当日のみ有効）。',
+      note: '複数日に渡ってのプレイも可能（デジタル乗車券は利用開始当日のみ有効）。'
     },
     tickets: [
       { label: '姫路市内版', price: '2,600', unit: '円' },
@@ -41,21 +41,12 @@ const WORKS_ARCHIVE = [
     ],
     ticketNotes: 'スルッとQRtto Webページで購入（会員登録・クレジットカード決済）。子ども料金の設定なし。キット内容は両プラン共通。',
     officialUrl: 'https://nazotoki-zepets.com/himeji_nazo2026/',
-    officialLabel: '特設サイトを見る',
-    access: {
-      note: 'キット引換場所はプランにより異なります（姫路市内版：神姫バス姫路駅前案内所、山陽電車 大塩・飾磨・山陽姫路・山陽網干 など）。',
-    },
-    notes: [
-      'ゲームにはLINEアプリおよびWEB接続可能なスマートフォンが必要です。',
-      '通信費は参加者負担です。',
-      'SNSなどによるネタばらしはご遠慮ください。',
-      '暑い時期は熱中症にご注意のうえ、こまめな休憩・水分補給をお願いします。',
-      '詳細・最新情報は特設サイトをご確認ください。',
-    ],
+    officialLabel: '特設サイトを見る'
   },
   {
     id: 'docchi',
     title: 'AnswerはどっちでSHOW!?',
+    hashtag: '#どっち謎',
     category: 'イベント',
     year: 2022,
     month: 1,
@@ -81,22 +72,15 @@ const WORKS_ARCHIVE = [
       start: '一斉スタート',
       location: '屋内',
       format: 'ルーム型',
-      note: '初演時はホール型（1公演2チームまで）としても実施。',
+      note: '初演時はホール型（1公演2チームまで）としても実施。'
     },
     tickets: [
       { label: '初演（All Clear!大パーティー）', price: '2,000', unit: '円' },
-    ],
-    notes: [
-      '3人でお越しいただいた方も、公演中2-1に別れて頂く場合がございます。',
-      '体調不良（酩酊状態含む）の方の入場はお断りする場合がございます。',
-      'スタッフからの注意を無視して、他者に迷惑をかけ続けた場合、ご退席いただきます。',
-      '公演内で知ったことのSNS・ブログ等での拡散は禁止といたします。',
-      '出典：ESCAPE.ID / All Clear!大パーティー告知',
-    ],
-  },
+    ],  },
   {
     id: 'aimai',
     title: 'あいまいセツエーション',
+    hashtag: '#あいせつ謎',
     category: '周遊',
     year: 2025,
     month: 7,
@@ -116,18 +100,16 @@ const WORKS_ARCHIVE = [
       duration: '—',
       start: '随時スタート',
       location: '屋内',
-      format: '周遊型',
+      format: '周遊型'
     },
     schedule: {
-      period: '2025.7.19',
+      period: '2025.7.19'
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
   {
     id: 'docchi-r',
     title: 'AnswerはどっちでSHOW!? リターンズ',
+    hashtag: '#どっち謎R',
     category: 'イベント',
     year: 2025,
     month: 2,
@@ -151,25 +133,19 @@ const WORKS_ARCHIVE = [
       start: '一斉スタート',
       location: '屋内（Mysteria宝塚）',
       format: 'ルーム型',
-      note: '3枚ご購入の方は2チームに分かれていただきます。',
+      note: '3枚ご購入の方は2チームに分かれていただきます。'
     },
     schedule: {
-      period: '2025.11.23〜2025.11.24',
+      period: '2025.11.23〜2025.11.24'
     },
     tickets: [
       { label: '一般', price: '3,500', unit: '円' },
-    ],
-    access: {
-      address: '宝塚市小林3丁目1-27 Mysteria',
-    },
-    notes: [
-      '3人でチケットを購入いただいた場合も、2人・1人に分かれていただきます。',
-      '前作「AnswerはどっちでSHOW!?」とは内容がすべて異なります。',
-    ],
+    ]
   },
   {
     id: 'nazokaruta-ex',
     title: 'ナゾカルタEX',
+    hashtag: '#ナゾカルタEX',
     category: 'イベント',
     year: 2025,
     month: 5,
@@ -191,24 +167,13 @@ const WORKS_ARCHIVE = [
       duration: '約40分',
       start: '一斉スタート',
       location: '屋内',
-      format: 'カフェ型',
+      format: 'カフェ型'
     },
-    notes: [
-      '公演参加には公演チケットとは別に「謎解きん祭4」「マダミスジャンクション」共通の入場パス（1日500円）の購入が必要となる場合があります。',
-      'ネタバレ禁止公演です。',
-      'お二人で参加される場合は、グループチケットを購入されるほうがお得です。',
-      '体調不良（酩酊状態等も含む）で他のお客様のご迷惑になる可能性がある場合、参加をお断りする場合がございます。',
-      'Expert Editionのため謎解き公演参加回数20回以上の方の参加をお勧めします。',
-      'スタッフの指示には必ず従ってください。',
-      '５分前開場を予定しております。',
-      '開始時間に遅れますと、公演に参加できない場合がございます。',
-      '広島公演は2号館5階第23会議室が会場です。',
-      '出典：ESCAPE.ID',
-    ],
   },
   {
     id: 'tokishirazu',
     title: 'トキシラズ',
+    hashtag: '#トキシラズ謎',
     category: 'イベント',
     year: 2025,
     month: 7,
@@ -225,18 +190,16 @@ const WORKS_ARCHIVE = [
       duration: '—',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ルーム型',
+      format: 'ルーム型'
     },
     schedule: {
-      period: '2025.7.19',
+      period: '2025.7.19'
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
   {
     id: 'leftover',
     title: 'Leftover',
+    hashtag: '#Leftover謎',
     category: 'イベント',
     year: 2025,
     month: 7,
@@ -253,18 +216,16 @@ const WORKS_ARCHIVE = [
       duration: '—',
       start: '随時スタート',
       location: '屋内',
-      format: 'ルーム型',
+      format: 'ルーム型'
     },
     schedule: {
-      period: '2025.7.19',
+      period: '2025.7.19'
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
   {
     id: 'kungfuuuu',
     title: 'KungFuuuu',
+    hashtag: '#カンフー謎',
     category: 'イベント',
     year: 2024,
     month: 9,
@@ -281,18 +242,16 @@ const WORKS_ARCHIVE = [
       duration: '—',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ホール型',
+      format: 'ホール型'
     },
     schedule: {
-      period: '2024.9.24',
+      period: '2024.9.24'
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
   {
     id: 'wondertale',
     title: 'wondertale',
+    hashtag: '#2月騎士',
     category: 'イベント',
     year: 2024,
     month: 2,
@@ -314,22 +273,13 @@ const WORKS_ARCHIVE = [
       duration: '約100分',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ホール型',
-    },
-    access: {
-      address: '大阪府大阪市中央区北久宝寺町4丁目3番12号 小原５ビル２０１号室',
-      station: '大阪メトロ御堂筋線「本町駅」15番出口より徒歩5分',
-    },
-    notes: [
-      '2024年2月に「大阪最宴祭」で開催されたイベントの再演です。',
-      '開場時刻は、各公演10分前です。',
-      'チケット購入後のキャンセル及び日程変更は事由に関わらず承っておりません。',
-      '一部問題で色の識別が必要となる問題がございます。',
-    ],
+      format: 'ホール型'
+    }
   },
   {
     id: 'mechamore',
     title: 'がけっぷち撮影会 めちゃ盛れ！',
+    hashtag: '#めちゃもれ',
     category: 'イベント',
     year: 2024,
     month: 7,
@@ -346,18 +296,16 @@ const WORKS_ARCHIVE = [
       duration: '—',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ルーム型',
+      format: 'ルーム型'
     },
     schedule: {
-      period: '2024.7.6',
+      period: '2024.7.6'
     },
-    notes: [
-      '公開チケットページ等からの詳細文面が未取得のため、後ほど編集予定です。',
-    ],
   },
   {
     id: 'nazokaruta',
     title: 'ナゾカルタ',
+    hashtag: '#ナゾカルタ',
     category: 'イベント',
     year: 2024,
     month: 6,
@@ -377,15 +325,13 @@ const WORKS_ARCHIVE = [
       duration: '約40分',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ブース型',
+      format: 'ブース型'
     },
-    notes: [
-      '前作（Standard Edition）とナゾカルタEX（Expert Edition）は公演内容が異なります。',
-    ],
   },
   {
     id: 'acchisocchitacchi',
     title: 'あっちそっちたっち',
+    hashtag: '#あっちそっちたっち',
     category: 'イベント',
     year: 2023,
     month: 11,
@@ -408,24 +354,19 @@ const WORKS_ARCHIVE = [
       duration: '約45分',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ルーム型',
+      format: 'ルーム型'
     },
     schedule: {
-      period: '2023.12.9〜2023.12.10（謎解きフェスタ in 東京タワー）',
+      period: '2023.12.9〜2023.12.10（謎解きフェスタ in 東京タワー）'
     },
     tickets: [
       { label: '一般（1名）', price: '2,500', unit: '円' },
-    ],
-    access: {
-      address: '〒105-0011 東京都港区芝公園４丁目２−８ 東京タワー',
-    },
-    notes: [
-      '難易度：★★★☆☆（イベント告知記載）',
-    ],
+    ]
   },
   {
     id: 'overmap',
     title: 'OverMap',
+    hashtag: '#Overmap謎',
     category: '周遊',
     year: 2023,
     month: 10,
@@ -447,18 +388,15 @@ const WORKS_ARCHIVE = [
       start: '随時スタート',
       location: '屋外',
       format: '周遊型',
-      note: '最宴祭主催の依頼条件：浪速区民センター閉館後も可能／目安1時間程度。',
+      note: '最宴祭主催の依頼条件：浪速区民センター閉館後も可能／目安1時間程度。'
     },
     tickets: [
       { label: '参加費（当時）', price: '500', unit: '円' },
-    ],
-    notes: [
-      'ネタバレを含む制作者ブログがあるため、本ページでは概要のみ掲載しています。',
-    ],
-  },
+    ],  },
   {
     id: 'hometatae',
     title: 'いこいの場 ホメタタエ',
+    hashtag: '#ホメタタエ',
     category: 'イベント',
     year: 2023,
     month: 10,
@@ -480,15 +418,7 @@ const WORKS_ARCHIVE = [
       duration: '約90分',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ホール型',
+      format: 'ホール型'
     },
-    notes: [
-      'ネタバレ禁止公演です。SNSやブログでの公演内容に関する発信はお控えください。',
-      '本作品はフィクションです。また、一部尖った表現が含まれる公演となります。',
-      '2023年に大阪最宴祭で公演した内容と同一です。',
-      'リピート参加の方は「グループチケット」をご購入ください。',
-      '体調不良（酩酊等含む）はご参加をお断りする場合がございます。',
-      'その他、公演の最初にお伝えする注意事項を遵守ください。',
-    ],
   },
 ];

@@ -91,11 +91,6 @@ const template = (work) => `<!DOCTYPE html>
   <footer class="footer">
     <div class="footer__bottom">
       <p>&copy; 2026 ShareKOBE Inc. All rights reserved.</p>
-      <div class="footer__social">
-        <a href="https://x.com/shareKOBE_" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-          <img src="../assets/logo-black.png" alt="" class="footer__social-icon" width="28" height="28">
-        </a>
-      </div>
     </div>
   </footer>
 
