@@ -55,7 +55,7 @@ const WORKS_ARCHIVE = [
     hue: 15,
     image: 'どっち謎KV（2026広島）.png',
     tagline: 'あの有名な番組に出演し、華麗に謎を解き『価値なし』を回避せよ！',
-    storyLead: 'あの有名な番組に出演し、華麗に謎を解き『価値なし』を回避せよ！',
+    storyLead: 'あなたはどっち？',
     story: [
       '『一流のナゾクラ』を決める裏番組があるらしい…。',
       '普段から謎解きに精通しているあなた達はそんな噂を聞きつけた。',
@@ -76,7 +76,8 @@ const WORKS_ARCHIVE = [
     },
     tickets: [
       { label: '初演（All Clear!大パーティー）', price: '2,000', unit: '円' },
-    ],  },
+    ]
+  },
   {
     id: 'aimai',
     title: 'あいまいセツエーション',
@@ -104,7 +105,7 @@ const WORKS_ARCHIVE = [
     },
     schedule: {
       period: '2025.7.19'
-    },
+    }
   },
   {
     id: 'docchi-r',
@@ -119,7 +120,7 @@ const WORKS_ARCHIVE = [
     image: 'どっち謎R.jpeg',
     place: 'Mysteria宝塚',
     tagline: '今度の舞台は一軒家',
-    storyLead: '例のあの番組がかえってくる！？',
+    storyLead: '今度の舞台は一軒家',
     story: [
       '「AnswerはどっちでSHOW」の続編がMysteria宝塚で開催！',
       '一軒家にある複数の部屋。',
@@ -168,7 +169,7 @@ const WORKS_ARCHIVE = [
       start: '一斉スタート',
       location: '屋内',
       format: 'カフェ型'
-    },
+    }
   },
   {
     id: 'tokishirazu',
@@ -194,7 +195,7 @@ const WORKS_ARCHIVE = [
     },
     schedule: {
       period: '2025.7.19'
-    },
+    }
   },
   {
     id: 'leftover',
@@ -220,7 +221,7 @@ const WORKS_ARCHIVE = [
     },
     schedule: {
       period: '2025.7.19'
-    },
+    }
   },
   {
     id: 'kungfuuuu',
@@ -246,7 +247,7 @@ const WORKS_ARCHIVE = [
     },
     schedule: {
       period: '2024.9.24'
-    },
+    }
   },
   {
     id: 'wondertale',
@@ -300,7 +301,7 @@ const WORKS_ARCHIVE = [
     },
     schedule: {
       period: '2024.7.6'
-    },
+    }
   },
   {
     id: 'nazokaruta',
@@ -326,7 +327,7 @@ const WORKS_ARCHIVE = [
       start: '一斉スタート',
       location: '屋内',
       format: 'ブース型'
-    },
+    }
   },
   {
     id: 'acchisocchitacchi',
@@ -341,7 +342,7 @@ const WORKS_ARCHIVE = [
     image: 'あっちそっちたっち.jpg',
     place: '東京タワー（謎解きフェスタ）',
     tagline: 'あっちもそっちもたっち！',
-    storyLead: 'あなたが入った部屋には75枚のパネル。',
+    storyLead: 'パネルを駆使して全ての謎を解け！',
     story: [
       'あなたが入った部屋には75枚のパネル。',
       '謎を解き、あっちもそっちもたっちして、答えを入力しよう。',
@@ -392,7 +393,8 @@ const WORKS_ARCHIVE = [
     },
     tickets: [
       { label: '参加費（当時）', price: '500', unit: '円' },
-    ],  },
+    ]
+  },
   {
     id: 'hometatae',
     title: 'いこいの場 ホメタタエ',
@@ -419,6 +421,6 @@ const WORKS_ARCHIVE = [
       start: '一斉スタート',
       location: '屋内',
       format: 'ホール型'
-    },
+    }
   },
 ];

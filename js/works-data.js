@@ -83,11 +83,11 @@ const WORKS_NEW = [
       duration: '—',
       start: '—',
       location: '屋内',
-      format: 'ルーム型',
+      format: 'ルーム型'
     },
     schedule: {
-      period: '2024.2.23',
-    },
+      period: '2024.2.23'
+    }
   },
   {
     id: 'GO',
@@ -109,11 +109,11 @@ const WORKS_NEW = [
       start: '主催スケジュールに準拠',
       location: '屋内',
       format: '企業向けカスタム',
-      note: 'クライアントの目的に合わせて内容・進行を設計しています。',
+      note: 'クライアントの目的に合わせて内容・進行を設計しています。'
     },
     schedule: {
-      period: '2026.6.12',
-    },
+      period: '2026.6.12'
+    }
   },
   {
     id: 'sodenashi',
@@ -138,11 +138,11 @@ const WORKS_NEW = [
       duration: '約120分',
       start: '一斉スタート',
       location: '屋内',
-      format: 'ホール型',
+      format: 'ホール型'
     },
     schedule: {
-      period: '2026.2.21',
-    },
+      period: '2026.2.21'
+    }
   },
 ];
 
