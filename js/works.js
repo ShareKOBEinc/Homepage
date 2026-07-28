@@ -361,15 +361,6 @@
     }, { passive: false });
   }
 
-  const aboutFacts = document.getElementById('aboutFacts');
-  if (aboutFacts) {
-    aboutFacts.innerHTML = `
-      <li><strong>${portfolioWorks.length}</strong><span>制作実績</span></li>
-      <li><strong>${goodsWorks.length}</strong><span>キット</span></li>
-      <li><strong>関西</strong><span>拠点の活動域</span></li>
-    `;
-  }
-
   const formatHashtag = (work) => {
     const raw = String(work.hashtag || '').trim();
     if (!raw) return '';
