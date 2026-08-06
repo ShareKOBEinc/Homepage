@@ -125,7 +125,7 @@ const WORKS_NEW = [
     day: 21,
     desc: 'タンクトップバトラー!! 袖無',
     hue: 55,
-    image: 'そでなしKV.png',
+    image: 'そでなしKV.jpg',
     tagline: '袖なしで、勝負せよ。',
     storyLead: '熱量高めのバトラーたちが集う。',
     story: [

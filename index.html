@@ -2,6 +2,18 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
+  <script>
+    (() => {
+      try {
+        const key = 'sharekobe-home-seen';
+        if (sessionStorage.getItem(key) === '1') {
+          document.documentElement.classList.add('home-revisit');
+        } else {
+          sessionStorage.setItem(key, '1');
+        }
+      } catch (_) { /* private mode etc. */ }
+    })();
+  </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="ShareKOBE（シャレコウベ）— 兵庫ゆかりの謎解き好きがつくる、関西発のエンターテインメント。">
   <title>ShareKOBE（シャレコウベ）</title>
@@ -100,7 +112,7 @@
       </div>
       <div class="about__stage">
         <div class="about__visual reveal">
-          <span class="about__logo-halo" aria-hidden="true"></span>
+          <span class="about__orbit" aria-hidden="true"></span>
           <img
             class="about__logo"
             src="assets/ShareKOBE_logo.png"
@@ -110,11 +122,10 @@
           >
         </div>
         <div class="about__copy">
-          <p class="about__eyebrow reveal">兵庫発 × 関西広域</p>
           <p class="about__catchphrase reveal">「おもろい」を、関西から。</p>
           <p class="about__text reveal">
-            企業イベントから地域施策まで。目的に合わせた謎解き体験を、兵庫・神戸拠点でご提案します。
-            企画のご相談は、お気軽にどうぞ。
+            兵庫・神戸を拠点に、謎解きを軸とした体験をつくる制作団体です。
+            企業イベントや地域施策など、目的に合わせて企画から実装まで伴走します。
           </p>
           <a href="about.html" class="btn-outline reveal">View more →</a>
         </div>

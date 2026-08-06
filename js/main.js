@@ -101,43 +101,52 @@
   // Scroll reveal
   const revealEls = document.querySelectorAll('.reveal');
   const revealLines = document.querySelectorAll('.reveal-line');
+  const isHomeRevisit = document.documentElement.classList.contains('home-revisit');
 
-  const revealObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
-  );
+  if (isHomeRevisit) {
+    revealEls.forEach((el) => {
+      el.classList.add('visible');
+      el.style.transitionDelay = '0s';
+    });
+    revealLines.forEach((line) => line.classList.add('visible'));
+  } else {
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
 
-  revealEls.forEach((el, i) => {
-    if (!el.style.transitionDelay) {
-      const siblings = el.parentElement
-        ? [...el.parentElement.children].filter((child) => child.classList.contains('reveal'))
-        : [];
-      const index = Math.max(0, siblings.indexOf(el));
-      el.style.transitionDelay = `${Math.min(index * 0.08, 0.4)}s`;
-    }
-    revealObserver.observe(el);
-  });
+    revealEls.forEach((el) => {
+      if (!el.style.transitionDelay) {
+        const siblings = el.parentElement
+          ? [...el.parentElement.children].filter((child) => child.classList.contains('reveal'))
+          : [];
+        const index = Math.max(0, siblings.indexOf(el));
+        el.style.transitionDelay = `${Math.min(index * 0.08, 0.4)}s`;
+      }
+      revealObserver.observe(el);
+    });
 
-  const lineObserver = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          lineObserver.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
+    const lineObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            lineObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
 
-  revealLines.forEach((line) => lineObserver.observe(line));
+    revealLines.forEach((line) => lineObserver.observe(line));
+  }
 
   // Hero opening sequence
   const hero = document.getElementById('hero');
@@ -149,7 +158,7 @@
       hero.classList.add('is-ready');
     };
 
-    if (prefersReducedMotion) {
+    if (prefersReducedMotion || isHomeRevisit) {
       startHero();
     } else {
       requestAnimationFrame(() => {
@@ -159,9 +168,11 @@
   }
 
   // Hero title lines on load
-  requestAnimationFrame(() => {
-    revealLines.forEach((line) => line.classList.add('visible'));
-  });
+  if (!isHomeRevisit) {
+    requestAnimationFrame(() => {
+      revealLines.forEach((line) => line.classList.add('visible'));
+    });
+  }
 
   // Hero map parallax
   if (hero && heroMap && !prefersReducedMotion) {

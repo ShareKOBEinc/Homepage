@@ -14,7 +14,7 @@ const WORKS_ARCHIVE = [
     day: 20,
     desc: '神姫バス×山陽電車で巡る、「観光じゃ出会えない姫路」リアル謎解き。',
     hue: 20,
-    image: '姫路なぞ解きクロスロード.png',
+    image: '姫路なぞ解きクロスロード.jpg',
     place: '姫路・山陽電車沿線',
     tagline: '観光じゃ出会えない姫路',
     storyLead: '主人公「ヨウデン」「シンバ」と一緒に、ふしぎな地図の謎を解き明かそう！',
@@ -53,7 +53,7 @@ const WORKS_ARCHIVE = [
     day: 14,
     desc: 'あの有名な番組に出演し、華麗に謎を解き『価値なし』を回避せよ！',
     hue: 15,
-    image: 'どっち謎KV（2026広島）.png',
+    image: 'どっち謎KV（2026広島）.jpg',
     tagline: 'あの有名な番組に出演し、華麗に謎を解き『価値なし』を回避せよ！',
     storyLead: 'あなたはどっち？',
     story: [
@@ -89,7 +89,7 @@ const WORKS_ARCHIVE = [
     desc: 'あいまいな状況が連鎖する謎解き周遊イベント。',
     hue: 60,
     featured: true,
-    image: 'あいまいセツエーション.png',
+    image: 'あいまいセツエーション.jpg',
     tagline: 'あいまいな状況が、連鎖する。',
     storyLead: 'あいまいな状況が連鎖する謎解き周遊イベント。',
     story: [
@@ -153,7 +153,7 @@ const WORKS_ARCHIVE = [
     day: 31,
     desc: 'とってもたのしいナゾめくカルタ。EXPERT EDITION。',
     hue: 90,
-    image: 'ナゾカルタEXKV（大阪.png',
+    image: 'ナゾカルタEXKV（大阪.jpg',
     tagline: 'とってもたのしいナゾめくカルタ。',
     storyLead: 'とってもたのしいナゾめくカルタ。',
     story: [
@@ -181,7 +181,7 @@ const WORKS_ARCHIVE = [
     day: 19,
     desc: 'トキシラズの謎解きイベント。',
     hue: 120,
-    image: 'トキシラズKV.png',
+    image: 'トキシラズKV.jpg',
     tagline: 'トキシラズ',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
@@ -233,7 +233,7 @@ const WORKS_ARCHIVE = [
     day: 24,
     desc: 'KungFuuuuの謎解きイベント。',
     hue: 150,
-    image: 'KungFuuuu\u3000KV.png',
+    image: 'KungFuuuu\u3000KV.jpg',
     tagline: 'KungFuuuu',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
@@ -287,7 +287,7 @@ const WORKS_ARCHIVE = [
     day: 6,
     desc: 'がけっぷち撮影会 めちゃ盛れ！',
     hue: 330,
-    image: 'A4_MV_MM_240802.png',
+    image: 'A4_MV_MM_240802.jpg',
     tagline: 'めちゃ盛れ！',
     story: [
       '詳細なストーリー・概要は、後ほどチケットサイト等の文面をもとに編集予定です。',
@@ -313,7 +313,7 @@ const WORKS_ARCHIVE = [
     day: 2,
     desc: 'とってもたのしいナゾめくカルタ。Standard Edition。',
     hue: 345,
-    image: 'KV.png',
+    image: 'KV.jpg',
     tagline: 'とってもたのしいナゾめくカルタ。',
     storyLead: 'とってもたのしいナゾめくカルタ。',
     story: [
@@ -374,7 +374,7 @@ const WORKS_ARCHIVE = [
     day: 7,
     desc: '場所の特定自体が謎になっている、最宴祭の周遊謎。',
     hue: 210,
-    image: 'overmap mainviosual.png',
+    image: 'overmap mainviosual.jpg',
     place: '浪速区民センター周辺（大阪最宴祭）',
     tagline: '地図を重ねて、場所を探せ。',
     storyLead: '地図を重ねて、場所を特定せよ。',

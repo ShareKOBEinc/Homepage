@@ -972,10 +972,6 @@ body:has(#hero.is-ready) .marquee--headline {
   background: var(--white);
 }
 
-.about:not(.about--page) .section-title::before {
-  background: var(--white);
-}
-
 /* Top / CTA Contact heading: no accent bar */
 .page-cta .section-title::before {
   content: none;
@@ -1384,94 +1380,66 @@ body:has(#hero.is-ready) .marquee--headline {
   padding: 4rem 0;
 }
 
-/* Home About band — ink with soft teal atmosphere */
+/* Home About — clean layout with intentional motion */
 .about:not(.about--page) {
   position: relative;
   overflow: hidden;
-  padding: 3rem 0 4rem;
-  background:
-    radial-gradient(ellipse 70% 80% at 12% 55%, rgba(13, 122, 111, 0.28) 0%, transparent 58%),
-    radial-gradient(ellipse 55% 60% at 88% 20%, rgba(252, 252, 252, 0.06) 0%, transparent 50%),
-    linear-gradient(165deg, #161d1b 0%, var(--surface-deep) 48%, #24302c 100%);
-  color: var(--white);
-}
-
-.about:not(.about--page)::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(rgba(252, 252, 252, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(252, 252, 252, 0.035) 1px, transparent 1px);
-  background-size: 48px 48px;
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 50%, #000 20%, transparent 75%);
-  opacity: 0.7;
-}
-
-.about:not(.about--page) .section-header,
-.about:not(.about--page) .about__stage {
-  position: relative;
-  z-index: 1;
-}
-
-.about:not(.about--page) .section-header {
-  padding-top: 1.5rem;
-  padding-bottom: 1.75rem;
-}
-
-.about:not(.about--page) .section-title {
-  color: var(--white);
-}
-
-.about:not(.about--page) .about__catchphrase {
-  color: var(--white);
+  padding: 0 0 5.5rem;
+  background: var(--white);
+  color: var(--black);
 }
 
 .about:not(.about--page) .about__text {
-  color: color-mix(in srgb, var(--white) 72%, transparent);
-}
-
-.about:not(.about--page) .btn-outline {
-  border-color: color-mix(in srgb, var(--white) 70%, transparent);
-  color: var(--white);
-}
-
-.about:not(.about--page) .btn-outline:hover {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--white);
+  margin-bottom: 0.5rem;
+  color: var(--gray-400);
+  font-size: 0.98rem;
+  line-height: 2;
+  max-width: 36em;
 }
 
 .about__stage {
   display: grid;
-  grid-template-columns: minmax(180px, 0.9fr) minmax(0, 1.25fr);
-  gap: clamp(2rem, 5vw, 4.5rem);
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 3.75rem);
   align-items: center;
-  padding: 0.5rem clamp(1.5rem, 4vw, 3rem) 0;
-  max-width: 1100px;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+  max-width: 980px;
 }
 
 .about__visual {
   position: relative;
   display: grid;
   place-items: center;
-  aspect-ratio: 1;
-  max-width: 320px;
   width: 100%;
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
-.about__logo-halo {
+.about:not(.about--page) .about__visual {
+  aspect-ratio: 1;
+  max-width: 260px;
+}
+
+.about:not(.about--page) .about__orbit {
   position: absolute;
-  inset: 6%;
+  inset: 2%;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at 50% 45%, rgba(252, 252, 252, 0.94) 0%, rgba(230, 235, 232, 0.88) 42%, rgba(13, 122, 111, 0.18) 70%, transparent 78%);
-  box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--white) 12%, transparent),
-    0 24px 60px rgba(0, 0, 0, 0.35);
-  animation: aboutHaloPulse 7s var(--ease-in-out) infinite;
+  border: 1.5px dashed color-mix(in srgb, var(--accent) 42%, transparent);
+  opacity: 0;
+  transform: rotate(-12deg) scale(0.92);
+  transition:
+    opacity 0.8s var(--ease-out) 0.15s,
+    transform 1s var(--ease-out) 0.15s;
+}
+
+.about:not(.about--page) .about__visual.visible .about__orbit {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+  animation: aboutOrbitSpin 28s linear 0.6s infinite;
+}
+
+.about:not(.about--page) .about__visual:hover .about__orbit {
+  animation-duration: 12s;
+  border-color: color-mix(in srgb, var(--accent) 65%, transparent);
 }
 
 .about__intro {
@@ -1497,27 +1465,31 @@ body:has(#hero.is-ready) .marquee--headline {
 .about:not(.about--page) .about__logo {
   position: relative;
   z-index: 1;
-  width: min(78%, 250px);
+  width: 72%;
+  max-width: 200px;
   padding: 0;
   background: transparent;
-  filter: drop-shadow(0 10px 24px rgba(0, 0, 0, 0.28));
-  animation: aboutLogoBreath 8s var(--ease-in-out) infinite;
+  transition: transform 0.55s var(--ease-out);
+}
+
+.about:not(.about--page) .about__visual.visible .about__logo {
+  animation: aboutLogoFloat 7s var(--ease-in-out) 0.7s infinite;
 }
 
 .about__logo:hover {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
-.about:not(.about--page) .about__logo:hover {
+.about:not(.about--page) .about__visual:hover .about__logo {
   animation-play-state: paused;
-  transform: scale(1.05) rotate(2deg);
+  transform: scale(1.05);
 }
 
 .about__copy {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.25rem;
+  gap: 1.1rem;
   max-width: 34rem;
 }
 
@@ -1561,41 +1533,44 @@ body:has(#hero.is-ready) .marquee--headline {
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--accent) 70%, var(--white));
+  color: var(--accent);
 }
 
 .about__catchphrase {
   font-family: var(--font-body);
-  font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+  font-size: clamp(1.5rem, 3.5vw, 2.4rem);
   font-weight: 700;
   line-height: 1.4;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   color: var(--black);
   white-space: nowrap;
   margin: 0;
   position: relative;
-  transition: letter-spacing 0.45s var(--ease-out);
 }
 
 .about:not(.about--page) .about__catchphrase {
   white-space: normal;
-  font-size: clamp(1.65rem, 3.8vw, 2.85rem);
-  letter-spacing: 0.04em;
-  line-height: 1.35;
-  padding-bottom: 0.2em;
+  font-size: clamp(1.45rem, 3.2vw, 2.15rem);
+  letter-spacing: 0.03em;
+  line-height: 1.45;
+  padding-bottom: 0.25em;
+}
+
+.about:not(.about--page) .about__catchphrase::after {
+  width: 4.25rem;
+  height: 3px;
 }
 
 .about__catchphrase::after {
   content: '';
   position: absolute;
   left: 0;
-  right: 0;
-  bottom: 0.06em;
+  width: 2.5rem;
+  bottom: 0;
   height: 3px;
   background: var(--accent);
   transform: scaleX(0);
   transform-origin: left center;
-  opacity: 0.9;
 }
 
 .about__intro.reveal.visible .about__catchphrase::after,
@@ -1605,9 +1580,17 @@ body:has(#hero.is-ready) .marquee--headline {
   animation: underlineDraw 0.9s var(--ease-out) 0.35s forwards;
 }
 
-.about__intro:hover .about__catchphrase,
-.about__copy:hover .about__catchphrase {
-  letter-spacing: 0.1em;
+@keyframes aboutOrbitSpin {
+  to { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes aboutLogoFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes underlineDrawCenter {
+  to { transform: translateX(-50%) scaleX(1); }
 }
 
 .about__body {
@@ -1630,23 +1613,6 @@ body:has(#hero.is-ready) .marquee--headline {
 
 .about__body--home {
   margin-top: 0;
-}
-
-.about:not(.about--page) .about__text {
-  margin-bottom: 0.5rem;
-  font-size: 0.98rem;
-  line-height: 2;
-  max-width: 36em;
-}
-
-@keyframes aboutLogoBreath {
-  0%, 100% { transform: scale(1) rotate(-1.2deg); }
-  50% { transform: scale(1.035) rotate(1.2deg); }
-}
-
-@keyframes aboutHaloPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.04); opacity: 0.88; }
 }
 
 .about__grid {
@@ -1952,8 +1918,14 @@ body:has(#hero.is-ready) .marquee--headline {
   }
 
   .about:not(.about--page) .about__catchphrase::after {
-    left: 10%;
-    right: 10%;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+  }
+
+  .about:not(.about--page) .about__copy .about__catchphrase.reveal.visible::after,
+  .about:not(.about--page) .about__copy .about__catchphrase:not(.reveal)::after {
+    animation: underlineDrawCenter 0.9s var(--ease-out) 0.35s forwards;
   }
 }
 
@@ -3401,9 +3373,12 @@ body:has(#workDetail) .grain {
     transform: scaleX(1);
   }
 
-  .about:not(.about--page) .about__logo,
-  .about__logo-halo {
+  .about:not(.about--page) .about__orbit,
+  .about:not(.about--page) .about__logo {
     animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .reveal,
@@ -3423,4 +3398,65 @@ body:has(#workDetail) .grain {
   .company-info__list > div:hover {
     transform: none;
   }
+}
+
+/* Home: skip intro motion after the first view in this tab session
+   (keep continuous motion: marquee, hero rail, map drift, about orbit) */
+html.home-revisit .hero__title-mark::after,
+html.home-revisit .about__catchphrase::after {
+  animation: none;
+}
+
+html.home-revisit .hero__title-mark::after {
+  transform: skewX(-6deg) scaleX(1);
+}
+
+html.home-revisit .about__catchphrase::after {
+  transform: scaleX(1);
+}
+
+html.home-revisit .hero__title-line,
+html.home-revisit .hero__brand,
+html.home-revisit .hero__lede,
+html.home-revisit .hero__veil,
+html.home-revisit .header,
+html.home-revisit .marquee--headline {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+html.home-revisit .hero__rail-wrap {
+  animation: none !important;
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html.home-revisit .hero.is-ready .hero__map-img {
+  animation: heroMapDrift 26s var(--ease-in-out) infinite alternate !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
+html.home-revisit .hero.is-ready .hero__glow {
+  animation: heroGlowPulse 9s var(--ease-in-out) infinite !important;
+}
+
+html.home-revisit .hero__map {
+  transition: none !important;
+}
+
+html.home-revisit .reveal,
+html.home-revisit .section-title.reveal,
+html.home-revisit .work-card.reveal,
+html.home-revisit .home-news__item.reveal,
+html.home-revisit .page-cta__inner.reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
+}
+
+html.home-revisit .reveal-line span {
+  transform: none;
 }
