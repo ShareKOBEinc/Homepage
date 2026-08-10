@@ -55,7 +55,7 @@ const template = (work) => `<!DOCTYPE html>
   <div class="grain" aria-hidden="true"></div>
 
   <header class="header scrolled" id="header">
-    <a href="../index.html" class="logo" aria-label="ShareKOBE ホームへ">
+    <a href="../" class="logo" aria-label="ShareKOBE ホームへ">
       <img src="../assets/ShareKOBE_AI.webp" alt="ShareKOBE" class="logo__img" width="399" height="118">
     </a>
     <nav class="nav" aria-label="メインナビゲーション">
