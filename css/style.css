@@ -1525,7 +1525,25 @@ body:has(#hero.is-ready) .marquee--headline {
 
 .about__body {
   padding: 0 clamp(1.5rem, 4vw, 3rem);
-  max-width: 720px;
+  max-width: 960px;
+}
+
+.about--page .about__intro,
+.about--page .about__body {
+  /* Parent `.about--page` already has horizontal padding */
+  padding-inline: 0;
+}
+
+.about--page .about__body {
+  max-width: min(56rem, 100%);
+}
+
+/* Desktop only: intentional line breaks in About body copy */
+@media (min-width: 901px) {
+  .about__break::after {
+    content: '\A';
+    white-space: pre;
+  }
 }
 
 .about__heading {
