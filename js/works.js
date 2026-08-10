@@ -229,7 +229,61 @@
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-  // Hero: works presence rail (always flowing + drag only while touching)
+  const formatHashtag = (work) => {
+    const raw = String(work.hashtag || '').trim();
+    if (!raw) return '';
+    return raw.startsWith('#') ? raw : `#${raw}`;
+  };
+
+  const hashtagSearchUrl = (hashtag) => {
+    const tag = String(hashtag || '').replace(/^#/, '');
+    if (!tag) return '';
+    return `https://x.com/hashtag/${encodeURIComponent(tag)}`;
+  };
+
+  const renderHashtagLink = (work, className = 'work-hero__hashtag') => {
+    const label = formatHashtag(work);
+    const url = hashtagSearchUrl(label);
+    if (!label || !url) return '';
+    return `
+      <a
+        class="${className}"
+        href="${escapeText(url)}"
+        target="_blank"
+        rel="noopener noreferrer"
+      >${escapeText(label)}</a>
+    `;
+  };
+
+  // Shared flow tempo (keep in sync with css `.marquee__track` duration)
+  const FLOW_LOOP_DURATION_S = 22;
+
+  // Headline marquee: work hashtags (no site links)
+  const marquee = document.getElementById('headlineMarquee');
+  if (marquee) {
+    const hashtags = portfolioWorks
+      .map((work) => formatHashtag(work))
+      .filter(Boolean);
+    const base = hashtags.length
+      ? hashtags
+      : ['#ShareKOBE', '「おもろい」を、関西から。'];
+    const items = [...base, ...base];
+    marquee.innerHTML = items.map((text) => `<span>${escapeText(text)}</span>`).join('');
+  }
+
+  let flowSpeedPxPerSec = 40;
+  const refreshFlowSpeed = () => {
+    if (!marquee) return;
+    const loopPx = marquee.scrollWidth / 2;
+    if (loopPx > 0) flowSpeedPxPerSec = loopPx / FLOW_LOOP_DURATION_S;
+  };
+  refreshFlowSpeed();
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(refreshFlowSpeed).catch(() => {});
+  }
+  window.addEventListener('resize', refreshFlowSpeed, { passive: true });
+
+  // Hero: works presence rail (same speed as hashtag marquee; horizontal drag only)
   const heroRail = document.getElementById('heroRail');
   const heroRailWrap = heroRail && heroRail.closest('.hero__rail-wrap');
   if (heroRail && heroRailWrap && portfolioWorks.length) {
@@ -259,8 +313,11 @@
     let dragging = false;
     let dragMoved = false;
     let activePointerId = null;
+    let dragAxis = null;
     let dragStartX = 0;
+    let dragStartY = 0;
     let dragStartOffset = 0;
+    let lastTs = performance.now();
 
     const normalize = (value) => {
       if (halfWidth <= 1) return 0;
@@ -295,9 +352,11 @@
       img.addEventListener('load', measure, { once: true });
     });
 
-    const tick = () => {
+    const tick = (now) => {
+      const dt = Math.min(0.064, (now - lastTs) / 1000);
+      lastTs = now;
       if (!dragging && halfWidth > 1) {
-        offset = normalize(offset + 0.55);
+        offset = normalize(offset + flowSpeedPxPerSec * dt);
         apply();
       }
       window.requestAnimationFrame(tick);
@@ -306,30 +365,55 @@
 
     const stopDrag = () => {
       dragging = false;
+      dragAxis = null;
       activePointerId = null;
       heroRailWrap.classList.remove('is-dragging');
     };
 
     heroRailWrap.addEventListener('pointerdown', (event) => {
       if (event.button !== 0) return;
-      dragging = true;
-      dragMoved = false;
       activePointerId = event.pointerId;
+      dragAxis = null;
+      dragging = false;
+      dragMoved = false;
       dragStartX = event.clientX;
+      dragStartY = event.clientY;
       dragStartOffset = offset;
-      heroRailWrap.classList.add('is-dragging');
-      heroRailWrap.setPointerCapture(event.pointerId);
     });
 
     heroRailWrap.addEventListener('pointermove', (event) => {
-      if (!dragging || event.pointerId !== activePointerId) return;
+      if (event.pointerId !== activePointerId) return;
       const dx = event.clientX - dragStartX;
+      const dy = event.clientY - dragStartY;
+
+      if (!dragAxis) {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        // Vertical intent: ignore so the page can scroll
+        if (Math.abs(dy) >= Math.abs(dx)) {
+          dragAxis = 'y';
+          activePointerId = null;
+          return;
+        }
+        dragAxis = 'x';
+        dragging = true;
+        heroRailWrap.classList.add('is-dragging');
+        try {
+          heroRailWrap.setPointerCapture(event.pointerId);
+        } catch (_) { /* ignore */ }
+      }
+
+      if (dragAxis !== 'x' || !dragging) return;
       if (Math.abs(dx) > 4) dragMoved = true;
       offset = normalize(dragStartOffset - dx);
       apply();
     });
 
     heroRailWrap.addEventListener('pointerup', (event) => {
+      if (event.pointerId !== activePointerId && dragAxis !== 'x') {
+        activePointerId = null;
+        dragAxis = null;
+        return;
+      }
       if (event.pointerId !== activePointerId) return;
       try {
         heroRailWrap.releasePointerCapture(event.pointerId);
@@ -350,54 +434,14 @@
       event.stopPropagation();
     }, true);
 
+    // Horizontal wheel / trackpad only — ignore vertical page scroll
     heroRailWrap.addEventListener('wheel', (event) => {
-      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX)
-        ? event.deltaY
-        : event.deltaX;
-      if (!delta) return;
-      offset = normalize(offset + delta);
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      if (!event.deltaX) return;
+      offset = normalize(offset + event.deltaX);
       apply();
       event.preventDefault();
     }, { passive: false });
-  }
-
-  const formatHashtag = (work) => {
-    const raw = String(work.hashtag || '').trim();
-    if (!raw) return '';
-    return raw.startsWith('#') ? raw : `#${raw}`;
-  };
-
-  const hashtagSearchUrl = (hashtag) => {
-    const tag = String(hashtag || '').replace(/^#/, '');
-    if (!tag) return '';
-    return `https://x.com/hashtag/${encodeURIComponent(tag)}`;
-  };
-
-  const renderHashtagLink = (work, className = 'work-hero__hashtag') => {
-    const label = formatHashtag(work);
-    const url = hashtagSearchUrl(label);
-    if (!label || !url) return '';
-    return `
-      <a
-        class="${className}"
-        href="${escapeText(url)}"
-        target="_blank"
-        rel="noopener noreferrer"
-      >${escapeText(label)}</a>
-    `;
-  };
-
-  // Headline marquee: work hashtags (no site links)
-  const marquee = document.getElementById('headlineMarquee');
-  if (marquee) {
-    const hashtags = portfolioWorks
-      .map((work) => formatHashtag(work))
-      .filter(Boolean);
-    const base = hashtags.length
-      ? hashtags
-      : ['#ShareKOBE', '「おもろい」を、関西から。'];
-    const items = [...base, ...base];
-    marquee.innerHTML = items.map((text) => `<span>${escapeText(text)}</span>`).join('');
   }
 
   // Goods 一覧ページ

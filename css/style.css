@@ -670,7 +670,7 @@ input, textarea {
   opacity: 0;
   transform: translateY(1.2rem);
   cursor: grab;
-  touch-action: pan-x;
+  touch-action: pan-y;
   user-select: none;
 }
 
@@ -858,6 +858,7 @@ body:has(#hero.is-ready) .marquee--headline {
 .marquee__track {
   display: flex;
   width: max-content;
+  /* Duration must match FLOW_LOOP_DURATION_S in js/works.js */
   animation: marquee 22s linear infinite;
   will-change: transform;
 }
@@ -1828,27 +1829,6 @@ body:has(#hero.is-ready) .marquee--headline {
     text-align: center;
   }
 
-  .message__inner {
-    grid-template-columns: 1fr;
-    gap: 1.75rem;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .message__visual {
-    max-width: 280px;
-  }
-
-  .message__body {
-    align-items: center;
-    max-width: 36rem;
-  }
-
-  .message__sign {
-    align-items: center;
-    text-align: center;
-  }
-
   .about__visual {
     max-width: 280px;
   }
@@ -2474,6 +2454,30 @@ body:has(#hero.is-ready) .marquee--headline {
   font-weight: 700;
   letter-spacing: 0.08em;
   color: var(--black);
+}
+
+@media (max-width: 1024px) {
+  .message__inner {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .message__visual {
+    max-width: 280px;
+  }
+
+  .message__body {
+    width: 100%;
+    align-items: center;
+    max-width: 36rem;
+  }
+
+  .message__sign {
+    align-items: center;
+    text-align: center;
+  }
 }
 
 .values {
