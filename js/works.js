@@ -540,7 +540,6 @@
       `;
     } else {
       const date = formatWorkDate(work);
-      const storyLead = work.storyLead || '';
       const storyBody = work.story || work.desc || '';
       const overview = work.overview || {};
       const overviewItems = [
@@ -570,12 +569,11 @@
 
       document.title = `${work.title} | ShareKOBE`;
 
-      const storyHtml = (storyLead || storyBody)
+      const storyHtml = storyBody
         ? renderBlock(
           'STORY',
           'ストーリー',
           `
-            ${storyLead ? `<p class="work-block__lead">${escapeText(storyLead)}</p>` : ''}
             <div class="work-block__text">${toParagraphs(storyBody)}</div>
           `
         )

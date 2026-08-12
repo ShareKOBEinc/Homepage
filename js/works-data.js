@@ -25,7 +25,6 @@
  *     // --- 個別ページ用（任意 / Tumbleweed風構成）---
  *     place: '会場名',
  *     tagline: 'キャッチコピー',
- *     storyLead: 'ストーリーのリード文',
  *     story: 'ストーリー本文（未設定時は desc を使用）',
  *     overview: {
  *       team: '最大4名',
@@ -86,7 +85,7 @@ const WORKS_NEW = [
       format: 'ルーム型'
     },
     schedule: {
-      period: '2024.2.23'
+      period: '2024.2.23〜'
     }
   },
   {
@@ -96,12 +95,11 @@ const WORKS_NEW = [
     year: 2026,
     month: 6,
     day: 12,
-    desc: '株式会社GO様の合宿イベント',
+    desc: 'チームで挑む、合宿の一夜。',
     hue: 55,
     image: 'GO.jpg',
     place: '企業合宿',
     tagline: 'チームで挑む、合宿の一夜。',
-    storyLead: '合宿の場に、おもろい仕掛けを。',
     story: '企業合宿のプログラムとして、謎解き・体験型のコンテンツを提供。\nチームビルディングと遊び心を両立した、現場向けのカスタム企画です。',
     overview: {
       team: '複数チーム',
@@ -112,7 +110,7 @@ const WORKS_NEW = [
       note: 'クライアントの目的に合わせて内容・進行を設計しています。'
     },
     schedule: {
-      period: '2026.6.12'
+      period: '2026.6.12〜'
     }
   },
   {
@@ -123,11 +121,10 @@ const WORKS_NEW = [
     year: 2026,
     month: 2,
     day: 21,
-    desc: 'タンクトップバトラー!! 袖無',
+    desc: '袖無と３人の刺客',
     hue: 55,
     image: 'そでなしKV.jpg',
-    tagline: '袖なしで、勝負せよ。',
-    storyLead: '熱量高めのバトラーたちが集う。',
+    tagline: '袖無と３人の刺客',
     story: [
       '無敵のタンクトップバトラー　袖無(ソデナシ)。',
       'この街の秩序は彼によって保たれていた。',
@@ -141,7 +138,7 @@ const WORKS_NEW = [
       format: 'ホール型'
     },
     schedule: {
-      period: '2026.2.21'
+      period: '2026.2.21〜'
     }
   },
 ];
