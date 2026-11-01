@@ -1,12 +1,12 @@
 /* おっちょこちょい飯店 — 解答ページ
-   基本色 #d12f1a / サブ色 #fffdf0
+   背景 #fffdf0（旧文字色） / 文字 #3f3b3a / アクセント #d12f1a
    レイアウトは NAZONE /naiyoubutsu に合わせている */
 
 :root {
   --base: #d12f1a;
   --base-deep: #a82414;
   --sub: #fffdf0;
-  --ink: #6e2116;
+  --ink: #3f3b3a;
   --font: "Noto Sans JP", "Hiragino Sans", sans-serif;
 }
 
@@ -21,8 +21,8 @@ body.page-tenshin {
   flex-direction: column;
   min-height: 100vh;
   margin: 0;
-  background: var(--base);
-  color: var(--sub);
+  background: var(--sub);
+  color: var(--ink);
   font-family: var(--font);
   font-weight: 400;
   line-height: 1.75;
@@ -53,7 +53,7 @@ a { color: inherit; text-decoration: none; }
 .tenshin-sheet {
   flex: 1;
   width: 100%;
-  background: var(--base);
+  background: var(--sub);
 }
 
 .tenshin-hero {
@@ -84,7 +84,7 @@ a { color: inherit; text-decoration: none; }
 .tenshin-notes-box h2,
 .tenshin-block li,
 .tenshin-notes-box li {
-  color: var(--sub);
+  color: var(--ink);
 }
 
 .tenshin-intro h1 {
@@ -126,7 +126,7 @@ a { color: inherit; text-decoration: none; }
 .tenshin-notes-box {
   margin: 0 0 24px;
   padding: 16px 14px;
-  border: 2px solid var(--sub);
+  border: 2px solid var(--ink);
 }
 
 .tenshin-btn {
@@ -140,8 +140,8 @@ a { color: inherit; text-decoration: none; }
   margin: 12px auto 0;
   border: 0;
   border-radius: 999px;
-  background: var(--sub);
-  color: var(--base);
+  background: var(--base);
+  color: var(--sub);
   font-weight: 700;
   cursor: pointer;
   appearance: none;
@@ -156,8 +156,8 @@ a { color: inherit; text-decoration: none; }
   width: calc(100% + var(--pad-x) * 2);
   margin: 0 calc(var(--pad-x) * -1) 16px;
   padding: 10px 16px;
-  background: var(--sub);
-  color: var(--base);
+  background: var(--base);
+  color: var(--sub);
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.06em;
@@ -181,11 +181,11 @@ a { color: inherit; text-decoration: none; }
 .tenshin-form input {
   width: 100%;
   min-height: 48px;
-  border: 0;
+  border: 1px solid rgba(63, 59, 58, 0.28);
   border-radius: 10px;
   padding: 12px 14px;
-  background: var(--sub);
-  color: var(--base);
+  background: #fff;
+  color: var(--ink);
   text-align: center;
 }
 
@@ -196,7 +196,7 @@ a { color: inherit; text-decoration: none; }
 
 .tenshin-form.is-locked input {
   cursor: default;
-  color: var(--base);
+  color: var(--ink);
 }
 
 .tenshin-form .tenshin-btn:disabled {
@@ -215,8 +215,8 @@ a { color: inherit; text-decoration: none; }
   min-height: 48px;
   padding: 0 18px;
   border-radius: 999px;
-  background: var(--sub);
-  color: var(--base);
+  background: var(--base);
+  color: var(--sub);
   font-weight: 700;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16);
 }
@@ -228,10 +228,10 @@ a { color: inherit; text-decoration: none; }
   z-index: 50;
   min-height: 36px;
   padding: 0 12px;
-  border: 1px solid var(--sub);
+  border: 1px solid var(--ink);
   border-radius: 999px;
-  background: rgba(110, 33, 22, 0.35);
-  color: var(--sub);
+  background: rgba(63, 59, 58, 0.08);
+  color: var(--ink);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -301,7 +301,7 @@ a { color: inherit; text-decoration: none; }
 
 .tenshin-ng {
   margin: 0;
-  color: var(--sub);
+  color: var(--base);
   font-size: 14px;
   font-weight: 700;
 }
@@ -320,12 +320,12 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (min-width: 768px) {
-  body.page-tenshin { background: var(--base-deep); }
+  body.page-tenshin { background: #ebe6d4; }
 
   .tenshin-sheet {
     width: min(100%, 720px);
     margin: 0 auto;
-    background: var(--base);
+    background: var(--sub);
   }
 
   .tenshin-wrap {
