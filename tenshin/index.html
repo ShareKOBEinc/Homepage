@@ -3,72 +3,319 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ShareKOBE Tenshin">
-  <title>Tenshin | ShareKOBE</title>
+  <meta name="description" content="みならいパンダのおっちょこちょい飯店 解答入力">
+  <title>はじめに | おっちょこちょい飯店</title>
   <link rel="icon" type="image/png" sizes="48x48" href="../assets/favicon-48x48.png">
   <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.typekit.net/btf8drg.css">
-  <link rel="stylesheet" href="../css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
-<body data-asset-base="../">
-  <div class="grain" aria-hidden="true"></div>
+<body class="page-tenshin">
+  <div class="tenshin-sheet">
+    <p class="tenshin-hero">
+      <img src="tenshin_title.png" alt="みならいパンダ、開店準備中。みならいパンダのおっちょこちょい飯店" width="4093" height="2894">
+    </p>
 
-  <header class="header scrolled" id="header">
-    <a href="/" class="logo" aria-label="ShareKOBE ホームへ">
-      <img src="../assets/ShareKOBE_AI.webp" alt="ShareKOBE" class="logo__img" width="399" height="118">
-    </a>
-    <nav class="nav" aria-label="メインナビゲーション">
-      <a href="../news.html">News</a>
-      <a href="../about.html">About</a>
-      <a href="../works.html">Works</a>
-      <a href="../goods.html">Goods</a>
-      <a href="../contact.html">Contact</a>
-    </nav>
-    <button class="menu-btn" id="menuBtn" aria-label="メニューを開く" aria-expanded="false">
-      <span></span>
-      <span></span>
-    </button>
-  </header>
-
-  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <nav>
-      <a href="../news.html">News</a>
-      <a href="../about.html">About</a>
-      <a href="../works.html">Works</a>
-      <a href="../goods.html">Goods</a>
-      <a href="../contact.html">Contact</a>
-      <a href="https://x.com/shareKOBE_" class="mobile-nav__social" target="_blank" rel="noopener noreferrer" aria-label="X (Twitter)">
-        <img src="../assets/logo-black.png" alt="" width="28" height="28">
-      </a>
-    </nav>
+    <main class="tenshin-wrap">
+      <section class="tenshin-intro" aria-labelledby="tenshin-title">
+        <h1 id="tenshin-title"></h1>
+        <p class="tenshin-thanks" id="tenshin-thanks"></p>
+        <section class="tenshin-block" id="contents-block" hidden aria-labelledby="contents-title">
+          <h2 id="contents-title"></h2>
+          <ul id="tenshin-contents"></ul>
+        </section>
+        <section class="tenshin-notes-box" aria-labelledby="notes-title">
+          <h2 id="notes-title"></h2>
+          <ul id="tenshin-notes"></ul>
+        </section>
+        <button class="tenshin-btn" id="start-btn" type="button"></button>
+      </section>
+      <div id="tenshin-steps"></div>
+    </main>
   </div>
 
-  <main class="subpage">
-    <!-- 添付コードをここに差し替え -->
-    <section class="page-hero page-hero--compact">
-      <a href="/" class="page-hero__back reveal">
-        <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-          <path d="M16 10H4M8 6l-4 4 4 4" stroke="currentColor" stroke-width="1.5"/>
-        </svg>
-        Back to Home
-      </a>
-      <h1 class="page-hero__title reveal">Tenshin</h1>
-      <p class="page-hero__desc reveal">コンテンツ準備中です。</p>
-    </section>
-  </main>
+  <a class="tenshin-hint-fab" id="hint-fab" href="hint/">ヒント</a>
+  <button class="tenshin-reset" id="reset-btn" type="button"></button>
+  <div class="tenshin-clear" id="clear-overlay" hidden>
+    <p id="clear-message">正解！</p>
+  </div>
 
-  <footer class="footer">
-    <div class="footer__bottom">
-      <p>&copy; 2026 ShareKOBE Inc. All rights reserved.</p>
-    </div>
+  <footer class="site-footer">
+    <p class="copyright">&copy; 2026 ShareKOBE Inc. All rights reserved.</p>
   </footer>
 
-  <script src="../js/main.js"></script>
+  <script>
+    /**
+     * 解答フォーム用データ
+     *
+     * 各品の answers に、正解とみなす表記を並べます。
+     * ひらがな／カタカナ、全角／半角、長音「ー」の有無、空白は自動で同一視します。
+     */
+    const TENSHIN = {
+      title: "はじめに",
+      thanks:
+        "この度は、『点心爛漫!?みならいパンダのおっちょこちょい飯店』のご購入、誠にありがとうございます。",
+      contentsTitle: "内容物",
+      contents: [],
+      notesTitle: "注意事項",
+      notes: [
+        "内容のネタバレに繋がる行為はお控えください。",
+        "本キットの転売は固く禁止いたします。",
+      ],
+      hintLabel: "ヒント",
+      startLabel: "始める",
+      resetLabel: "最初に戻す（編集用）",
+      resetConfirm: "最初の状態に戻しますか？",
+      correctMessage: "正解！",
+      wrongMessage: "間違っているようです。",
+      steps: [
+        {
+          label: "一品目",
+          open: "一品目を開けてください",
+          question: "答えは？",
+          answers: ["おおばん", "大判", "大盤"],
+        },
+        {
+          label: "二品目",
+          open: "二品目を開けてください",
+          question: "答えは？",
+          answers: ["どうめい", "同盟", "同名", "道明"],
+        },
+        {
+          label: "三品目",
+          open: "三品目を開けてください",
+          question: "答えは？",
+          answers: ["いまごろ", "今頃"],
+        },
+        {
+          label: "四品目",
+          open: "四品目を開けてください",
+          question: "答えは？",
+          answers: ["たつまき", "竜巻", "龍巻"],
+        },
+        {
+          label: "お会計",
+          open: "お会計を開けてください",
+          question: "答えは？",
+          answers: ["驚き", "おどろき"],
+        },
+      ],
+    };
+
+    (function () {
+      const data = TENSHIN;
+      const STORAGE_KEY = "tenshin-progress";
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function toHiragana(value) {
+        return String(value).replace(/[\u30A1-\u30F6]/g, (ch) =>
+          String.fromCharCode(ch.charCodeAt(0) - 0x60)
+        );
+      }
+
+      function normalize(value) {
+        return toHiragana(
+          String(value)
+            .normalize("NFKC")
+            .toLowerCase()
+            .replace(/[\s　]/g, "")
+            .replace(/[ー―‐–—−〜~ｰ－-]/g, "ー")
+            .replace(/[・･。．.、，,！!？?「」『』]/g, "")
+        );
+      }
+
+      function variantsOf(value) {
+        const base = normalize(value);
+        const set = new Set([base, base.replace(/ー/g, "")]);
+        set.add(base.replace(/づ/g, "ず").replace(/ぢ/g, "じ"));
+        set.add(base.replace(/ず/g, "づ").replace(/じ/g, "ぢ"));
+        return set;
+      }
+
+      function emptyProgress() {
+        return { started: false, solved: 0, answers: [] };
+      }
+
+      function loadProgress() {
+        try {
+          const raw = sessionStorage.getItem(STORAGE_KEY);
+          if (!raw) return emptyProgress();
+          const parsed = JSON.parse(raw);
+          const solved = Math.max(0, Math.min(data.steps.length, Number(parsed.solved) || 0));
+          const answers = Array.isArray(parsed.answers)
+            ? parsed.answers.map((item) => String(item || ""))
+            : [];
+          return {
+            started: Boolean(parsed.started),
+            solved,
+            answers,
+          };
+        } catch (err) {
+          return emptyProgress();
+        }
+      }
+
+      function saveProgress(progress) {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      }
+
+      function isCorrect(step, value) {
+        const accepted = new Set();
+        (step.answers || []).forEach((answer) => {
+          variantsOf(answer).forEach((item) => {
+            if (item) accepted.add(item);
+          });
+        });
+        if (!accepted.size) return false;
+        return [...variantsOf(value)].some((item) => accepted.has(item));
+      }
+
+      function stepHtml(step, index, state, submitted) {
+        const locked = state === "done";
+        const valueAttr = locked ? ` value="${escapeHtml(submitted || "")}"` : "";
+        return `
+          <section class="tenshin-step" data-step="${index}">
+            <h3 class="tenshin-step-bar">${escapeHtml(step.label)}</h3>
+            <p class="tenshin-open">${escapeHtml(step.open)}</p>
+            <p class="tenshin-q">${escapeHtml(step.question)}</p>
+            <form class="tenshin-form${locked ? " is-locked" : ""}" data-index="${index}">
+              <label class="visually-hidden" for="answer-${index}">答え</label>
+              <input id="answer-${index}" name="answer" type="text" autocomplete="off" inputmode="text"${valueAttr}${locked ? " readonly tabindex=\"-1\"" : ""}>
+              <button class="tenshin-btn" type="submit"${locked ? " disabled" : ""}>送信</button>
+              ${locked ? "" : `<p class="tenshin-ng" hidden>${escapeHtml(data.wrongMessage)}</p>`}
+            </form>
+          </section>`;
+      }
+
+      function showClear() {
+        const overlay = document.getElementById("clear-overlay");
+        const message = document.getElementById("clear-message");
+        if (message) message.textContent = data.correctMessage || "正解！";
+        if (!overlay) return Promise.resolve();
+
+        overlay.hidden = false;
+        overlay.classList.remove("is-on");
+        void overlay.offsetWidth;
+        overlay.classList.add("is-on");
+
+        return new Promise((resolve) => {
+          window.setTimeout(() => {
+            overlay.classList.remove("is-on");
+            window.setTimeout(() => {
+              overlay.hidden = true;
+              resolve();
+            }, 280);
+          }, 1180);
+        });
+      }
+
+      function renderSteps(solved, currentOpen) {
+        const mount = document.getElementById("tenshin-steps");
+        const parts = [];
+        for (let i = 0; i < solved; i += 1) {
+          parts.push(stepHtml(data.steps[i], i, "done", progress.answers[i]));
+        }
+        if (currentOpen && solved < data.steps.length) {
+          parts.push(stepHtml(data.steps[solved], solved, "open"));
+        }
+        mount.innerHTML = parts.join("");
+        const nextInput = mount.querySelector(".tenshin-form:not(.is-locked) input");
+        if (nextInput) nextInput.focus();
+      }
+
+      document.getElementById("tenshin-title").textContent = data.title || "はじめに";
+      document.getElementById("tenshin-thanks").textContent = data.thanks || "";
+      document.getElementById("contents-title").textContent = data.contentsTitle || "内容物";
+      document.getElementById("notes-title").textContent = data.notesTitle || "注意事項";
+      const contents = data.contents || [];
+      document.getElementById("tenshin-contents").innerHTML = contents
+        .map((line) => `<li>${escapeHtml(line)}</li>`)
+        .join("");
+      document.getElementById("contents-block").hidden = contents.length === 0;
+      document.getElementById("tenshin-notes").innerHTML = (data.notes || [])
+        .map((line) => `<li>${escapeHtml(line)}</li>`)
+        .join("");
+
+      const startBtn = document.getElementById("start-btn");
+      startBtn.textContent = data.startLabel || "始める";
+      const hintFab = document.getElementById("hint-fab");
+      if (hintFab && data.hintLabel) hintFab.textContent = data.hintLabel;
+      const resetBtn = document.getElementById("reset-btn");
+      if (resetBtn) resetBtn.textContent = data.resetLabel || "最初に戻す（編集用）";
+
+      const progress = loadProgress();
+
+      function begin() {
+        progress.started = true;
+        saveProgress(progress);
+        startBtn.classList.add("is-hidden");
+        renderSteps(progress.solved, true);
+      }
+
+      function resetToStart() {
+        if (!window.confirm(data.resetConfirm || "最初の状態に戻しますか？")) return;
+        sessionStorage.removeItem(STORAGE_KEY);
+        progress.started = false;
+        progress.solved = 0;
+        progress.answers = [];
+        startBtn.classList.remove("is-hidden");
+        document.getElementById("tenshin-steps").innerHTML = "";
+        const overlay = document.getElementById("clear-overlay");
+        if (overlay) {
+          overlay.classList.remove("is-on");
+          overlay.hidden = true;
+        }
+        window.scrollTo(0, 0);
+      }
+
+      if (progress.started) begin();
+
+      startBtn.addEventListener("click", () => {
+        if (progress.started) return;
+        begin();
+      });
+
+      if (resetBtn) resetBtn.addEventListener("click", resetToStart);
+
+      document.getElementById("tenshin-steps").addEventListener("submit", (e) => {
+        const form = e.target.closest(".tenshin-form");
+        if (!form) return;
+        e.preventDefault();
+        if (form.classList.contains("is-locked")) return;
+        const index = Number(form.dataset.index);
+        if (index !== progress.solved) return;
+        const input = form.querySelector("input");
+        const ng = form.querySelector(".tenshin-ng");
+        const value = (input && input.value) || "";
+        if (isCorrect(data.steps[index], value)) {
+          progress.answers[index] = value;
+          progress.solved += 1;
+          saveProgress(progress);
+          showClear().then(() => {
+            renderSteps(progress.solved, true);
+          });
+        } else if (ng) {
+          ng.hidden = false;
+        }
+      });
+
+      document.getElementById("tenshin-steps").addEventListener("input", (e) => {
+        const form = e.target.closest(".tenshin-form");
+        if (!form) return;
+        const ng = form.querySelector(".tenshin-ng");
+        if (ng) ng.hidden = true;
+      });
+    })();
+  </script>
 </body>
 </html>
