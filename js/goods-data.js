@@ -69,7 +69,7 @@ const GOODS = [
     desc: 'からあげ謎の謎解きキット。',
     hue: 35,
     image: 'からあげ謎.JPG',
-    price: '',
+    price: '800円',
     detail: [
       'ShareKOBEの持ち帰り謎「からあげ謎」。',
       'からあげをモチーフにした、気軽に遊べる謎解きキットです。',
@@ -113,7 +113,7 @@ const GOODS = [
     desc: '名は体を表すの謎解きキット。',
     hue: 55,
     image: '名は体を表す.JPG',
-    price: '',
+    price: '1,500',
     detail: [
       'ShareKOBEの持ち帰り謎「名は体を表す」。',
     ],

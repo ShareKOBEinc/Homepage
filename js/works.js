@@ -615,21 +615,12 @@
           )
           : '';
 
-        const hashtagHtml = normalizeHashtags(work.hashtag).length
-          ? renderBlock(
-            'HASHTAG',
-            'ハッシュタグ',
-            `<div class="work-hero__hashtags">${renderHashtagLink(work)}</div>`
-          )
-          : '';
-
         copyHtml = `
           <h1 class="work-hero__title">${escapeText(work.title)}</h1>
-          ${priceLabel ? `<p class="work-hero__tagline">${escapeText(priceLabel)}円</p>` : ''}
           ${date ? `<time class="work-hero__date"${work.year && work.month && work.day ? ` datetime="${work.year}-${String(work.month).padStart(2, '0')}-${String(work.day).padStart(2, '0')}"` : ''}>${escapeText(date)}</time>` : ''}
           ${renderHashtagLink(work)}
         `;
-        sectionsHtml = `${priceHtml}${detailHtml}${requirementsHtml}${hashtagHtml}`;
+        sectionsHtml = `${priceHtml}${detailHtml}${requirementsHtml}`;
       } else {
         const storyBody = work.story || work.desc || '';
         const overview = work.overview || {};
