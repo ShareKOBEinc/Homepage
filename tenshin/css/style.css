@@ -4,7 +4,7 @@
 
 :root {
   --base: #d12f1a;
-  --base-deep: #a82414;
+  --base-deep: #7d1c10;
   --sub: #fffdf0;
   --ink: #3f3b3a;
   --font: "Noto Sans JP", "Hiragino Sans", sans-serif;
@@ -151,6 +151,71 @@ a { color: inherit; text-decoration: none; }
 .tenshin-form .tenshin-btn { margin-top: 0; }
 
 .tenshin-step { margin-top: 28px; }
+
+.talk {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.talk-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+}
+
+.talk-icon {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 80px;
+  object-fit: contain;
+}
+
+.talk-bubble {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  margin: 6px 0 0;
+  padding: 12px 14px;
+  background: #fff;
+  border: 2px solid var(--base);
+  border-radius: 4px 16px 16px 16px;
+  color: var(--ink);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.talk-bubble::before,
+.talk-bubble::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.talk-bubble::before {
+  top: 18px;
+  left: -10px;
+  border-width: 8px 10px 8px 0;
+  border-color: transparent var(--base) transparent transparent;
+}
+
+.talk-bubble::after {
+  top: 20px;
+  left: -6px;
+  border-width: 6px 8px 6px 0;
+  border-color: transparent #fff transparent transparent;
+}
+
+.talk-em {
+  color: var(--base);
+  font-weight: 700;
+}
 
 .tenshin-step-bar {
   width: calc(100% + var(--pad-x) * 2);
@@ -320,13 +385,17 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (min-width: 768px) {
-  body.page-tenshin { background: #ebe6d4; }
+  body.page-tenshin { background: var(--base-deep); }
 
-  .tenshin-sheet {
+  .tenshin-sheet,
+  .site-footer {
     width: min(100%, 720px);
-    margin: 0 auto;
-    background: var(--sub);
+    margin-left: auto;
+    margin-right: auto;
   }
+
+  .tenshin-sheet { background: var(--sub); }
+  .site-footer { background: var(--sub); }
 
   .tenshin-wrap {
     --pad-x: 32px;

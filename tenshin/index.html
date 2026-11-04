@@ -15,6 +15,7 @@
   <style>
     /* CSSファイルが読めない場合でも背景と画像が見えるようにする */
     body.page-tenshin { margin: 0; background: #fffdf0; color: #3f3b3a; font-family: "Noto Sans JP", "Hiragino Sans", sans-serif; text-align: center; }
+    @media (min-width: 768px) { body.page-tenshin { background: #7d1c10; } }
     .tenshin-hero { margin: 0; }
     .tenshin-hero img { width: 100%; max-width: 100%; height: auto; display: block; }
   </style>
@@ -186,6 +187,48 @@
         return [...variantsOf(value)].some((item) => accepted.has(item));
       }
 
+      function prologueHtml() {
+        const icon = "/tenshin/1024x1024_icon_tantan.webp";
+        const bubbles = [
+          [
+            "「ひらめき飯店」へようこそ！",
+            "ここは謎解きをまるで”中華料理”のように振る舞うお店です。",
+            "どうぞ心ゆくまで中華の謎解きを堪能してください！",
+          ],
+          [
+            "あ、申し遅れました。",
+            "私はつい最近このお店に入ったタンタンと申します。",
+            "まだまだみならいの身ですが、何卒よろしくお願いします！",
+          ],
+          ["では、早速本日ご提供する料理についてご説明いたします。"],
+          ["今回ご提供するのは〜〜〜〜〜〜〜〜〜〜"],
+          ["点心セットです！"],
+          ["中でも今回は蒸し料理に特化しておりますので、楽しみにしていてください♩"],
+          ["それでは、今からお作りいたしますので、少々お待ちください。"],
+          [
+            "店長から「<span class=\"talk-em\">最後にひと蒸しをすることを忘れないように</span>」と言われたから、忘れずやるぞ〜！",
+          ],
+        ];
+        const lines = bubbles
+          .map((parts, index) => {
+            const body = parts
+              .map((part) => (part.includes("talk-em") ? part : escapeHtml(part)))
+              .join("<br>");
+            const alt = index === 0 ? "タンタン" : "";
+            return `
+              <div class="talk-line">
+                <img class="talk-icon" src="${icon}" alt="${alt}" width="1024" height="1024">
+                <p class="talk-bubble">${body}</p>
+              </div>`;
+          })
+          .join("");
+        return `
+          <section class="tenshin-step tenshin-prologue" aria-labelledby="prologue-title">
+            <h3 class="tenshin-step-bar" id="prologue-title">序章</h3>
+            <div class="talk">${lines}</div>
+          </section>`;
+      }
+
       function stepHtml(step, index, state, submitted) {
         const locked = state === "done";
         const valueAttr = locked ? ` value="${escapeHtml(submitted || "")}"` : "";
@@ -227,7 +270,7 @@
 
       function renderSteps(solved, currentOpen) {
         const mount = document.getElementById("tenshin-steps");
-        const parts = [];
+        const parts = [prologueHtml()];
         for (let i = 0; i < solved; i += 1) {
           parts.push(stepHtml(data.steps[i], i, "done", progress.answers[i]));
         }
@@ -236,7 +279,13 @@
         }
         mount.innerHTML = parts.join("");
         const nextInput = mount.querySelector(".tenshin-form:not(.is-locked) input");
-        if (nextInput) nextInput.focus();
+        const prologue = mount.querySelector(".tenshin-prologue");
+        if (solved === 0 && prologue) {
+          prologue.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (nextInput) nextInput.focus({ preventScroll: true });
+        } else if (nextInput) {
+          nextInput.focus();
+        }
       }
 
       document.getElementById("tenshin-title").textContent = data.title || "はじめに";
