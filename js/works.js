@@ -164,7 +164,10 @@
         </div>`
       : categories;
 
-    const url = work.url || (isGoods(work) ? '' : `works/${encodeURIComponent(work.id)}.html`);
+    const url = work.url
+      || (isGoods(work)
+        ? `goods/${encodeURIComponent(work.id)}.html`
+        : `works/${encodeURIComponent(work.id)}.html`);
     const link = url
       ? `<a href="${url}" class="work-card__link" aria-label="${work.title}を見る"></a>`
       : '';
@@ -229,11 +232,15 @@
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-  const formatHashtag = (work) => {
-    const raw = String(work.hashtag || '').trim();
-    if (!raw) return '';
-    return raw.startsWith('#') ? raw : `#${raw}`;
+  const normalizeHashtags = (value) => {
+    const list = Array.isArray(value) ? value : [value];
+    return list
+      .map((item) => String(item || '').trim())
+      .filter(Boolean)
+      .map((raw) => (raw.startsWith('#') ? raw : `#${raw}`));
   };
+
+  const formatHashtag = (work) => normalizeHashtags(work.hashtag)[0] || '';
 
   const hashtagSearchUrl = (hashtag) => {
     const tag = String(hashtag || '').replace(/^#/, '');
@@ -242,10 +249,12 @@
   };
 
   const renderHashtagLink = (work, className = 'work-hero__hashtag') => {
-    const label = formatHashtag(work);
-    const url = hashtagSearchUrl(label);
-    if (!label || !url) return '';
-    return `
+    const labels = normalizeHashtags(work.hashtag);
+    if (!labels.length) return '';
+    return labels.map((label) => {
+      const url = hashtagSearchUrl(label);
+      if (!url) return '';
+      return `
       <a
         class="${className}"
         href="${escapeText(url)}"
@@ -253,6 +262,7 @@
         rel="noopener noreferrer"
       >${escapeText(label)}</a>
     `;
+    }).join('');
   };
 
   // Shared flow tempo (keep in sync with css `.marquee__track` duration)
@@ -495,7 +505,9 @@
       || '';
     const work = [...worksList, ...goodsWorks].find((item) => item.id === workId);
     const assetBase = document.body.dataset.assetBase || '';
-    const backHref = `${assetBase}works.html`;
+    const goodsMode = Boolean(work && isGoods(work));
+    const backHref = `${assetBase}${goodsMode ? 'goods.html' : 'works.html'}`;
+    const backLabel = goodsMode ? 'Back to Goods' : 'Back to Works';
 
     const escapeText = (value) => String(value ?? '')
       .replace(/&/g, '&amp;')
@@ -525,10 +537,10 @@
       `;
     };
 
-    if (!work || isGoods(work)) {
+    if (!work) {
       workDetail.innerHTML = `
         <section class="page-hero page-hero--compact">
-          <a href="${backHref}" class="page-hero__back reveal">
+          <a href="${assetBase}works.html" class="page-hero__back reveal">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M16 10H4M8 6l-4 4 4 4" stroke="currentColor" stroke-width="1.5"/>
             </svg>
@@ -540,22 +552,6 @@
       `;
     } else {
       const date = formatWorkDate(work);
-      const storyBody = work.story || work.desc || '';
-      const overview = work.overview || {};
-      const overviewItems = [
-        ['チーム人数', overview.team],
-        ['所要時間', overview.duration],
-        ['スタート形式', overview.start],
-        ['開催場所', overview.location || work.place],
-        ['開催形式', overview.format],
-      ].map(([label, value]) => [label, value || '—']);
-
-      const schedule = work.schedule || {};
-      const schedulePeriod = schedule.period || (date ? `${date}` : '');
-      const scheduleSlots = Array.isArray(schedule.slots) ? schedule.slots : [];
-
-      const tickets = Array.isArray(work.tickets) ? work.tickets : [];
-
       const media = work.image
         ? (() => {
             const src = encodeImagePath(resolveImagePath(work.image));
@@ -569,20 +565,101 @@
 
       document.title = `${work.title} | ShareKOBE`;
 
-      const storyHtml = storyBody
-        ? renderBlock(
-          'STORY',
-          'ストーリー',
-          `
+      let sectionsHtml = '';
+      let copyHtml = '';
+
+      if (goodsMode) {
+        const detailBody = work.detail || work.desc || '';
+        const requirements = Array.isArray(work.requirements)
+          ? work.requirements.map((item) => String(item || '').trim()).filter(Boolean)
+          : String(work.requirements || '')
+            .split(/\n+/)
+            .map((item) => item.trim())
+            .filter(Boolean);
+        const priceLabel = String(work.price || '').trim();
+
+        const priceHtml = priceLabel
+          ? renderBlock(
+            'PRICE',
+            '価格',
+            `
+              <div class="work-ticket">
+                <div class="work-ticket__row">
+                  <span class="work-ticket__label">本体価格</span>
+                  <span class="work-ticket__price">${escapeText(priceLabel)}<small>円</small></span>
+                </div>
+              </div>
+            `
+          )
+          : '';
+
+        const detailHtml = detailBody
+          ? renderBlock(
+            'DETAIL',
+            '商品詳細',
+            `<div class="work-block__text">${toParagraphs(detailBody)}</div>`
+          )
+          : '';
+
+        const requirementsHtml = requirements.length
+          ? renderBlock(
+            'REQUIREMENTS',
+            '必要物',
+            `
+              <div class="work-block__text">
+                <ul class="work-goods-list">
+                  ${requirements.map((item) => `<li>${escapeText(item)}</li>`).join('')}
+                </ul>
+              </div>
+            `
+          )
+          : '';
+
+        const hashtagHtml = normalizeHashtags(work.hashtag).length
+          ? renderBlock(
+            'HASHTAG',
+            'ハッシュタグ',
+            `<div class="work-hero__hashtags">${renderHashtagLink(work)}</div>`
+          )
+          : '';
+
+        copyHtml = `
+          <h1 class="work-hero__title">${escapeText(work.title)}</h1>
+          ${priceLabel ? `<p class="work-hero__tagline">${escapeText(priceLabel)}円</p>` : ''}
+          ${date ? `<time class="work-hero__date"${work.year && work.month && work.day ? ` datetime="${work.year}-${String(work.month).padStart(2, '0')}-${String(work.day).padStart(2, '0')}"` : ''}>${escapeText(date)}</time>` : ''}
+          ${renderHashtagLink(work)}
+        `;
+        sectionsHtml = `${priceHtml}${detailHtml}${requirementsHtml}${hashtagHtml}`;
+      } else {
+        const storyBody = work.story || work.desc || '';
+        const overview = work.overview || {};
+        const overviewItems = [
+          ['チーム人数', overview.team],
+          ['所要時間', overview.duration],
+          ['スタート形式', overview.start],
+          ['開催場所', overview.location || work.place],
+          ['開催形式', overview.format],
+        ].map(([label, value]) => [label, value || '—']);
+
+        const schedule = work.schedule || {};
+        const schedulePeriod = schedule.period || (date ? `${date}` : '');
+        const scheduleSlots = Array.isArray(schedule.slots) ? schedule.slots : [];
+        const tickets = Array.isArray(work.tickets) ? work.tickets : [];
+
+        const storyHtml = storyBody
+          ? renderBlock(
+            'STORY',
+            'ストーリー',
+            `
             <div class="work-block__text">${toParagraphs(storyBody)}</div>
           `
-        )
-        : '';
+          )
+          : '';
 
-      const overviewHtml = renderBlock(
-        'OVERVIEW',
-        'イベント概要',
-        `
+        const overviewHtml = renderBlock(
+          'OVERVIEW',
+          'イベント概要',
+          `
           <dl class="work-overview">
             ${overviewItems.map(([label, value]) => `
               <div class="work-overview__item">
@@ -593,13 +670,13 @@
           </dl>
           ${overview.note ? `<p class="work-overview__note">${escapeText(overview.note)}</p>` : ''}
         `
-      );
+        );
 
-      const scheduleHtml = (schedulePeriod || scheduleSlots.length)
-        ? renderBlock(
-          'SCHEDULE',
-          '開催日程',
-          `
+        const scheduleHtml = (schedulePeriod || scheduleSlots.length)
+          ? renderBlock(
+            'SCHEDULE',
+            '開催日程',
+            `
             ${schedulePeriod ? `<p class="work-schedule__period">${escapeText(schedulePeriod)}</p>` : ''}
             ${scheduleSlots.length ? `
               <ul class="work-schedule__list">
@@ -613,14 +690,14 @@
             ` : ''}
             ${schedule.note ? `<div class="work-block__text" style="margin-top:1.25rem">${toParagraphs(schedule.note)}</div>` : ''}
           `
-        )
-        : '';
+          )
+          : '';
 
-      const ticketHtml = tickets.length
-        ? renderBlock(
-          'TICKET',
-          'チケット情報',
-          `
+        const ticketHtml = tickets.length
+          ? renderBlock(
+            'TICKET',
+            'チケット情報',
+            `
             <div class="work-ticket">
               ${tickets.map((ticket) => `
                 <div class="work-ticket__row">
@@ -631,13 +708,13 @@
             </div>
             ${work.ticketNotes ? `<div class="work-ticket__notes work-block__text">${toParagraphs(work.ticketNotes)}</div>` : ''}
           `
-        )
-        : '';
+          )
+          : '';
 
-      const officialUrl = work.officialUrl || work.siteUrl || '';
-      const officialLabel = work.officialLabel || '特設サイトを見る';
-      const officialHtml = officialUrl
-        ? `
+        const officialUrl = work.officialUrl || work.siteUrl || '';
+        const officialLabel = work.officialLabel || '特設サイトを見る';
+        const officialHtml = officialUrl
+          ? `
           <a
             href="${escapeText(officialUrl)}"
             class="btn-outline work-detail__official"
@@ -645,7 +722,18 @@
             rel="noopener noreferrer"
           >${escapeText(officialLabel)} →</a>
         `
-        : '';
+          : '';
+
+        copyHtml = `
+          ${work.place ? `<p class="work-hero__place">${escapeText(work.place)}</p>` : ''}
+          <h1 class="work-hero__title">${escapeText(work.title)}</h1>
+          ${work.tagline ? `<p class="work-hero__tagline">${escapeText(work.tagline)}</p>` : ''}
+          ${date ? `<time class="work-hero__date"${work.year && work.month && work.day ? ` datetime="${work.year}-${String(work.month).padStart(2, '0')}-${String(work.day).padStart(2, '0')}"` : ''}>${escapeText(date)}</time>` : ''}
+          ${renderHashtagLink(work)}
+          ${officialHtml ? `<div class="work-hero__official">${officialHtml}</div>` : ''}
+        `;
+        sectionsHtml = `${storyHtml}${overviewHtml}${scheduleHtml}${ticketHtml}`;
+      }
 
       workDetail.innerHTML = `
         <section class="work-hero">
@@ -653,7 +741,7 @@
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none" aria-hidden="true">
               <path d="M16 10H4M8 6l-4 4 4 4" stroke="currentColor" stroke-width="1.5"/>
             </svg>
-            Back to Works
+            ${backLabel}
           </a>
 
           <div class="work-detail">
@@ -663,19 +751,11 @@
 
             <div class="work-detail__content">
               <div class="work-hero__copy reveal">
-                ${work.place ? `<p class="work-hero__place">${escapeText(work.place)}</p>` : ''}
-                <h1 class="work-hero__title">${escapeText(work.title)}</h1>
-                ${work.tagline ? `<p class="work-hero__tagline">${escapeText(work.tagline)}</p>` : ''}
-                ${date ? `<time class="work-hero__date"${work.year && work.month && work.day ? ` datetime="${work.year}-${String(work.month).padStart(2, '0')}-${String(work.day).padStart(2, '0')}"` : ''}>${escapeText(date)}</time>` : ''}
-                ${renderHashtagLink(work)}
-                ${officialHtml ? `<div class="work-hero__official">${officialHtml}</div>` : ''}
+                ${copyHtml}
               </div>
 
               <div class="work-sections">
-                ${storyHtml}
-                ${overviewHtml}
-                ${scheduleHtml}
-                ${ticketHtml}
+                ${sectionsHtml}
               </div>
             </div>
           </div>

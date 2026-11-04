@@ -3,7 +3,7 @@
  * 使い方: node scripts/generate-work-pages.js
  *
  * works-archive.js / works-data.js を更新したあと実行してください。
- * （キットは goods-data.js のため、個別ページ生成対象外です）
+ * （キットは goods-data.js → node scripts/generate-goods-pages.js）
  */
 const fs = require('fs');
 const path = require('path');
