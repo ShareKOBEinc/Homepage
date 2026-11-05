@@ -145,7 +145,7 @@ const GOODS = [
     hashtag: '#オシリドル',
   },
   {
-    id: 'rifine',
+    id: 'refine',
     title: 'refine',
     category: 'キット',
     year: 2026,
