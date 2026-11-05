@@ -78,38 +78,250 @@
       resetConfirm: "最初の状態に戻しますか？",
       correctMessage: "正解！",
       wrongMessage: "間違っているようです。",
+      answerLabel: "答えは？",
+      /**
+       * blocks:
+       *   narration   … PDFの【】地の文
+       *   talk        … タンタンのセリフ（吹き出し）
+       *   instruction … PDFの「指示」→ この直後に入力欄
+       */
       steps: [
         {
           label: "一品目",
-          open: "一品目を開けてください",
-          question: "答えは？",
-          answers: ["おおばん", "大判", "大盤"],
+          answers: ["大判", "おおばん"],
+          blocks: [
+            {
+              type: "narration",
+              text: "一品目の封筒を開け、内容物が確認できたら、以下を読みましょう。",
+            },
+            {
+              type: "talk",
+              lines: [
+                ["さぁまず一品目はこちら！", "「焼売」です！"],
+                [
+                  "って、すみません！",
+                  "あれを載せ忘れてました…",
+                  "あのー、あれですよ、あれ…",
+                  "なんていうやつだっけ…",
+                  "…………",
+                ],
+                [
+                  "ちょっと申し訳ないんですが、全然思い出せずでして…もしよければ、あるものが載ってない状態で解いていただけますでしょうか？",
+                  "その方が歯応えある謎にはなってると思うので…",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "あなたは怪訝に思いつつも、まだまだ見習いだし、しょうがないかと思い、タンタンのお願いに乗じて、謎を解き始めました。",
+            },
+            {
+              type: "instruction",
+              text: "各段の謎には、あるものが載っていない状態になっています。そのあるものを考えながら、一品目のフタの答えを導きましょう。",
+            },
+          ],
         },
         {
           label: "二品目",
-          open: "二品目を開けてください",
-          question: "答えは？",
-          answers: ["どうめい", "同盟", "同名", "道明"],
+          answers: ["同盟", "どうめい"],
+          blocks: [
+            {
+              type: "talk",
+              lines: [
+                ["正解です！", "まさかほんとにこの状態で解き明かすとは！"],
+                [
+                  "お客さん、さてはなかなかの通ですね…？",
+                  "何はともあれ、次はちゃんと全て載せた状態で提供するので、ご安心ください。",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "二品目の封筒を開け、内容物が確認できたら、以下を読みましょう。",
+            },
+            {
+              type: "talk",
+              lines: [
+                [
+                  "さて続いては、「粽子」です！",
+                  "いわゆる、ちまきってやつですね。",
+                  "ちまきといえば、天獅堂！",
+                  "ここは、南京町でも唯一のちまき専門店で…………",
+                ],
+                [
+                  "あっ！今回は関係のない具まで包んじゃってる！",
+                  "すみませんすみませんすみません！！",
+                ],
+                [
+                  "全部確認することはもちろん簡単なのですが、ちゃんとした粽子も紛れているので、むやみに開けるのは得策ではないですね…",
+                  "そういえば、さっきお客さん。",
+                  "グリーンピースなしでシュウマイの謎を解き明かしましたよね…？",
+                  "なら今回もどうにか解けるはずです！！",
+                ],
+                [
+                  "私から覚えてる限りのことを書いたメモを渡しますので、どうにかこちらを元に考えていただけませんか？？？",
+                  "お手数おかけして申し訳ございません！",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "またか…とあなたは思いましたが、さっき解けたことは事実。渋々二品目もパンダのお願いを引き受けながら、謎を解くのでした。",
+            },
+            {
+              type: "instruction",
+              text: "メモを元に、フタと各段に書かれた粽子の中身を予想して、二品目のフタの答えを導きましょう。（ふつうの粽子もあるので注意）",
+            },
+          ],
         },
         {
           label: "三品目",
-          open: "三品目を開けてください",
-          question: "答えは？",
-          answers: ["いまごろ", "今頃"],
+          answers: ["今頃", "いまごろ"],
+          blocks: [
+            {
+              type: "talk",
+              lines: [
+                ["正解です！", "まさかこんな状態でも本当に解けてしまうとは…。"],
+                ["3度目の正直、今度こそは正しく提供するので少々お待ちください。"],
+              ],
+            },
+            {
+              type: "narration",
+              text: "三品目の封筒を開け、内容物が確認できたら、以下を読みましょう。",
+            },
+            {
+              type: "talk",
+              lines: [
+                ["おまたせしました！", "三品目は、、、"],
+                ["おっとっと！", "危ない危ないコケるとこでした。", "さすがにこれで中に支障は…"],
+                ["…………………………"],
+                [
+                  "誠に申し訳ございません！！！！！",
+                  "こけそうになった衝撃で、今回提供予定だった「小籠包」の中のスープが、謎に飛び散ってしまいました…",
+                  "こればっかりはどうしようもできないですね…",
+                  "どうにかスープがかかった状態で解き明かしてください。",
+                  "よろしくお願いします！",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "2度あることは3度ある。あなたは慣れた様子で謎を解き始めました。",
+            },
+            {
+              type: "instruction",
+              text: "スープがこぼれた場所の内容を予想しながら、三品目のフタの答えを導きましょう。",
+            },
+          ],
         },
         {
           label: "四品目",
-          open: "四品目を開けてください",
-          question: "答えは？",
-          answers: ["たつまき", "竜巻", "龍巻"],
+          answers: ["竜巻", "たつまき", "龍巻"],
+          blocks: [
+            {
+              type: "talk",
+              lines: [
+                ["正解です！", "お客さんは神様ですね！", "私のミスでこんなことなったのに…。"],
+                ["次、次こそは！！", "それでは、最後の四品目に進みましょう。"],
+              ],
+            },
+            {
+              type: "narration",
+              text: "四品目の封筒を開け、内容物が確認できたら、以下を読みましょう。",
+            },
+            {
+              type: "talk",
+              lines: [
+                ["最後の点心は、こちら！！", "「豚まん」です！！"],
+                [
+                  "やっぱり、南京町といったら老祥記の豚まん。",
+                  "これが非常に美味しいんですよね〜〜。",
+                ],
+                ["…………………………"],
+                [
+                  "最後の最後、謎はちゃんと作ったのに、豚まんの下に引く台紙を入れ忘れた〜〜〜〜！！！！",
+                  "あ〜〜〜、大変大変！！！",
+                  "あれがないとさすがに解けなすぎる…",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "ここまで解き明かしたあなたは、むしろこの展開を待っていたかのように、パンダに「このままでも解きますよ」と言います。",
+            },
+            {
+              type: "talk",
+              lines: [
+                ["ほ、ほんとですか！？"],
+                [
+                  "では、内容自体は覚えていないのですが、なんとなく覚えていることだけメモとしてお渡しいたしますので、こちらで解いていただけると！",
+                  "よろしくお願いします！",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "あなたは「囲（?）」と書かれたメモを手に四品目の謎に挑むのでした。",
+            },
+            {
+              type: "instruction",
+              text: "フタおよび各段は、もう一枚の紙を見て解く謎です。（見る紙は同じ）その紙を予想しながら、フタの謎の答えを導きましょう。",
+            },
+          ],
         },
         {
           label: "お会計",
-          open: "お会計を開けてください",
-          question: "答えは？",
           answers: ["驚き", "おどろき"],
+          blocks: [
+            {
+              type: "talk",
+              lines: [
+                ["正解です！", "なぜだ！なぜわかるお客さん！", "本当にお客さんには頭が上がりません…"],
+                [
+                  "それではこれで全ての料理の提供も終えたので、最後お会計といきましょうか！",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "お会計の封筒を開け、内容物が確認できたら、以下を読みましょう。",
+            },
+            {
+              type: "talk",
+              lines: [
+                [
+                  "最後のお会計はこちら！",
+                  "料理ではないので今回はちゃんと提供されているはずです。",
+                  "今までのことを思い出し、サクッと答えちゃいましょう！",
+                ],
+              ],
+            },
+            {
+              type: "narration",
+              text: "逆に何か欠けていないことに物足りなくなってしまう自分がいるものの、あなたはお会計の謎に挑むのでした。",
+            },
+            {
+              type: "instruction",
+              text: "今までのことを思い出し、お会計の謎を解き明かしましょう。",
+            },
+          ],
         },
       ],
+      ending: {
+        talk: [
+          [
+            "大正解！",
+            "最後の謎は「おどろき」。",
+            "まさかこんなにいろいろと消えている状態で解き明かすとは…！",
+            "まさに驚きです！！",
+          ],
+          [
+            "いつもだったらは見習いの私1人みたいなことはないので、もう1度「ひらめき飯店」に訪れてくださいね！",
+            "あ、実際の神戸の南京町に行くのも忘れずに！",
+          ],
+          ["本日はご来店誠にありがとうございました！"],
+        ],
+      },
     };
 
     (function () {
@@ -187,8 +399,49 @@
         return [...variantsOf(value)].some((item) => accepted.has(item));
       }
 
+      const TALK_ICON = "/tenshin/1024x1024_icon_tantan.webp";
+
+      function talkHtml(bubbles, { firstAlt = "" } = {}) {
+        return `<div class="talk">${(bubbles || [])
+          .map((parts, index) => {
+            const lines = Array.isArray(parts) ? parts : [parts];
+            const body = lines
+              .map((part) =>
+                String(part).includes("talk-em") ? String(part) : escapeHtml(part)
+              )
+              .join("<br>");
+            const alt = index === 0 ? firstAlt : "";
+            return `
+              <div class="talk-line">
+                <img class="talk-icon" src="${TALK_ICON}" alt="${escapeHtml(alt)}" width="1024" height="1024">
+                <p class="talk-bubble">${body}</p>
+              </div>`;
+          })
+          .join("")}</div>`;
+      }
+
+      function blocksHtml(blocks) {
+        return (blocks || [])
+          .map((block) => {
+            if (block.type === "narration") {
+              return `<p class="tenshin-narration">${escapeHtml(block.text)}</p>`;
+            }
+            if (block.type === "instruction") {
+              return `
+                <div class="tenshin-instruction">
+                  <p class="tenshin-instruction__label">指示</p>
+                  <p class="tenshin-instruction__text">${escapeHtml(block.text)}</p>
+                </div>`;
+            }
+            if (block.type === "talk") {
+              return talkHtml(block.lines);
+            }
+            return "";
+          })
+          .join("");
+      }
+
       function prologueHtml() {
-        const icon = "/tenshin/1024x1024_icon_tantan.webp";
         const bubbles = [
           [
             "「ひらめき飯店」へようこそ！",
@@ -209,40 +462,45 @@
             "店長から「<span class=\"talk-em\">最後にひと蒸しをすることを忘れないように</span>」と言われたから、忘れずやるぞ〜！",
           ],
         ];
-        const lines = bubbles
-          .map((parts, index) => {
-            const body = parts
-              .map((part) => (part.includes("talk-em") ? part : escapeHtml(part)))
-              .join("<br>");
-            const alt = index === 0 ? "タンタン" : "";
-            return `
-              <div class="talk-line">
-                <img class="talk-icon" src="${icon}" alt="${alt}" width="1024" height="1024">
-                <p class="talk-bubble">${body}</p>
-              </div>`;
-          })
-          .join("");
         return `
           <section class="tenshin-step tenshin-prologue" aria-labelledby="prologue-title">
             <h3 class="tenshin-step-bar" id="prologue-title">序章</h3>
-            <div class="talk">${lines}</div>
+            ${talkHtml(bubbles, { firstAlt: "タンタン" })}
           </section>`;
       }
 
-      function stepHtml(step, index, state, submitted) {
+      function formHtml(index, state, submitted) {
         const locked = state === "done";
         const valueAttr = locked ? ` value="${escapeHtml(submitted || "")}"` : "";
         return `
+          <p class="tenshin-q">${escapeHtml(data.answerLabel || "答えは？")}</p>
+          <form class="tenshin-form${locked ? " is-locked" : ""}" data-index="${index}">
+            <label class="visually-hidden" for="answer-${index}">答え</label>
+            <input id="answer-${index}" name="answer" type="text" autocomplete="off" inputmode="text"${valueAttr}${locked ? " readonly tabindex=\"-1\"" : ""}>
+            <button class="tenshin-btn" type="submit"${locked ? " disabled" : ""}>送信</button>
+            ${locked ? "" : `<p class="tenshin-ng" hidden>${escapeHtml(data.wrongMessage)}</p>`}
+          </form>`;
+      }
+
+      function stepHtml(step, index, state, submitted) {
+        return `
           <section class="tenshin-step" data-step="${index}">
             <h3 class="tenshin-step-bar">${escapeHtml(step.label)}</h3>
-            <p class="tenshin-open">${escapeHtml(step.open)}</p>
-            <p class="tenshin-q">${escapeHtml(step.question)}</p>
-            <form class="tenshin-form${locked ? " is-locked" : ""}" data-index="${index}">
-              <label class="visually-hidden" for="answer-${index}">答え</label>
-              <input id="answer-${index}" name="answer" type="text" autocomplete="off" inputmode="text"${valueAttr}${locked ? " readonly tabindex=\"-1\"" : ""}>
-              <button class="tenshin-btn" type="submit"${locked ? " disabled" : ""}>送信</button>
-              ${locked ? "" : `<p class="tenshin-ng" hidden>${escapeHtml(data.wrongMessage)}</p>`}
-            </form>
+            ${blocksHtml(step.blocks)}
+            ${formHtml(index, state, submitted)}
+          </section>`;
+      }
+
+      function endingHtml() {
+        const ending = data.ending;
+        if (!ending) return "";
+        return `
+          <section class="tenshin-step tenshin-ending" aria-labelledby="ending-title">
+            <h3 class="tenshin-step-bar" id="ending-title">おしまい</h3>
+            ${talkHtml(ending.talk || [], { firstAlt: "タンタン" })}
+            <p class="tenshin-clear-art">
+              <img src="/tenshin/tenshin_clear.png" alt="クリア" width="1024" height="1024">
+            </p>
           </section>`;
       }
 
@@ -277,11 +535,17 @@
         if (currentOpen && solved < data.steps.length) {
           parts.push(stepHtml(data.steps[solved], solved, "open"));
         }
+        if (solved >= data.steps.length) {
+          parts.push(endingHtml());
+        }
         mount.innerHTML = parts.join("");
         const nextInput = mount.querySelector(".tenshin-form:not(.is-locked) input");
-        const prologue = mount.querySelector(".tenshin-prologue");
-        if (solved === 0 && prologue) {
-          prologue.scrollIntoView({ behavior: "smooth", block: "start" });
+        const nextStep = mount.querySelector(`.tenshin-step[data-step="${solved}"]`);
+        const ending = mount.querySelector(".tenshin-ending");
+        if (ending && solved >= data.steps.length) {
+          ending.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (nextStep) {
+          nextStep.scrollIntoView({ behavior: "smooth", block: "start" });
           if (nextInput) nextInput.focus({ preventScroll: true });
         } else if (nextInput) {
           nextInput.focus();
