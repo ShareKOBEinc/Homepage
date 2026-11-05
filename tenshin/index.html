@@ -74,6 +74,7 @@
       ],
       hintLabel: "ヒント",
       startLabel: "始める",
+      serveLabel: "提供開始",
       resetLabel: "最初に戻す（編集用）",
       resetConfirm: "最初の状態に戻しますか？",
       correctMessage: "正解！",
@@ -362,7 +363,7 @@
       }
 
       function emptyProgress() {
-        return { started: false, solved: 0, answers: [] };
+        return { started: false, serving: false, solved: 0, answers: [] };
       }
 
       function loadProgress() {
@@ -376,6 +377,8 @@
             : [];
           return {
             started: Boolean(parsed.started),
+            // 途中まで解いている保存データは提供開始済みとみなす
+            serving: Boolean(parsed.serving) || solved > 0,
             solved,
             answers,
           };
@@ -441,7 +444,7 @@
           .join("");
       }
 
-      function prologueHtml() {
+      function prologueHtml(showServeButton) {
         const bubbles = [
           [
             "「ひらめき飯店」へようこそ！",
@@ -462,10 +465,16 @@
             "店長から「<span class=\"talk-em\">最後にひと蒸しをすることを忘れないように</span>」と言われたから、忘れずやるぞ〜！",
           ],
         ];
+        const serveBtn = showServeButton
+          ? `<button class="tenshin-btn" id="serve-btn" type="button">${escapeHtml(
+              data.serveLabel || "提供開始"
+            )}</button>`
+          : "";
         return `
           <section class="tenshin-step tenshin-prologue" aria-labelledby="prologue-title">
             <h3 class="tenshin-step-bar" id="prologue-title">序章</h3>
             ${talkHtml(bubbles, { firstAlt: "タンタン" })}
+            ${serveBtn}
           </section>`;
       }
 
@@ -528,21 +537,38 @@
 
       function renderSteps(solved, currentOpen) {
         const mount = document.getElementById("tenshin-steps");
-        const parts = [prologueHtml()];
-        for (let i = 0; i < solved; i += 1) {
-          parts.push(stepHtml(data.steps[i], i, "done", progress.answers[i]));
-        }
-        if (currentOpen && solved < data.steps.length) {
-          parts.push(stepHtml(data.steps[solved], solved, "open"));
-        }
-        if (solved >= data.steps.length) {
-          parts.push(endingHtml());
+        const serving = Boolean(progress.serving);
+        const parts = [prologueHtml(!serving && solved === 0)];
+        if (serving || solved > 0) {
+          for (let i = 0; i < solved; i += 1) {
+            parts.push(stepHtml(data.steps[i], i, "done", progress.answers[i]));
+          }
+          if (currentOpen && solved < data.steps.length) {
+            parts.push(stepHtml(data.steps[solved], solved, "open"));
+          }
+          if (solved >= data.steps.length) {
+            parts.push(endingHtml());
+          }
         }
         mount.innerHTML = parts.join("");
+
+        const serveBtn = document.getElementById("serve-btn");
+        if (serveBtn) {
+          serveBtn.addEventListener("click", () => {
+            if (progress.serving) return;
+            progress.serving = true;
+            saveProgress(progress);
+            renderSteps(progress.solved, true);
+          });
+        }
+
         const nextInput = mount.querySelector(".tenshin-form:not(.is-locked) input");
         const nextStep = mount.querySelector(`.tenshin-step[data-step="${solved}"]`);
         const ending = mount.querySelector(".tenshin-ending");
-        if (ending && solved >= data.steps.length) {
+        const prologue = mount.querySelector(".tenshin-prologue");
+        if (!serving && solved === 0 && prologue) {
+          prologue.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (ending && solved >= data.steps.length) {
           ending.scrollIntoView({ behavior: "smooth", block: "start" });
         } else if (nextStep) {
           nextStep.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -574,17 +600,19 @@
 
       const progress = loadProgress();
 
-      function begin() {
+      function begin(fromRestore) {
         progress.started = true;
+        if (!fromRestore) progress.serving = false;
         saveProgress(progress);
         startBtn.classList.add("is-hidden");
-        renderSteps(progress.solved, true);
+        renderSteps(progress.solved, Boolean(progress.serving));
       }
 
       function resetToStart() {
         if (!window.confirm(data.resetConfirm || "最初の状態に戻しますか？")) return;
         sessionStorage.removeItem(STORAGE_KEY);
         progress.started = false;
+        progress.serving = false;
         progress.solved = 0;
         progress.answers = [];
         startBtn.classList.remove("is-hidden");
@@ -597,11 +625,11 @@
         window.scrollTo(0, 0);
       }
 
-      if (progress.started) begin();
+      if (progress.started) begin(true);
 
       startBtn.addEventListener("click", () => {
         if (progress.started) return;
-        begin();
+        begin(false);
       });
 
       if (resetBtn) resetBtn.addEventListener("click", resetToStart);
