@@ -283,6 +283,22 @@ a { color: inherit; text-decoration: none; }
   margin: 0 auto;
 }
 
+.tenshin-share {
+  margin: 20px 0 0;
+}
+
+.tenshin-share a {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  margin: 0 auto;
+}
+
+.tenshin-share img {
+  width: 100%;
+  height: auto;
+}
+
 .tenshin-form {
   display: flex;
   flex-direction: column;
