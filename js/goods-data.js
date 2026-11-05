@@ -188,6 +188,9 @@ const GOODS = [
       'スマートフォン',
     ],
     hashtag: '#シャレコウベパンダ',
+    ogImage: '/assets/tenshin.jpeg?v=20261106',
+    ogImageWidth: 1199,
+    ogImageHeight: 848,
   },
 ];
 

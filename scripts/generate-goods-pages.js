@@ -50,6 +50,12 @@ const ogMeta = (item) => {
   ];
   if (image) {
     lines.push(`<meta property="og:image" content="${escapeHtml(image)}">`);
+    if (item.ogImageWidth) {
+      lines.push(`<meta property="og:image:width" content="${escapeHtml(item.ogImageWidth)}">`);
+    }
+    if (item.ogImageHeight) {
+      lines.push(`<meta property="og:image:height" content="${escapeHtml(item.ogImageHeight)}">`);
+    }
     lines.push(`<meta name="twitter:card" content="summary_large_image">`);
     lines.push(`<meta name="twitter:image" content="${escapeHtml(image)}">`);
   }
