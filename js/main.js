@@ -222,45 +222,25 @@
       select.addEventListener('blur', markTouched);
     });
 
-    contactForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
+    contactForm.addEventListener('submit', (e) => {
       requiredSelects.forEach((select) => select.classList.add('is-touched'));
 
       if (!contactForm.checkValidity()) {
+        e.preventDefault();
         contactForm.reportValidity();
+        return;
+      }
+
+      if (/REPLACE_ME/i.test(contactForm.action)) {
+        e.preventDefault();
+        alert('お問い合わせフォームの設定が完了していません。しばらくしてから再度お試しください。');
         return;
       }
 
       const btn = contactForm.querySelector('.btn-submit');
       const btnText = btn.querySelector('span');
-      const original = btnText.textContent;
-
       btn.disabled = true;
-      btnText.textContent = '送信中...';
-
-      try {
-        const response = await fetch(contactForm.action, {
-          method: 'POST',
-          body: new FormData(contactForm),
-          headers: { Accept: 'application/json' },
-        });
-
-        if (!response.ok) throw new Error('送信に失敗しました');
-
-        btnText.textContent = '送信完了！';
-        contactForm.reset();
-        setTimeout(() => {
-          btnText.textContent = original;
-          btn.disabled = false;
-        }, 3000);
-      } catch {
-        btnText.textContent = '送信に失敗しました';
-        setTimeout(() => {
-          btnText.textContent = original;
-          btn.disabled = false;
-        }, 3000);
-      }
+      if (btnText) btnText.textContent = '送信中...';
     });
   }
 })();

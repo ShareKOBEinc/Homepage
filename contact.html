@@ -59,29 +59,32 @@
       </a>
       <h1 class="page-hero__title reveal">Contact</h1>
       <p class="page-hero__desc reveal">
-        イベント制作等のご相談、お見積りのご依頼など、お気軽にお問い合わせください。
+        イベント制作等のご相談、お見積りのご依頼など、お気軽にお問い合わせください。<br>
+        メールの場合は <a href="mailto:sharekobe.sharekobe@gmail.com">sharekobe.sharekobe@gmail.com</a> まで直接ご連絡ください。
       </p>
     </section>
 
     <section class="contact contact--page">
       <div class="contact__layout">
         <div class="contact__form-wrap reveal">
+          <!-- SSGform: action にマイページで発行した専用URLを設定 -->
           <form
             class="contact__form"
             id="contactForm"
-            action="https://formsubmit.co/sharekobe.sharekobe@gmail.com"
-            method="POST"
+            action="https://ssgform.com/s/JwIu9lo6OEyi"
+            method="post"
           >
-            <input type="hidden" name="_subject" value="ShareKOBE お問い合わせ">
-            <input type="hidden" name="_template" value="table">
-            <input type="text" name="_honey" class="form-honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="form-honey" aria-hidden="true">
+              <label for="wana">Leave blank</label>
+              <input type="text" id="wana" name="wana" tabindex="-1" autocomplete="off">
+            </div>
             <div class="form-row">
               <label for="name">お名前 <span class="form-required" aria-hidden="true">必須</span></label>
-              <input type="text" id="name" name="name" required placeholder="山田 太郎" autocomplete="name">
+              <input type="text" id="name" name="お名前" required placeholder="山田 太郎" autocomplete="name">
             </div>
             <div class="form-row">
               <label for="company">会社名・団体名</label>
-              <input type="text" id="company" name="company" placeholder="株式会社〇〇" autocomplete="organization">
+              <input type="text" id="company" name="会社名・団体名" placeholder="株式会社〇〇" autocomplete="organization">
             </div>
             <div class="form-row">
               <label for="email">メールアドレス <span class="form-required" aria-hidden="true">必須</span></label>
@@ -89,7 +92,7 @@
             </div>
             <div class="form-row">
               <label for="category">ご相談内容 <span class="form-required" aria-hidden="true">必須</span></label>
-              <select id="category" name="category" class="form-select" required>
+              <select id="category" name="ご相談内容" class="form-select" required>
                 <option value="" disabled selected>選択してください</option>
                 <option value="制作依頼">制作依頼</option>
                 <option value="ShareKOBEの作品について">ShareKOBEの作品について</option>
@@ -98,7 +101,7 @@
             </div>
             <div class="form-row">
               <label for="message">お問い合わせ内容 <span class="form-required" aria-hidden="true">必須</span></label>
-              <textarea id="message" name="message" rows="6" required placeholder="プロジェクトの概要、希望時期、予算感などをお聞かせください"></textarea>
+              <textarea id="message" name="お問い合わせ内容" rows="6" required placeholder="プロジェクトの概要、希望時期、予算感などをお聞かせください"></textarea>
             </div>
             <button type="submit" class="btn-submit">
               <span>送信</span>
