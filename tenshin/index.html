@@ -45,7 +45,6 @@
   </div>
 
   <a class="tenshin-hint-fab" id="hint-fab" href="/tenshin/hint/">ヒント</a>
-  <button class="tenshin-reset" id="reset-btn" type="button"></button>
   <div class="tenshin-clear" id="clear-overlay" hidden>
     <p id="clear-message">正解！</p>
   </div>
@@ -75,8 +74,6 @@
       hintLabel: "ヒント",
       startLabel: "始める",
       serveLabel: "提供開始",
-      resetLabel: "最初に戻す（編集用）",
-      resetConfirm: "最初の状態に戻しますか？",
       correctMessage: "正解！",
       wrongMessage: "間違っているようです。",
       answerLabel: "答えは？",
@@ -604,8 +601,6 @@
       startBtn.textContent = data.startLabel || "始める";
       const hintFab = document.getElementById("hint-fab");
       if (hintFab && data.hintLabel) hintFab.textContent = data.hintLabel;
-      const resetBtn = document.getElementById("reset-btn");
-      if (resetBtn) resetBtn.textContent = data.resetLabel || "最初に戻す（編集用）";
 
       const progress = loadProgress();
 
@@ -617,31 +612,12 @@
         renderSteps(progress.solved, Boolean(progress.serving));
       }
 
-      function resetToStart() {
-        if (!window.confirm(data.resetConfirm || "最初の状態に戻しますか？")) return;
-        sessionStorage.removeItem(STORAGE_KEY);
-        progress.started = false;
-        progress.serving = false;
-        progress.solved = 0;
-        progress.answers = [];
-        startBtn.classList.remove("is-hidden");
-        document.getElementById("tenshin-steps").innerHTML = "";
-        const overlay = document.getElementById("clear-overlay");
-        if (overlay) {
-          overlay.classList.remove("is-on");
-          overlay.hidden = true;
-        }
-        window.scrollTo(0, 0);
-      }
-
       if (progress.started) begin(true);
 
       startBtn.addEventListener("click", () => {
         if (progress.started) return;
         begin(false);
       });
-
-      if (resetBtn) resetBtn.addEventListener("click", resetToStart);
 
       document.getElementById("tenshin-steps").addEventListener("submit", (e) => {
         const form = e.target.closest(".tenshin-form");
