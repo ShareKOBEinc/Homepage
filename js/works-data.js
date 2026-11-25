@@ -84,7 +84,6 @@ const WORKS = [
       start: "自由スタート",
       location: "屋外（MINAMI WHEEL 2026の各会場）",
       format: "周遊型",
-      note: "制作：ShareKOBE"
     },
     schedule: {
       period: "2026.10.10〜2026.10.12"

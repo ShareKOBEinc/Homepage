@@ -28,6 +28,23 @@
 
   const isGoods = (work) => getWorkCategories(work).includes(goodsCategory);
 
+  /** 無料のときは単位（円）を出さない */
+  const isFreePrice = (price) => /無料|free/i.test(String(price || '').trim());
+
+  const formatTicketPriceHtml = (price, unit) => {
+    const priceLabel = String(price || '').trim();
+    if (!priceLabel) return '';
+    if (isFreePrice(priceLabel)) {
+      return `<span class="work-ticket__price">${escapeText(priceLabel)}</span>`;
+    }
+    const unitLabel = String(unit || '円').trim();
+    // 価格自体に「円」が含まれる場合は二重表示しない
+    if (/円/.test(priceLabel) || !unitLabel) {
+      return `<span class="work-ticket__price">${escapeText(priceLabel)}</span>`;
+    }
+    return `<span class="work-ticket__price">${escapeText(priceLabel)}<small>${escapeText(unitLabel)}</small></span>`;
+  };
+
   const getWorkDateParts = (work) => {
     if (typeof work.year === 'number') {
       return {
@@ -586,7 +603,7 @@
               <div class="work-ticket">
                 <div class="work-ticket__row">
                   <span class="work-ticket__label">本体価格</span>
-                  <span class="work-ticket__price">${escapeText(priceLabel)}<small>円</small></span>
+                  ${formatTicketPriceHtml(priceLabel, '円')}
                 </div>
               </div>
             `
@@ -693,7 +710,7 @@
               ${tickets.map((ticket) => `
                 <div class="work-ticket__row">
                   <span class="work-ticket__label">${escapeText(ticket.label)}</span>
-                  <span class="work-ticket__price">${escapeText(ticket.price)}<small>${escapeText(ticket.unit || '円')}</small></span>
+                  ${formatTicketPriceHtml(ticket.price, ticket.unit)}
                 </div>
               `).join('')}
             </div>
