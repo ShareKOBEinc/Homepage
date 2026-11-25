@@ -83,12 +83,13 @@ button { font: inherit; }
 
 .pf-corp:hover { opacity: 0.88; }
 
-/* —— Nav (mock: icon above label, hairline dividers, strong rules) —— */
+/* —— Nav (sized like TDR smenu: ~40px icon / 12px label / ~94px row) —— */
 .pf-nav {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 2px solid var(--line-strong);
-  border-bottom: 2px solid var(--line-strong);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: #fff;
 }
 
 .pf-nav__item {
@@ -96,34 +97,38 @@ button { font: inherit; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 16px 4px 14px;
+  justify-content: flex-start;
+  gap: 6px;
+  min-height: 94px;
+  padding: 14px 4px 10px;
   transition: background 0.2s;
 }
 
 .pf-nav__item:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 18%;
-  bottom: 18%;
+  top: 50%;
   right: 0;
   width: 1px;
+  height: 56px;
+  transform: translateY(-50%);
   background: var(--line);
 }
 
 .pf-nav__item:hover { background: #fafafa; }
 
 .pf-nav__icon {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   object-fit: contain;
 }
 
 .pf-nav__item > span:last-child {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.14em;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  text-align: center;
 }
 
 /* —— Carousel —— */
@@ -565,11 +570,18 @@ button { font: inherit; }
     width: 100%;
   }
 
-  .pf-nav__item { padding: 20px 8px 18px; gap: 10px; }
-  .pf-nav__icon { width: 48px; height: 48px; }
+  .pf-nav__item {
+    min-height: 94px;
+    padding: 15px 8px 12px;
+    gap: 6px;
+  }
+  .pf-nav__icon {
+    width: 40px;
+    height: 40px;
+  }
   .pf-nav__item > span:last-child {
-    font-size: 13px;
-    letter-spacing: 0.16em;
+    font-size: 12px;
+    letter-spacing: 0.04em;
   }
 
   .pf-section { padding: 36px 20px 12px; }
@@ -637,32 +649,26 @@ button { font: inherit; }
     letter-spacing: 0.08em;
   }
 
-  /* Menu: full viewport width */
+  /* Menu: full viewport width, TDR-like compact scale */
   .pf-nav {
     width: 100%;
     max-width: none;
-    border-top-width: 2px;
-    border-bottom-width: 2px;
   }
 
   .pf-nav__item {
-    padding: 22px 12px 20px;
-    gap: 12px;
-  }
-
-  .pf-nav__item:not(:last-child)::after {
-    top: 20%;
-    bottom: 20%;
+    min-height: 94px;
+    padding: 15px 12px 12px;
+    gap: 6px;
   }
 
   .pf-nav__icon {
-    width: 58px;
-    height: 58px;
+    width: 40px;
+    height: 40px;
   }
 
   .pf-nav__item > span:last-child {
-    font-size: 14px;
-    letter-spacing: 0.18em;
+    font-size: 12px;
+    letter-spacing: 0.06em;
   }
 
   #heroCarousel,
@@ -753,11 +759,6 @@ button { font: inherit; }
   .pf-header,
   .pf-band {
     width: min(100% - 64px, var(--shell-max));
-  }
-
-  .pf-nav__icon {
-    width: 64px;
-    height: 64px;
   }
 
   .pf-band { gap: 44px; }
