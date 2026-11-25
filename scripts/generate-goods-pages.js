@@ -124,7 +124,6 @@ const template = (item) => `<!DOCTYPE html>
     </div>
   </footer>
 
-  <script src="../js/works-archive.js"></script>
   <script src="../js/works-data.js"></script>
   <script src="../js/goods-data.js"></script>
   <script src="../js/work-colors.js"></script>

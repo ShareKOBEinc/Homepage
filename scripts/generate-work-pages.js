@@ -2,7 +2,7 @@
  * Works 個別ページを生成します。
  * 使い方: node scripts/generate-work-pages.js
  *
- * works-archive.js / works-data.js を更新したあと実行してください。
+ * works-data.js を更新したあと実行してください。
  * （キットは goods-data.js → node scripts/generate-goods-pages.js）
  */
 const fs = require('fs');
@@ -14,11 +14,6 @@ const outDir = path.join(root, 'works');
 
 const ctx = { console };
 vm.createContext(ctx);
-vm.runInContext(
-  fs.readFileSync(path.join(root, 'js/works-archive.js'), 'utf8')
-    .replace(/^const /gm, 'var '),
-  ctx
-);
 vm.runInContext(
   fs.readFileSync(path.join(root, 'js/works-data.js'), 'utf8')
     .replace(/^const /gm, 'var '),
@@ -94,7 +89,6 @@ const template = (work) => `<!DOCTYPE html>
     </div>
   </footer>
 
-  <script src="../js/works-archive.js"></script>
   <script src="../js/works-data.js"></script>
   <script src="../js/goods-data.js"></script>
   <script src="../js/work-colors.js"></script>

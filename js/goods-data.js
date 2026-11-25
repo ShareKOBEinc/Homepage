@@ -33,7 +33,7 @@
  *   追加・更新後に node scripts/generate-goods-pages.js を実行してください。
  *
  * 【注意】
- *   Works（イベント・周遊・企業案件）は js/works-data.js / js/works-archive.js へ。
+ *   Works（イベント・周遊・企業案件）は js/works-data.js へ。
  */
 
 const GOODS = [
