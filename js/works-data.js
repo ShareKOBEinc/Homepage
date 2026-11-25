@@ -76,7 +76,8 @@ const WORKS = [
     story: [
       "MINAMI WHEEL 2026の各会場に謎解きを設置！",
       "各会場で音楽を楽しみつつ、合間で「謎解きチャレンジ」",
-      "LASTまでたどり着いた方にはプレゼントも！",
+      "LASTまでたどり着いた方にはプレゼントも！"
+    ],
     overview: {
       team: "1人〜",
       duration: "約1時間〜",
@@ -86,14 +87,15 @@ const WORKS = [
       note: "制作：ShareKOBE"
     },
     schedule: {
-      period: "2026.10.10〜2026.10.12",
+      period: "2026.10.10〜2026.10.12"
     },
     tickets: [
       {
+        label: "参加費",
         price: "無料"
-        note: "参加にはスマートフォン等のサイトにアクセスできる端末が必要です"
       }
     ],
+    ticketNotes: "参加にはスマートフォン等のサイトにアクセスできる端末が必要です",
     officialUrl: "https://minamiwheel.jp/",
     officialLabel: "公式サイトを見る"
   },
