@@ -11,21 +11,54 @@
         : document.getElementById('goodsCarousel');
     if (!root) return;
     const track = root.querySelector(`[data-track="${key}"]`);
-    const slides = track ? track.querySelectorAll('.carousel__slide') : [];
+    const slides = track ? [...track.querySelectorAll('.carousel__slide')] : [];
     carousels[key] = {
       index: 0,
       el: root,
       track,
+      slides,
       count: slides.length,
     };
   });
+
+  const heroOffset = () => {
+    const root = carousels.hero.el;
+    if (!root) return { slide: 84, gap: 1.25, pad: 8 };
+    const styles = getComputedStyle(root);
+    const slide = parseFloat(styles.getPropertyValue('--hero-slide')) || 84;
+    const gap = parseFloat(styles.getPropertyValue('--hero-gap')) || 1.25;
+    return { slide, gap, pad: (100 - slide) / 2 };
+  };
+
+  const syncHeroActive = () => {
+    const state = carousels.hero;
+    if (!state.slides) return;
+    state.slides.forEach((slide, i) => {
+      slide.classList.toggle('is-active', i === state.index);
+    });
+  };
 
   const goTo = (key, next) => {
     const state = carousels[key];
     if (!state.track || !state.count) return;
     state.index = (next + state.count) % state.count;
-    state.track.style.transform = `translate3d(${-state.index * 100}%, 0, 0)`;
+
+    if (key === 'hero') {
+      const { slide, gap, pad } = heroOffset();
+      const step = slide + gap;
+      state.track.style.transform = `translate3d(calc(${pad}% - ${state.index * step}%), 0, 0)`;
+      syncHeroActive();
+    } else {
+      state.track.style.transform = `translate3d(${-state.index * 100}%, 0, 0)`;
+    }
   };
+
+  // Initial hero position (centered first slide + blur sides)
+  goTo('hero', 0);
+
+  window.addEventListener('resize', () => {
+    if (carousels.hero.count) goTo('hero', carousels.hero.index);
+  });
 
   document.querySelectorAll('[data-carousel]').forEach((btn) => {
     btn.addEventListener('click', () => {
