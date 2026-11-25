@@ -27,70 +27,67 @@
 
       <nav class="pf-nav" aria-label="メインメニュー">
         <a class="pf-nav__item" href="#tickets">
-          <img class="pf-nav__icon" src="../assets/events.svg" alt="" width="48" height="48">
+          <img class="pf-nav__icon" src="../assets/events.svg" alt="" width="64" height="64">
           <span>EVENTS</span>
         </a>
         <a class="pf-nav__item" href="#goods">
-          <img class="pf-nav__icon" src="../assets/goods.svg" alt="" width="48" height="48">
+          <img class="pf-nav__icon" src="../assets/goods.svg" alt="" width="64" height="64">
           <span>GOODS</span>
         </a>
         <a class="pf-nav__item" href="/about.html">
-          <img class="pf-nav__icon" src="../assets/about.svg" alt="" width="48" height="48">
+          <img class="pf-nav__icon" src="../assets/about.svg" alt="" width="64" height="64">
           <span>ABOUT</span>
         </a>
         <a class="pf-nav__item" href="/contact.html">
-          <img class="pf-nav__icon" src="../assets/contact.svg" alt="" width="48" height="48">
+          <img class="pf-nav__icon" src="../assets/contact.svg" alt="" width="64" height="64">
           <span>CONTACT</span>
         </a>
       </nav>
 
       <section class="carousel" id="heroCarousel" aria-label="注目イベント">
         <button class="carousel__rail carousel__rail--prev" type="button" data-carousel="hero" data-dir="-1" aria-label="前のスライド">
-          <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 4 6 12l10 8z"/></svg>
         </button>
         <div class="carousel__track" data-track="hero">
           <article class="carousel__slide">
             <img class="carousel__media" src="../assets/ナゾカルタEXKV（大阪.jpg" alt="ナゾカルタ EXPERT EDITION">
-            <span class="carousel__badge">EXPERT EDITION</span>
-            <div class="carousel__caption">
-              <h2>ナゾカルタ</h2>
-              <p>とってもたのしいナゾめくカルタ。</p>
-            </div>
             <div class="carousel__meta">
-              <span>1〜2人</span>
-              <span>約40分</span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5z"/></svg>
+                1〜2人
+              </span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+                30分
+              </span>
               <span>1人 ¥1,800 / 2人 ¥3,600</span>
             </div>
           </article>
           <article class="carousel__slide">
             <img class="carousel__media" src="../assets/tenshin.jpeg" alt="点心爛漫!?みならいパンダのおっちょこちょい飯店">
-            <span class="carousel__badge">TAKE-HOME</span>
-            <div class="carousel__caption">
-              <h2>みならいパンダ飯店</h2>
-              <p>土産謎第2弾。南京町を味わい尽くす。</p>
-            </div>
             <div class="carousel__meta">
-              <span>持ち帰り</span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5z"/></svg>
+                持ち帰り
+              </span>
               <span>¥2,000</span>
               <span>#シャレコウベパンダ</span>
             </div>
           </article>
           <article class="carousel__slide">
             <img class="carousel__media" src="../assets/refine.jpeg" alt="refine">
-            <span class="carousel__badge">NEW GOODS</span>
-            <div class="carousel__caption">
-              <h2>refine</h2>
-              <p>答えを出すだけでは、終われない。</p>
-            </div>
             <div class="carousel__meta">
-              <span>持ち帰り謎</span>
+              <span>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zm0 2c-4.4 0-8 2.2-8 5v1h16v-1c0-2.8-3.6-5-8-5z"/></svg>
+                持ち帰り謎
+              </span>
               <span>¥2,000</span>
               <span>#シャレコウベリファイン</span>
             </div>
           </article>
         </div>
         <button class="carousel__rail carousel__rail--next" type="button" data-carousel="hero" data-dir="1" aria-label="次のスライド">
-          <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 4l10 8-10 8z"/></svg>
         </button>
       </section>
 
@@ -100,16 +97,15 @@
             <h2>TICKETS</h2>
             <img class="pf-section__icon" src="../assets/tickets.svg" alt="" width="40" height="40">
           </div>
-          <p class="cal__note">公演がある日は赤丸付きです。日付を選ぶと詳細が表示されます。</p>
           <div class="cal-wrap">
             <div class="cal" id="ticketCal" data-year="2026" data-month="11">
               <div class="cal__bar">
                 <button class="cal__nav" type="button" data-cal-dir="-1" aria-label="前の月">
-                  <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M16 4 6 12l10 8z"/></svg>
                 </button>
                 <div class="cal__label" id="calLabel">2026年 11月</div>
                 <button class="cal__nav" type="button" data-cal-dir="1" aria-label="次の月">
-                  <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+                  <svg viewBox="0 0 24 24"><path d="M8 4l10 8-10 8z"/></svg>
                 </button>
               </div>
               <div class="cal__week" aria-hidden="true">
@@ -135,45 +131,27 @@
 
           <div class="carousel" id="goodsCarousel" aria-label="おすすめグッズ">
             <button class="carousel__rail carousel__rail--prev" type="button" data-carousel="goods" data-dir="-1" aria-label="前のグッズ">
-              <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M16 4 6 12l10 8z"/></svg>
             </button>
             <div class="carousel__track" data-track="goods">
               <article class="carousel__slide">
                 <a href="/goods/refine.html">
                   <img class="carousel__media" src="../assets/refine.jpeg" alt="refine">
-                  <div class="goods-slide__panel">
-                    <p>ShareKOBE 新作持ち帰り謎</p>
-                    <strong>¥ 2,000</strong>
-                    <p class="tags">#シャレコウベリファイン<br>#ShareKOBE</p>
-                    <div class="goods-slide__brand">refine</div>
-                  </div>
                 </a>
               </article>
               <article class="carousel__slide">
                 <a href="/goods/tenshin.html">
                   <img class="carousel__media" src="../assets/tenshin.jpeg" alt="点心爛漫!?みならいパンダのおっちょこちょい飯店">
-                  <div class="goods-slide__panel">
-                    <p>ShareKOBE 土産謎 第2弾</p>
-                    <strong>¥ 2,000</strong>
-                    <p class="tags">#シャレコウベパンダ<br>#ShareKOBE</p>
-                    <div class="goods-slide__brand">tenshin</div>
-                  </div>
                 </a>
               </article>
               <article class="carousel__slide">
                 <a href="/goods/oshiriddle.html">
                   <img class="carousel__media" src="../assets/oshiriddle.jpeg" alt="おしりドル">
-                  <div class="goods-slide__panel">
-                    <p>ShareKOBE 小謎問題集</p>
-                    <strong>¥ 1,000</strong>
-                    <p class="tags">#オシリドル<br>#ShareKOBE</p>
-                    <div class="goods-slide__brand">oshiriddle</div>
-                  </div>
                 </a>
               </article>
             </div>
             <button class="carousel__rail carousel__rail--next" type="button" data-carousel="goods" data-dir="1" aria-label="次のグッズ">
-              <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+              <svg viewBox="0 0 24 24"><path d="M8 4l10 8-10 8z"/></svg>
             </button>
           </div>
         </section>
