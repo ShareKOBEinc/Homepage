@@ -1,25 +1,8 @@
 (() => {
   const carousels = {
-    hero: { index: 0, el: null, track: null, count: 0 },
-    goods: { index: 0, el: null, track: null, count: 0 },
+    hero: { index: 0, el: null, track: null, slides: [], count: 0, realCount: 0, looping: false },
+    goods: { index: 0, el: null, track: null, slides: [], count: 0, realCount: 0, looping: false },
   };
-
-  Object.keys(carousels).forEach((key) => {
-    const root =
-      key === 'hero'
-        ? document.getElementById('heroCarousel')
-        : document.getElementById('goodsCarousel');
-    if (!root) return;
-    const track = root.querySelector(`[data-track="${key}"]`);
-    const slides = track ? [...track.querySelectorAll('.carousel__slide')] : [];
-    carousels[key] = {
-      index: 0,
-      el: root,
-      track,
-      slides,
-      count: slides.length,
-    };
-  });
 
   const heroOffset = () => {
     const root = carousels.hero.el;
@@ -30,34 +13,131 @@
     return { slide, gap, pad: (100 - slide) / 2 };
   };
 
-  const syncHeroActive = () => {
-    const state = carousels.hero;
-    if (!state.slides) return;
-    state.slides.forEach((slide, i) => {
-      slide.classList.toggle('is-active', i === state.index);
-    });
-  };
-
-  const goTo = (key, next) => {
+  const applyTransform = (key, instant) => {
     const state = carousels[key];
     if (!state.track || !state.count) return;
-    state.index = (next + state.count) % state.count;
+
+    if (instant) {
+      state.track.style.transition = 'none';
+    }
 
     if (key === 'hero') {
       const { slide, gap, pad } = heroOffset();
       const step = slide + gap;
       state.track.style.transform = `translate3d(calc(${pad}% - ${state.index * step}%), 0, 0)`;
-      syncHeroActive();
+      state.slides.forEach((slideEl, i) => {
+        slideEl.classList.toggle('is-active', i === state.index);
+      });
     } else {
       state.track.style.transform = `translate3d(${-state.index * 100}%, 0, 0)`;
     }
+
+    if (instant) {
+      // Force reflow so the jump isn't animated
+      void state.track.offsetWidth;
+      state.track.style.transition = '';
+    }
   };
 
-  // Initial hero position (centered first slide + blur sides)
-  goTo('hero', 0);
+  const snapIfClone = (key) => {
+    const state = carousels[key];
+    if (!state.looping) return;
+    window.clearTimeout(state.loopTimer);
+    if (state.index === 0) {
+      state.index = state.realCount;
+      applyTransform(key, true);
+    } else if (state.index === state.realCount + 1) {
+      state.index = 1;
+      applyTransform(key, true);
+    }
+    state.looping = false;
+  };
+
+  const goTo = (key, next) => {
+    const state = carousels[key];
+    if (!state.track || !state.count) return;
+    if (state.looping) return;
+
+    if (state.realCount < 2) {
+      state.index = 0;
+      applyTransform(key, false);
+      return;
+    }
+
+    state.index = next;
+    state.looping = state.index === 0 || state.index === state.realCount + 1;
+    applyTransform(key, false);
+
+    if (state.looping) {
+      const durMs =
+        (parseFloat(getComputedStyle(state.track).transitionDuration) || 0.55) * 1000;
+      if (durMs === 0) {
+        snapIfClone(key);
+      } else {
+        window.clearTimeout(state.loopTimer);
+        state.loopTimer = window.setTimeout(() => snapIfClone(key), durMs + 40);
+      }
+    }
+  };
+
+  const setupInfinite = (key) => {
+    const root =
+      key === 'hero'
+        ? document.getElementById('heroCarousel')
+        : document.getElementById('goodsCarousel');
+    if (!root) return;
+
+    const track = root.querySelector(`[data-track="${key}"]`);
+    if (!track) return;
+
+    const realSlides = [...track.querySelectorAll('.carousel__slide:not([data-clone])')];
+    const realCount = realSlides.length;
+
+    carousels[key] = {
+      index: realCount > 1 ? 1 : 0,
+      el: root,
+      track,
+      slides: realSlides,
+      count: realCount,
+      realCount,
+      looping: false,
+    };
+
+    if (realCount < 2) {
+      applyTransform(key, true);
+      return;
+    }
+
+    const firstClone = realSlides[0].cloneNode(true);
+    const lastClone = realSlides[realCount - 1].cloneNode(true);
+    firstClone.classList.remove('is-active');
+    lastClone.classList.remove('is-active');
+    firstClone.setAttribute('aria-hidden', 'true');
+    lastClone.setAttribute('aria-hidden', 'true');
+    firstClone.dataset.clone = 'first';
+    lastClone.dataset.clone = 'last';
+
+    track.insertBefore(lastClone, realSlides[0]);
+    track.appendChild(firstClone);
+
+    carousels[key].slides = [...track.querySelectorAll('.carousel__slide')];
+    carousels[key].count = carousels[key].slides.length;
+    carousels[key].index = 1;
+
+    track.addEventListener('transitionend', (event) => {
+      if (event.target !== track || event.propertyName !== 'transform') return;
+      snapIfClone(key);
+    });
+
+    applyTransform(key, true);
+  };
+
+  setupInfinite('hero');
+  setupInfinite('goods');
 
   window.addEventListener('resize', () => {
-    if (carousels.hero.count) goTo('hero', carousels.hero.index);
+    if (carousels.hero.count) applyTransform('hero', true);
+    if (carousels.goods.count) applyTransform('goods', true);
   });
 
   document.querySelectorAll('[data-carousel]').forEach((btn) => {
@@ -87,50 +167,28 @@
   }
 
   // Preview schedule data (date -> performances)
+  const KV = {
+    nazokaruta: '../assets/ナゾカルタEXKV（大阪.jpg',
+    refine: '../assets/A4_refine.jpg',
+  };
+
+  const nazokarutaShow = (time) => ({
+    title: 'ナゾカルタ EXPERT EDITION',
+    time,
+    place: '神戸・室内会場',
+    team: '1〜2人',
+    duration: '約40分',
+    price: '1人 ¥1,800 / 2人 ¥3,600',
+    link: '/works/nazokaruta-ex.html',
+    kv: KV.nazokaruta,
+  });
+
   const SCHEDULE = {
-    '2026-11-01': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '13:00 / 16:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-03': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '11:00 / 14:00 / 17:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-07': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '19:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
+    '2026-11-01': [nazokarutaShow('13:00 / 16:00')],
+    '2026-11-03': [nazokarutaShow('11:00 / 14:00 / 17:00')],
+    '2026-11-07': [nazokarutaShow('19:00')],
     '2026-11-08': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '13:00 / 16:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
+      nazokarutaShow('13:00 / 16:00'),
       {
         title: 'refine 体験会',
         time: '15:00',
@@ -139,85 +197,16 @@
         duration: '持ち帰り',
         price: '¥2,000',
         link: '/goods/refine.html',
+        kv: KV.refine,
       },
     ],
-    '2026-11-14': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '13:00 / 16:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-15': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '11:00 / 14:00 / 17:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-21': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '13:00 / 16:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-22': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '11:00 / 14:00 / 17:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-23': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '11:00 / 14:00 / 17:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-28': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '13:00 / 16:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
-    '2026-11-29': [
-      {
-        title: 'ナゾカルタ EXPERT EDITION',
-        time: '11:00 / 14:00 / 17:00',
-        place: '神戸・室内会場',
-        team: '1〜2人',
-        duration: '約40分',
-        price: '1人 ¥1,800 / 2人 ¥3,600',
-        link: '/works/nazokaruta-ex.html',
-      },
-    ],
+    '2026-11-14': [nazokarutaShow('13:00 / 16:00')],
+    '2026-11-15': [nazokarutaShow('11:00 / 14:00 / 17:00')],
+    '2026-11-21': [nazokarutaShow('13:00 / 16:00')],
+    '2026-11-22': [nazokarutaShow('11:00 / 14:00 / 17:00')],
+    '2026-11-23': [nazokarutaShow('11:00 / 14:00 / 17:00')],
+    '2026-11-28': [nazokarutaShow('13:00 / 16:00')],
+    '2026-11-29': [nazokarutaShow('11:00 / 14:00 / 17:00')],
   };
 
   const cal = document.getElementById('ticketCal');
@@ -263,9 +252,13 @@
 
     detailEmpty.hidden = true;
     detailList.innerHTML = shows
-      .map(
-        (show) => `
+      .map((show) => {
+        const kv = show.kv
+          ? `<img class="cal-show__kv" src="${escapeHtml(show.kv)}" alt="">`
+          : '';
+        return `
       <article class="cal-show">
+        ${kv}
         <h3 class="cal-show__title">${escapeHtml(show.title)}</h3>
         <dl class="cal-show__meta">
           <div><dt>開演</dt><dd>${escapeHtml(show.time)}</dd></div>
@@ -275,8 +268,8 @@
           <div><dt>料金</dt><dd>${escapeHtml(show.price)}</dd></div>
         </dl>
         <a class="cal-show__link" href="${escapeHtml(show.link)}">詳細をみる</a>
-      </article>`
-      )
+      </article>`;
+      })
       .join('');
   };
 
@@ -325,6 +318,12 @@
       if (selected === key) cell.classList.add('is-selected');
 
       cell.addEventListener('click', () => {
+        if (selected === key) {
+          selected = null;
+          detail.hidden = true;
+          renderCal();
+          return;
+        }
         selected = key;
         renderCal();
         showDetail(key);

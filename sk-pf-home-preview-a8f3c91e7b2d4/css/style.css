@@ -149,6 +149,8 @@ button { font: inherit; }
   position: relative;
   overflow: hidden;
   background: #1a1a1a;
+  /* Rails sit in this padding; track/media fill the inner area */
+  padding: 0 var(--rail);
 }
 
 .carousel__track {
@@ -190,13 +192,11 @@ button { font: inherit; }
   z-index: 0;
 }
 
-/* Keep sharp image between side rails so landscape isn't clipped */
+/* Full slide + contain → letterbox on one axis only (not all four sides) */
 .carousel__media {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: var(--rail);
-  width: calc(100% - 2 * var(--rail));
+  inset: 0;
+  width: 100%;
   max-width: none;
   height: 100%;
   object-fit: contain;
@@ -477,6 +477,16 @@ button { font: inherit; }
   padding: 12px;
   border: 1px solid var(--line);
   background: #fafafa;
+}
+
+.cal-show__kv {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  object-position: center;
+  background: #1a1a1a;
+  margin: 0 0 12px;
 }
 
 .cal-show__title {
