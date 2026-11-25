@@ -134,10 +134,10 @@ const GOODS = [
     desc: 'おしりの小謎の問題集！',
     hue: 55,
     image: 'oshiriddle.jpeg',
-    price: '1,000',
+    price: '1,300',
     detail: [
       'おしりの小謎がい〜っぱい。',
-      'B5サイズ・書籍タイプの小謎問題集です。',
+      'A5サイズ・書籍タイプの小謎問題集です。',
     ],
     requirements: [
       '筆記用具',
