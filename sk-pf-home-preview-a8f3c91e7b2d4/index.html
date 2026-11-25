@@ -93,80 +93,90 @@
       </button>
     </section>
 
-    <section class="pf-section" id="tickets">
-      <div class="pf-section__head">
-        <h2>TICKETS</h2>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3.5a1.5 1.5 0 0 0 0 3V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a1.5 1.5 0 0 0 0-3z"/><path d="M9 6v12"/></svg>
-      </div>
-      <p class="cal__note">日付を選ぶと、その日の公演情報が表示されます（プレビュー）</p>
-      <div class="cal" id="ticketCal" data-year="2026" data-month="11">
-        <div class="cal__bar">
-          <button class="cal__nav" type="button" data-cal-dir="-1" aria-label="前の月">
+    <div class="pf-band">
+      <section class="pf-section" id="tickets">
+        <div class="pf-section__head">
+          <h2>TICKETS</h2>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9.5V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3.5a1.5 1.5 0 0 0 0 3V18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2.5a1.5 1.5 0 0 0 0-3z"/><path d="M9 6v12"/></svg>
+        </div>
+        <p class="cal__note">公演がある日は赤丸付きです。日付を選ぶと詳細が表示されます。</p>
+        <div class="cal-wrap">
+          <div class="cal" id="ticketCal" data-year="2026" data-month="11">
+            <div class="cal__bar">
+              <button class="cal__nav" type="button" data-cal-dir="-1" aria-label="前の月">
+                <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg>
+              </button>
+              <div class="cal__label" id="calLabel">2026年 11月</div>
+              <button class="cal__nav" type="button" data-cal-dir="1" aria-label="次の月">
+                <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+            <div class="cal__week" aria-hidden="true">
+              <span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="is-sat">土</span><span class="is-sun">日</span>
+            </div>
+            <div class="cal__grid" id="calGrid" role="grid" aria-labelledby="calLabel"></div>
+          </div>
+
+          <div class="cal-detail" id="calDetail" hidden>
+            <p class="cal-detail__date" id="calDetailDate"></p>
+            <div class="cal-detail__list" id="calDetailList"></div>
+            <p class="cal-detail__empty" id="calDetailEmpty" hidden>この日の公演はありません。</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="pf-section" id="goods">
+        <div class="pf-section__head">
+          <h2>GOODS</h2>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
+          <a class="pf-more" href="/goods.html">他のグッズもみる &gt;&gt;</a>
+        </div>
+
+        <div class="carousel" id="goodsCarousel" aria-label="おすすめグッズ">
+          <button class="carousel__rail carousel__rail--prev" type="button" data-carousel="goods" data-dir="-1" aria-label="前のグッズ">
             <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg>
           </button>
-          <div class="cal__label" id="calLabel">2026年 11月</div>
-          <button class="cal__nav" type="button" data-cal-dir="1" aria-label="次の月">
+          <div class="carousel__track" data-track="goods">
+            <article class="carousel__slide">
+              <a href="/goods/refine.html">
+                <img class="carousel__media" src="../assets/refine.jpeg" alt="refine">
+                <div class="goods-slide__panel">
+                  <p>ShareKOBE 新作持ち帰り謎</p>
+                  <strong>¥ 2,000</strong>
+                  <p class="tags">#シャレコウベリファイン<br>#ShareKOBE</p>
+                  <div class="goods-slide__brand">refine</div>
+                </div>
+              </a>
+            </article>
+            <article class="carousel__slide">
+              <a href="/goods/tenshin.html">
+                <img class="carousel__media" src="../assets/tenshin.jpeg" alt="点心爛漫!?みならいパンダのおっちょこちょい飯店">
+                <div class="goods-slide__panel">
+                  <p>ShareKOBE 土産謎 第2弾</p>
+                  <strong>¥ 2,000</strong>
+                  <p class="tags">#シャレコウベパンダ<br>#ShareKOBE</p>
+                  <div class="goods-slide__brand">tenshin</div>
+                </div>
+              </a>
+            </article>
+            <article class="carousel__slide">
+              <a href="/goods/oshiriddle.html">
+                <img class="carousel__media" src="../assets/oshiriddle.jpeg" alt="おしりドル">
+                <div class="goods-slide__panel">
+                  <p>ShareKOBE 小謎問題集</p>
+                  <strong>¥ 1,000</strong>
+                  <p class="tags">#オシリドル<br>#ShareKOBE</p>
+                  <div class="goods-slide__brand">oshiriddle</div>
+                </div>
+              </a>
+            </article>
+          </div>
+          <button class="carousel__rail carousel__rail--next" type="button" data-carousel="goods" data-dir="1" aria-label="次のグッズ">
             <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
           </button>
         </div>
-        <div class="cal__week" aria-hidden="true">
-          <span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span class="is-sat">土</span><span class="is-sun">日</span>
-        </div>
-        <div class="cal__grid" id="calGrid" role="grid" aria-labelledby="calLabel"></div>
-      </div>
-    </section>
-
-    <section class="pf-section" id="goods">
-      <div class="pf-section__head">
-        <h2>GOODS</h2>
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>
-        <a class="pf-more" href="/goods.html">他のグッズもみる &gt;&gt;</a>
-      </div>
-
-      <div class="carousel" id="goodsCarousel" aria-label="おすすめグッズ">
-        <button class="carousel__rail carousel__rail--prev" type="button" data-carousel="goods" data-dir="-1" aria-label="前のグッズ">
-          <svg viewBox="0 0 24 24"><path d="M15 5 8 12l7 7"/></svg>
-        </button>
-        <div class="carousel__track" data-track="goods">
-          <article class="carousel__slide">
-            <a href="/goods/refine.html">
-              <img class="carousel__media" src="../assets/refine.jpeg" alt="refine">
-              <div class="goods-slide__panel">
-                <p>ShareKOBE 新作持ち帰り謎</p>
-                <strong>¥ 2,000</strong>
-                <p class="tags">#シャレコウベリファイン<br>#ShareKOBE</p>
-                <div class="goods-slide__brand">refine</div>
-              </div>
-            </a>
-          </article>
-          <article class="carousel__slide">
-            <a href="/goods/tenshin.html">
-              <img class="carousel__media" src="../assets/tenshin.jpeg" alt="点心爛漫!?みならいパンダのおっちょこちょい飯店">
-              <div class="goods-slide__panel">
-                <p>ShareKOBE 土産謎 第2弾</p>
-                <strong>¥ 2,000</strong>
-                <p class="tags">#シャレコウベパンダ<br>#ShareKOBE</p>
-                <div class="goods-slide__brand">tenshin</div>
-              </div>
-            </a>
-          </article>
-          <article class="carousel__slide">
-            <a href="/goods/oshiriddle.html">
-              <img class="carousel__media" src="../assets/oshiriddle.jpeg" alt="おしりドル">
-              <div class="goods-slide__panel">
-                <p>ShareKOBE 小謎問題集</p>
-                <strong>¥ 1,000</strong>
-                <p class="tags">#オシリドル<br>#ShareKOBE</p>
-                <div class="goods-slide__brand">oshiriddle</div>
-              </div>
-            </a>
-          </article>
-        </div>
-        <button class="carousel__rail carousel__rail--next" type="button" data-carousel="goods" data-dir="1" aria-label="次のグッズ">
-          <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
-        </button>
-      </div>
-    </section>
+      </section>
+    </div>
 
     <footer class="pf-footer">
       <p>&copy; 2026 ShareKOBE Inc. All rights reserved.</p>

@@ -312,10 +312,16 @@ button { font: inherit; }
 .pf-section__head .pf-more:hover { opacity: 0.86; }
 
 /* Calendar */
+.cal-wrap {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
 .cal {
   border: 1px solid var(--ink);
   overflow: hidden;
-  margin-bottom: 18px;
+  background: #fff;
 }
 
 .cal__bar {
@@ -352,15 +358,15 @@ button { font: inherit; }
 .cal__week {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  border-bottom: 1px solid var(--line);
-  background: #fff;
+  border-bottom: 1px solid var(--ink);
+  background: #f7f7f5;
 }
 
 .cal__week span {
-  padding: 8px 0;
+  padding: 10px 0;
   text-align: center;
   font-size: 12px;
-  font-weight: 700;
+  font-weight: 800;
   border-right: 1px solid var(--line);
 }
 
@@ -375,52 +381,162 @@ button { font: inherit; }
 }
 
 .cal__cell {
-  aspect-ratio: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 8px 4px 12px;
+  min-height: 54px;
+  border: 0;
   border-right: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
-  display: grid;
-  place-items: center;
-  font-size: 13px;
-  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  font: inherit;
   color: var(--ink);
   background: #fff;
   position: relative;
-}
-
-.cal__cell:nth-child(7n) { border-right: 0; }
-.cal__cell.is-empty { color: transparent; pointer-events: none; }
-.cal__cell.is-sat { color: #2f6fb5; }
-.cal__cell.is-sun { color: #c0392b; }
-
-.cal__cell.is-open {
   cursor: pointer;
 }
 
+.cal__cell:nth-child(7n) { border-right: 0; }
+
+.cal__cell.is-empty,
+.cal__cell:disabled {
+  background: #fafafa;
+  cursor: default;
+  pointer-events: none;
+}
+
+.cal__day {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.cal__cell.is-sat .cal__day { color: #2f6fb5; }
+.cal__cell.is-sun .cal__day { color: #c0392b; }
+
 .cal__cell.is-open::after {
   content: "";
-  position: absolute;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--accent);
-  bottom: 8px;
 }
 
 .cal__cell.is-selected {
   background: #fff1ef;
   box-shadow: inset 0 0 0 2px var(--accent);
+  z-index: 1;
+}
+
+.cal__cell:not(.is-empty):hover {
+  background: #f5f5f2;
+}
+
+.cal__cell.is-selected:hover {
+  background: #fff1ef;
 }
 
 .cal__note {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-size: 12px;
   color: var(--muted);
   text-align: center;
 }
 
+.cal-detail {
+  border: 1px solid var(--ink);
+  background: #fff;
+  padding: 14px 14px 16px;
+  animation: cal-detail-in 0.28s var(--ease);
+}
+
+.cal-detail[hidden] { display: none; }
+
+.cal-detail__date {
+  margin: 0 0 12px;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+}
+
+.cal-detail__list {
+  display: grid;
+  gap: 12px;
+}
+
+.cal-detail__empty {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.cal-show {
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: #fafafa;
+}
+
+.cal-show__title {
+  margin: 0 0 10px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 1.35;
+}
+
+.cal-show__meta {
+  margin: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.cal-show__meta > div {
+  display: grid;
+  grid-template-columns: 3.2em 1fr;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.cal-show__meta dt {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.cal-show__meta dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.cal-show__link {
+  display: inline-flex;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: var(--ink);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.cal-show__link:hover { opacity: 0.88; }
+
+@keyframes cal-detail-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
 /* Goods carousel uses shorter media */
 #goodsCarousel .carousel__media {
   aspect-ratio: 16 / 11;
+}
+
+.pf-band {
+  display: block;
 }
 
 /* Footer */
@@ -439,16 +555,210 @@ button { font: inherit; }
   .carousel__track,
   .pf-corp,
   .pf-nav__item,
-  .carousel__rail {
+  .carousel__rail,
+  .cal-detail {
     transition: none !important;
+    animation: none !important;
   }
 }
 
-/* Wider screens: keep phone-column composition, add breathing room */
+/* Tablet */
 @media (min-width: 720px) {
-  :root { --max: 600px; --rail: 48px; }
-  body { padding: 28px 0 48px; }
-  .pf-logo img { height: 38px; }
-  .carousel__media { aspect-ratio: 5 / 6; }
-  #goodsCarousel .carousel__media { aspect-ratio: 16 / 10; }
+  :root {
+    --max: 760px;
+    --rail: 52px;
+  }
+
+  body { padding: 24px 16px 40px; }
+
+  .pf-header { padding: 18px 22px 12px; }
+  .pf-logo img { height: 40px; }
+  .pf-corp {
+    padding: 12px 16px;
+    font-size: 12px;
+  }
+
+  .pf-nav__item {
+    flex-direction: row;
+    gap: 10px;
+    padding: 16px 12px;
+  }
+
+  .pf-nav__item svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .pf-nav__item span { font-size: 13px; }
+
+  .carousel__media { aspect-ratio: 16 / 11; }
+  #goodsCarousel .carousel__media { aspect-ratio: 16 / 9; }
+
+  .carousel__badge {
+    top: 20px;
+    left: calc(var(--rail) + 20px);
+    font-size: 12px;
+    padding: 7px 12px;
+  }
+
+  .carousel__caption {
+    left: calc(var(--rail) + 20px);
+    right: calc(var(--rail) + 20px);
+    bottom: 72px;
+  }
+
+  .carousel__caption h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .carousel__caption p { font-size: 15px; }
+
+  .carousel__meta {
+    left: calc(var(--rail) + 20px);
+    right: calc(var(--rail) + 20px);
+    bottom: 18px;
+    font-size: 13px;
+    padding: 12px 18px;
+  }
+
+  .goods-slide__panel {
+    width: min(46%, 280px);
+    padding: 20px 18px;
+  }
+
+  .goods-slide__panel strong { font-size: 1.8rem; }
+  .goods-slide__brand { font-size: 1.6rem; }
+
+  .pf-section {
+    padding: 36px 28px 12px;
+  }
+
+  .pf-section__head h2 { font-size: 2.35rem; }
+  .pf-section__head .pf-more {
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+
+  .cal__bar { font-size: 16px; padding: 12px 16px; }
+  .cal__week span { padding: 10px 0; font-size: 13px; }
+  .cal__cell { min-height: 64px; padding-top: 10px; }
+  .cal__day { font-size: 16px; }
+  .cal__cell.is-open::after {
+    width: 8px;
+    height: 8px;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  :root {
+    --max: 1120px;
+    --rail: 56px;
+  }
+
+  body {
+    padding: 0;
+    background: var(--paper);
+  }
+
+  .site {
+    width: 100%;
+    max-width: none;
+    box-shadow: none;
+  }
+
+  .pf-header {
+    width: min(100% - 48px, var(--max));
+    margin: 0 auto;
+    padding: 22px 0 14px;
+  }
+
+  .pf-logo img { height: 46px; }
+
+  .pf-corp {
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+
+  .pf-nav {
+    width: min(100% - 48px, var(--max));
+    margin: 0 auto;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+
+  .pf-nav__item {
+    padding: 18px 16px;
+    gap: 12px;
+  }
+
+  .pf-nav__item svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .pf-nav__item span {
+    font-size: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  #heroCarousel {
+    margin-top: 18px;
+  }
+
+  .carousel__media {
+    aspect-ratio: 21 / 9;
+    max-height: min(58vh, 520px);
+  }
+
+  #goodsCarousel .carousel__media {
+    aspect-ratio: 16 / 9;
+    max-height: none;
+  }
+
+  .carousel__caption h2 { font-size: 2.4rem; }
+  .carousel__caption p { font-size: 16px; }
+  .carousel__meta { font-size: 14px; }
+
+  .pf-band {
+    width: min(100% - 48px, var(--max));
+    margin: 12px auto 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  .pf-section {
+    padding: 28px 0 8px;
+  }
+
+  .pf-section__head h2 { font-size: 2.5rem; }
+
+  .cal-wrap {
+    margin-bottom: 0;
+  }
+
+  .cal__cell {
+    min-height: 72px;
+  }
+
+  .goods-slide__panel {
+    width: min(48%, 300px);
+  }
+
+  .pf-footer {
+    margin-top: 40px;
+    padding: 22px 16px;
+    font-size: 12px;
+  }
+}
+
+/* Large desktop */
+@media (min-width: 1280px) {
+  :root { --max: 1240px; }
+
+  .carousel__media {
+    aspect-ratio: 24 / 9;
+    max-height: min(56vh, 560px);
+  }
+
+  .pf-band { gap: 40px; }
 }
