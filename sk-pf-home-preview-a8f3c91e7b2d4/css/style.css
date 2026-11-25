@@ -196,8 +196,8 @@ button { font: inherit; }
   top: 0;
   bottom: 0;
   left: var(--rail);
-  right: var(--rail);
-  width: auto;
+  width: calc(100% - 2 * var(--rail));
+  max-width: none;
   height: 100%;
   object-fit: contain;
   object-position: center;
