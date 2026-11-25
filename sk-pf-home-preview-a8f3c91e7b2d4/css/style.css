@@ -142,20 +142,28 @@ button { font: inherit; }
 
 .carousel__slide {
   flex: 0 0 100%;
+  width: 100%;
   min-width: 100%;
+  max-width: 100%;
   position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #1a1a1a;
 }
 
 .carousel__slide > a {
+  position: absolute;
+  inset: 0;
   display: block;
-  position: relative;
 }
 
 .carousel__media {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  background: #222;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
 }
 
 .carousel__rail {
@@ -243,6 +251,22 @@ button { font: inherit; }
   height: 30px;
   object-fit: contain;
   flex: 0 0 auto;
+}
+
+.pf-section__icon--tickets {
+  width: clamp(1.85rem, 7vw, 2.25rem);
+  height: clamp(1.85rem, 7vw, 2.25rem);
+}
+
+.pf-section__head .cal__note {
+  margin: 0 0 0 1.25rem;
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  text-align: left;
+  line-height: 1.45;
 }
 
 .pf-section__head .pf-more {
@@ -461,10 +485,6 @@ button { font: inherit; }
   to { opacity: 1; transform: none; }
 }
 
-#goodsCarousel .carousel__media {
-  aspect-ratio: 16 / 10;
-}
-
 #goodsCarousel .carousel__meta { display: none; }
 
 .pf-band { display: block; }
@@ -501,13 +521,19 @@ button { font: inherit; }
 
   body { padding: 24px 16px 40px; }
 
-  .pf-header { padding: 22px 0 16px; }
-  .pf-shell { padding: 0 20px; }
+  .pf-header {
+    padding: 22px 20px 16px;
+  }
   .pf-logo img { height: 44px; }
   .pf-corp {
     padding: 14px 18px;
     font-size: 12px;
     letter-spacing: 0.06em;
+  }
+
+  /* Menu full width of the card */
+  .pf-nav {
+    width: 100%;
   }
 
   .pf-nav__item { padding: 20px 8px 18px; gap: 10px; }
@@ -516,9 +542,6 @@ button { font: inherit; }
     font-size: 13px;
     letter-spacing: 0.16em;
   }
-
-  .carousel__media { aspect-ratio: 16 / 9; }
-  #goodsCarousel .carousel__media { aspect-ratio: 16 / 9; }
 
   .carousel__meta {
     left: calc(var(--rail) + 18px);
@@ -532,12 +555,20 @@ button { font: inherit; }
 
   .carousel__meta svg { width: 16px; height: 16px; }
 
-  .pf-section { padding: 36px 0 12px; }
+  .pf-section { padding: 36px 20px 12px; }
   .pf-section__head h2 {
     font-size: 2.5rem;
     letter-spacing: 0.1em;
   }
   .pf-section__icon { width: 36px; height: 36px; }
+  .pf-section__icon--tickets {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+  .pf-section__head .cal__note {
+    margin-left: 1.5rem;
+    font-size: 13px;
+  }
   .pf-section__head .pf-more {
     padding: 10px 14px;
     font-size: 12px;
@@ -568,13 +599,16 @@ button { font: inherit; }
     box-shadow: none;
   }
 
+  /* Shell full-bleed so nav/KV can span the viewport */
   .pf-shell {
-    width: min(100% - 48px, var(--shell-max));
-    margin: 0 auto;
+    width: 100%;
+    margin: 0;
     padding: 0;
   }
 
   .pf-header {
+    width: min(100% - 48px, var(--shell-max));
+    margin: 0 auto;
     padding: 28px 0 18px;
   }
 
@@ -586,7 +620,10 @@ button { font: inherit; }
     letter-spacing: 0.08em;
   }
 
+  /* Menu: full viewport width */
   .pf-nav {
+    width: 100%;
+    max-width: none;
     border-top-width: 2px;
     border-bottom-width: 2px;
   }
@@ -611,23 +648,22 @@ button { font: inherit; }
     letter-spacing: 0.18em;
   }
 
-  #heroCarousel {
-    margin-top: 0;
+  #heroCarousel,
+  #goodsCarousel {
+    width: 100%;
   }
 
-  #heroCarousel .carousel__media {
-    aspect-ratio: 21 / 9;
-    max-height: min(48vh, 460px);
+  /* Landscape KV frame — whole image visible via contain */
+  #heroCarousel .carousel__slide {
+    aspect-ratio: 16 / 9;
   }
 
   #goodsCarousel {
     --rail: 42px;
   }
 
-  /* Match calendar block height in the PC mock */
-  #goodsCarousel .carousel__media {
-    aspect-ratio: 4 / 3;
-    max-height: none;
+  #goodsCarousel .carousel__slide {
+    aspect-ratio: 16 / 10;
   }
 
   .carousel__rail svg {
@@ -646,7 +682,8 @@ button { font: inherit; }
   }
 
   .pf-band {
-    margin-top: 8px;
+    width: min(100% - 48px, var(--shell-max));
+    margin: 8px auto 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 36px;
@@ -660,6 +697,7 @@ button { font: inherit; }
   .pf-section__head {
     margin-bottom: 16px;
     min-height: 48px;
+    flex-wrap: nowrap;
   }
 
   .pf-section__head h2 {
@@ -670,6 +708,16 @@ button { font: inherit; }
   .pf-section__icon {
     width: 40px;
     height: 40px;
+  }
+
+  .pf-section__icon--tickets {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .pf-section__head .cal__note {
+    margin-left: 1.75rem;
+    font-size: 13px;
   }
 
   .pf-section__head .pf-more {
@@ -691,7 +739,8 @@ button { font: inherit; }
 @media (min-width: 1280px) {
   :root { --shell-max: 1280px; }
 
-  .pf-shell {
+  .pf-header,
+  .pf-band {
     width: min(100% - 64px, var(--shell-max));
   }
 
@@ -700,12 +749,16 @@ button { font: inherit; }
     height: 64px;
   }
 
-  #heroCarousel .carousel__media {
-    aspect-ratio: 22 / 9;
-    max-height: min(46vh, 500px);
+  .pf-band { gap: 44px; }
+
+  .pf-section__icon--tickets {
+    width: 2.85rem;
+    height: 2.85rem;
   }
 
-  .pf-band { gap: 44px; }
+  #heroCarousel .carousel__slide {
+    aspect-ratio: 2 / 1;
+  }
 
   .carousel__meta {
     left: 14%;
