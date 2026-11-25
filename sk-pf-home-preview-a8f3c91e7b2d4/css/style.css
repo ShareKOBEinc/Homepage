@@ -1,5 +1,5 @@
-/* ShareKOBE participant-facing preview
-   Inspired by ShareKOBE_HP.png — mobile-first hub */
+/* ShareKOBE participant preview
+   Mobile: ShareKOBE_HP.png / Desktop: ShareKOBE_HP_pc.png */
 
 :root {
   --ink: #2a2a2a;
@@ -11,8 +11,9 @@
   --accent: #e23a2e;
   --font: "Zen Kaku Gothic New", "Noto Sans JP", "Hiragino Sans", sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --rail: 42px;
-  --max: 560px;
+  --rail: 40px;
+  --shell-max: 560px;
+  --content-pad: 14px;
 }
 
 *,
@@ -37,11 +38,18 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 
 .site {
-  width: min(100%, var(--max));
+  width: min(100%, var(--shell-max));
   margin: 0 auto;
   background: var(--paper);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.04), 0 24px 60px rgba(0, 0, 0, 0.08);
+}
+
+.pf-shell {
+  flex: 1 0 auto;
+  width: 100%;
 }
 
 /* Header */
@@ -50,7 +58,7 @@ button { font: inherit; }
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px 14px 10px;
+  padding: 14px var(--content-pad) 10px;
 }
 
 .pf-logo img {
@@ -74,7 +82,7 @@ button { font: inherit; }
 
 .pf-corp:hover { opacity: 0.88; transform: translateY(-1px); }
 
-/* Icon nav */
+/* Icon nav — always icon above label (mock) */
 .pf-nav {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -95,23 +103,19 @@ button { font: inherit; }
 .pf-nav__item:last-child { border-right: 0; }
 .pf-nav__item:hover { background: #fafafa; }
 
-.pf-nav__item svg {
+.pf-nav__icon {
   width: 28px;
   height: 28px;
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  object-fit: contain;
 }
 
-.pf-nav__item span {
+.pf-nav__item > span:last-child {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
 
-/* Carousel shell */
+/* Carousel */
 .carousel {
   position: relative;
   overflow: hidden;
@@ -130,6 +134,12 @@ button { font: inherit; }
   position: relative;
 }
 
+.carousel__slide > a {
+  display: block;
+  position: relative;
+  color: inherit;
+}
+
 .carousel__media {
   width: 100%;
   aspect-ratio: 4 / 5;
@@ -144,7 +154,7 @@ button { font: inherit; }
   width: var(--rail);
   z-index: 2;
   border: 0;
-  background: rgba(42, 42, 42, 0.92);
+  background: rgba(42, 42, 42, 0.94);
   color: #fff;
   cursor: pointer;
   display: grid;
@@ -164,19 +174,20 @@ button { font: inherit; }
   stroke-width: 2.2;
 }
 
+/* Hero meta: full bar like PC mock */
 .carousel__meta {
   position: absolute;
-  left: calc(var(--rail) + 12px);
-  right: calc(var(--rail) + 12px);
-  bottom: 14px;
+  left: var(--rail);
+  right: var(--rail);
+  bottom: 0;
   z-index: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 8px 14px;
+  justify-content: center;
+  gap: 8px 18px;
   padding: 10px 14px;
-  border-radius: 999px;
-  background: rgba(34, 28, 24, 0.92);
+  background: rgba(58, 36, 32, 0.94);
   color: #fff;
   font-size: 12px;
   font-weight: 700;
@@ -190,8 +201,8 @@ button { font: inherit; }
 
 .carousel__badge {
   position: absolute;
-  top: 16px;
-  left: calc(var(--rail) + 14px);
+  top: 14px;
+  left: calc(var(--rail) + 12px);
   z-index: 1;
   padding: 6px 10px;
   border-radius: 8px;
@@ -204,9 +215,9 @@ button { font: inherit; }
 
 .carousel__caption {
   position: absolute;
-  left: calc(var(--rail) + 14px);
-  right: calc(var(--rail) + 14px);
-  bottom: 64px;
+  left: calc(var(--rail) + 12px);
+  right: calc(var(--rail) + 12px);
+  bottom: 56px;
   z-index: 1;
   color: #fff;
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
@@ -270,7 +281,7 @@ button { font: inherit; }
 
 /* Sections */
 .pf-section {
-  padding: 28px 18px 8px;
+  padding: 28px var(--content-pad) 8px;
 }
 
 .pf-section__head {
@@ -288,14 +299,11 @@ button { font: inherit; }
   line-height: 1;
 }
 
-.pf-section__head svg {
+.pf-section__icon {
   width: 28px;
   height: 28px;
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.8;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  object-fit: contain;
+  flex: 0 0 auto;
 }
 
 .pf-section__head .pf-more {
@@ -433,13 +441,8 @@ button { font: inherit; }
   z-index: 1;
 }
 
-.cal__cell:not(.is-empty):hover {
-  background: #f5f5f2;
-}
-
-.cal__cell.is-selected:hover {
-  background: #fff1ef;
-}
+.cal__cell:not(.is-empty):hover { background: #f5f5f2; }
+.cal__cell.is-selected:hover { background: #fff1ef; }
 
 .cal__note {
   margin: 0 0 10px;
@@ -464,10 +467,7 @@ button { font: inherit; }
   letter-spacing: 0.02em;
 }
 
-.cal-detail__list {
-  display: grid;
-  gap: 12px;
-}
+.cal-detail__list { display: grid; gap: 12px; }
 
 .cal-detail__empty {
   margin: 0;
@@ -530,16 +530,12 @@ button { font: inherit; }
   to { opacity: 1; transform: none; }
 }
 
-/* Goods carousel uses shorter media */
 #goodsCarousel .carousel__media {
   aspect-ratio: 16 / 11;
 }
 
-.pf-band {
-  display: block;
-}
+.pf-band { display: block; }
 
-/* Footer */
 .pf-footer {
   margin-top: 28px;
   padding: 18px 12px;
@@ -550,7 +546,6 @@ button { font: inherit; }
   letter-spacing: 0.02em;
 }
 
-/* Motion */
 @media (prefers-reduced-motion: reduce) {
   .carousel__track,
   .pf-corp,
@@ -565,72 +560,62 @@ button { font: inherit; }
 /* Tablet */
 @media (min-width: 720px) {
   :root {
-    --max: 760px;
-    --rail: 52px;
+    --shell-max: 760px;
+    --rail: 48px;
+    --content-pad: 22px;
   }
 
   body { padding: 24px 16px 40px; }
 
-  .pf-header { padding: 18px 22px 12px; }
+  .pf-header { padding: 18px var(--content-pad) 12px; }
   .pf-logo img { height: 40px; }
   .pf-corp {
     padding: 12px 16px;
     font-size: 12px;
   }
 
-  .pf-nav__item {
-    flex-direction: row;
-    gap: 10px;
-    padding: 16px 12px;
+  .pf-nav__item { padding: 16px 10px; gap: 8px; }
+  .pf-nav__icon {
+    width: 32px;
+    height: 32px;
   }
+  .pf-nav__item > span:last-child { font-size: 13px; }
 
-  .pf-nav__item svg {
-    width: 26px;
-    height: 26px;
-  }
-
-  .pf-nav__item span { font-size: 13px; }
-
-  .carousel__media { aspect-ratio: 16 / 11; }
+  .carousel__media { aspect-ratio: 16 / 10; }
   #goodsCarousel .carousel__media { aspect-ratio: 16 / 9; }
 
   .carousel__badge {
-    top: 20px;
-    left: calc(var(--rail) + 20px);
+    top: 18px;
+    left: calc(var(--rail) + 18px);
     font-size: 12px;
     padding: 7px 12px;
   }
 
   .carousel__caption {
-    left: calc(var(--rail) + 20px);
-    right: calc(var(--rail) + 20px);
-    bottom: 72px;
+    left: calc(var(--rail) + 18px);
+    right: calc(var(--rail) + 18px);
+    bottom: 64px;
   }
 
   .carousel__caption h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
   .carousel__caption p { font-size: 15px; }
 
   .carousel__meta {
-    left: calc(var(--rail) + 20px);
-    right: calc(var(--rail) + 20px);
-    bottom: 18px;
-    font-size: 13px;
+    gap: 10px 24px;
     padding: 12px 18px;
+    font-size: 13px;
   }
 
   .goods-slide__panel {
     width: min(46%, 280px);
     padding: 20px 18px;
   }
-
   .goods-slide__panel strong { font-size: 1.8rem; }
   .goods-slide__brand { font-size: 1.6rem; }
 
-  .pf-section {
-    padding: 36px 28px 12px;
-  }
-
+  .pf-section { padding: 36px var(--content-pad) 12px; }
   .pf-section__head h2 { font-size: 2.35rem; }
+  .pf-section__icon { width: 34px; height: 34px; }
   .pf-section__head .pf-more {
     padding: 10px 14px;
     font-size: 12px;
@@ -646,11 +631,12 @@ button { font: inherit; }
   }
 }
 
-/* Desktop */
+/* Desktop — ShareKOBE_HP_pc.png */
 @media (min-width: 1024px) {
   :root {
-    --max: 1120px;
-    --rail: 56px;
+    --shell-max: 1120px;
+    --rail: 52px;
+    --content-pad: 0;
   }
 
   body {
@@ -664,48 +650,48 @@ button { font: inherit; }
     box-shadow: none;
   }
 
-  .pf-header {
-    width: min(100% - 48px, var(--max));
+  .pf-shell {
+    width: min(100% - 48px, var(--shell-max));
     margin: 0 auto;
-    padding: 22px 0 14px;
   }
 
-  .pf-logo img { height: 46px; }
+  .pf-header {
+    padding: 28px 0 16px;
+  }
+
+  .pf-logo img { height: 48px; }
 
   .pf-corp {
-    padding: 12px 18px;
+    padding: 12px 20px;
     font-size: 13px;
   }
 
   .pf-nav {
-    width: min(100% - 48px, var(--max));
-    margin: 0 auto;
     border: 1px solid var(--line);
-    border-radius: 2px;
   }
 
   .pf-nav__item {
-    padding: 18px 16px;
-    gap: 12px;
+    padding: 20px 16px 18px;
+    gap: 10px;
   }
 
-  .pf-nav__item svg {
-    width: 30px;
-    height: 30px;
+  .pf-nav__icon {
+    width: 36px;
+    height: 36px;
   }
 
-  .pf-nav__item span {
+  .pf-nav__item > span:last-child {
     font-size: 14px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.12em;
   }
 
   #heroCarousel {
-    margin-top: 18px;
+    margin-top: 20px;
   }
 
-  .carousel__media {
+  #heroCarousel .carousel__media {
     aspect-ratio: 21 / 9;
-    max-height: min(58vh, 520px);
+    max-height: min(52vh, 480px);
   }
 
   #goodsCarousel .carousel__media {
@@ -713,52 +699,51 @@ button { font: inherit; }
     max-height: none;
   }
 
-  .carousel__caption h2 { font-size: 2.4rem; }
+  .carousel__caption h2 { font-size: 2.35rem; }
   .carousel__caption p { font-size: 16px; }
-  .carousel__meta { font-size: 14px; }
+  .carousel__meta { font-size: 14px; padding: 12px 20px; }
 
   .pf-band {
-    width: min(100% - 48px, var(--max));
-    margin: 12px auto 0;
+    margin-top: 8px;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 28px;
+    gap: 32px;
     align-items: start;
   }
 
   .pf-section {
-    padding: 28px 0 8px;
+    padding: 32px 0 8px;
   }
 
   .pf-section__head h2 { font-size: 2.5rem; }
+  .pf-section__icon { width: 38px; height: 38px; }
 
-  .cal-wrap {
-    margin-bottom: 0;
-  }
-
-  .cal__cell {
-    min-height: 72px;
-  }
+  .cal-wrap { margin-bottom: 0; }
+  .cal__cell { min-height: 70px; }
 
   .goods-slide__panel {
     width: min(48%, 300px);
   }
 
   .pf-footer {
-    margin-top: 40px;
+    margin-top: 48px;
     padding: 22px 16px;
     font-size: 12px;
   }
 }
 
-/* Large desktop */
 @media (min-width: 1280px) {
-  :root { --max: 1240px; }
+  :root { --shell-max: 1240px; }
 
-  .carousel__media {
-    aspect-ratio: 24 / 9;
-    max-height: min(56vh, 560px);
+  #heroCarousel .carousel__media {
+    aspect-ratio: 22 / 9;
+    max-height: min(50vh, 520px);
   }
 
   .pf-band { gap: 40px; }
+
+  .pf-nav__icon {
+    width: 40px;
+    height: 40px;
+  }
 }
