@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="../assets/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png">
   <link rel="stylesheet" href="https://use.typekit.net/btf8drg.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=cal-corp-4">
 </head>
 <body>
   <div class="site">
@@ -20,7 +20,7 @@
         <a class="pf-logo" href="./" aria-label="ShareKOBE ホーム">
           <img src="../assets/ShareKOBE_AI.webp" alt="ShareKOBE" width="399" height="118">
         </a>
-        <a class="pf-corp" href="/">法人・企業様はこちらから &gt;&gt;</a>
+        <a class="pf-corp" href="/">法人・企業様は<br>こちらから &gt;&gt;</a>
       </header>
 
       <nav class="pf-nav" aria-label="メインメニュー">
@@ -90,9 +90,13 @@
             </div>
 
             <div class="cal-detail" id="calDetail" hidden>
-              <p class="cal-detail__date" id="calDetailDate"></p>
-              <div class="cal-detail__list" id="calDetailList"></div>
-              <p class="cal-detail__empty" id="calDetailEmpty" hidden>この日の公演はありません。</p>
+              <div class="cal-detail__inner">
+                <div class="cal-detail__body">
+                  <p class="cal-detail__date" id="calDetailDate"></p>
+                  <div class="cal-detail__list" id="calDetailList"></div>
+                  <p class="cal-detail__empty" id="calDetailEmpty" hidden>この日の公演はありません。</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -141,6 +145,6 @@
     </footer>
   </div>
 
-  <script src="js/main.js?v=loop-kv-2"></script>
+  <script src="js/main.js?v=cal-corp-2"></script>
 </body>
 </html>

@@ -239,8 +239,9 @@
     return `${y}年${m}月${d}日（${dow}）`;
   };
 
-  const showDetail = (key) => {
-    detail.hidden = false;
+  let closeTimer = null;
+
+  const populateDetail = (key) => {
     detailDate.textContent = formatDateLabel(key);
     const shows = SCHEDULE[key] || [];
 
@@ -273,14 +274,59 @@
       .join('');
   };
 
+  const syncSelectedCells = () => {
+    calGrid.querySelectorAll('.cal__cell[data-date]').forEach((el) => {
+      el.classList.toggle('is-selected', el.dataset.date === selected);
+    });
+  };
+
+  const hideDetailImmediate = () => {
+    window.clearTimeout(closeTimer);
+    detail.classList.remove('is-open', 'is-after-last-row');
+    detail.hidden = true;
+  };
+
+  const closeDetail = () => {
+    window.clearTimeout(closeTimer);
+    detail.classList.remove('is-open');
+    closeTimer = window.setTimeout(() => {
+      if (!selected) {
+        detail.hidden = true;
+      }
+    }, 310);
+  };
+
+  const openDetailAtRow = (key, rowIndex) => {
+    window.clearTimeout(closeTimer);
+    populateDetail(key);
+
+    const cells = [...calGrid.querySelectorAll('.cal__cell')];
+    const rowEndCell = cells[rowIndex * 7 + 6];
+    detail.classList.remove('is-open');
+    detail.classList.toggle('is-after-last-row', rowIndex === 5);
+    detail.hidden = false;
+
+    if (rowEndCell) {
+      rowEndCell.after(detail);
+    } else {
+      calGrid.appendChild(detail);
+    }
+
+    // Force reflow so slide-down transition triggers cleanly from the top
+    void detail.offsetHeight;
+    detail.classList.add('is-open');
+  };
+
   const renderCal = () => {
     calLabel.textContent = `${year}年 ${month}月`;
+    hideDetailImmediate();
     calGrid.innerHTML = '';
 
     const first = new Date(year, month - 1, 1);
     const start = (first.getDay() + 6) % 7; // Mon=0
     const daysInMonth = new Date(year, month, 0).getDate();
-    const total = Math.ceil((start + daysInMonth) / 7) * 7;
+    const prevDaysInMonth = new Date(year, month - 1, 0).getDate();
+    const total = 42; // Always 6 rows x 7 columns
 
     for (let i = 0; i < total; i += 1) {
       const cell = document.createElement('button');
@@ -288,22 +334,26 @@
       cell.className = 'cal__cell';
       cell.setAttribute('role', 'gridcell');
 
+      const dow = i % 7;
+      if (dow === 5) cell.classList.add('is-sat');
+      if (dow === 6) cell.classList.add('is-sun');
+      if (i >= 35) cell.classList.add('is-last-row');
+
       const dayNum = i - start + 1;
       if (dayNum < 1 || dayNum > daysInMonth) {
-        cell.classList.add('is-empty');
+        const outDay = dayNum < 1 ? prevDaysInMonth + dayNum : dayNum - daysInMonth;
+        cell.classList.add('is-outside');
         cell.tabIndex = -1;
         cell.disabled = true;
         cell.setAttribute('aria-hidden', 'true');
+        cell.innerHTML = `<span class="cal__day">${outDay}</span>`;
         calGrid.appendChild(cell);
         continue;
       }
 
-      const dow = i % 7;
-      if (dow === 5) cell.classList.add('is-sat');
-      if (dow === 6) cell.classList.add('is-sun');
-
       const key = keyOf(year, month, dayNum);
       const hasShow = Boolean(SCHEDULE[key]?.length);
+      const rowIndex = Math.floor(i / 7);
 
       cell.innerHTML = `<span class="cal__day">${dayNum}</span>`;
       cell.dataset.date = key;
@@ -320,13 +370,13 @@
       cell.addEventListener('click', () => {
         if (selected === key) {
           selected = null;
-          detail.hidden = true;
-          renderCal();
+          syncSelectedCells();
+          closeDetail();
           return;
         }
         selected = key;
-        renderCal();
-        showDetail(key);
+        syncSelectedCells();
+        openDetailAtRow(key, rowIndex);
       });
 
       calGrid.appendChild(cell);
@@ -345,7 +395,6 @@
         year += 1;
       }
       selected = null;
-      detail.hidden = true;
       renderCal();
     });
   });

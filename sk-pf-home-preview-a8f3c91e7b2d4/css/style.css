@@ -66,30 +66,39 @@ button { font: inherit; }
 /* —— Header (compact, TDR-like ~38px logo scale) —— */
 .pf-header {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   gap: 12px;
-  min-height: 56px;
-  padding: 10px 14px;
+  min-height: 60px;
+  padding: 0 0 0 14px;
+}
+
+.pf-logo {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
 }
 
 .pf-logo img {
   width: auto;
-  height: 32px;
+  height: 40px;
 }
 
 .pf-corp {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 8px 12px;
+  align-self: stretch;
+  margin: 0;
+  padding: 8px 16px;
   background: var(--ink-deep);
   color: #fff;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-align: center;
   white-space: nowrap;
-  line-height: 1.2;
+  line-height: 1.45;
   transition: opacity 0.2s;
 }
 
@@ -287,6 +296,8 @@ button { font: inherit; }
   letter-spacing: 0.06em;
   line-height: 1;
   text-transform: uppercase;
+  /* Compensate DIN cap-height metric so text visual center aligns with icons */
+  transform: translateY(-0.1em);
 }
 
 .pf-section__icon {
@@ -297,8 +308,8 @@ button { font: inherit; }
 }
 
 .pf-section__icon--tickets {
-  width: clamp(1.85rem, 7vw, 2.25rem);
-  height: clamp(1.85rem, 7vw, 2.25rem);
+  width: clamp(2.35rem, 9vw, 2.9rem);
+  height: clamp(2.35rem, 9vw, 2.9rem);
 }
 
 .pf-section__head .cal__note {
@@ -415,14 +426,23 @@ button { font: inherit; }
   cursor: pointer;
 }
 
-.cal__cell:nth-child(7n) { border-right: 0; }
+.cal__cell.is-sun { border-right: 0; }
+.cal__cell.is-last-row { border-bottom: 0; }
 
-.cal__cell.is-empty,
+.cal__cell.is-outside,
 .cal__cell:disabled {
   background: #fff;
   cursor: default;
   pointer-events: none;
 }
+
+.cal__cell.is-outside .cal__day {
+  color: #c6c6c2;
+  font-weight: 700;
+}
+
+.cal__cell.is-outside.is-sat .cal__day { color: rgba(47, 111, 181, 0.38); }
+.cal__cell.is-outside.is-sun .cal__day { color: rgba(192, 57, 43, 0.38); }
 
 .cal__day {
   font-size: 14px;
@@ -430,8 +450,8 @@ button { font: inherit; }
   line-height: 1.2;
 }
 
-.cal__cell.is-sat .cal__day { color: #2f6fb5; }
-.cal__cell.is-sun .cal__day { color: #c0392b; }
+.cal__cell:not(.is-outside).is-sat .cal__day { color: #2f6fb5; }
+.cal__cell:not(.is-outside).is-sun .cal__day { color: #c0392b; }
 
 .cal__cell.is-open::after {
   content: "";
@@ -447,17 +467,48 @@ button { font: inherit; }
   z-index: 1;
 }
 
-.cal__cell:not(.is-empty):hover { background: #f7f7f5; }
+.cal__cell:not(.is-outside):hover { background: #f7f7f5; }
 .cal__cell.is-selected:hover { background: #fff1ef; }
 
 .cal-detail {
-  border: 1.5px solid var(--line-strong);
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
   background: #fff;
-  padding: 14px;
-  animation: cal-detail-in 0.28s var(--ease);
+  border-bottom: 1.5px solid var(--line-strong);
+  transition:
+    grid-template-rows 0.3s var(--ease),
+    opacity 0.24s var(--ease);
+}
+
+.cal-detail.is-after-last-row {
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 0;
+}
+
+.cal-detail.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
 }
 
 .cal-detail[hidden] { display: none; }
+
+.cal-detail__inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.cal-detail__body {
+  padding: 14px;
+  background: #fff;
+  transform: translateY(-10px);
+  transition: transform 0.3s var(--ease);
+}
+
+.cal-detail.is-open .cal-detail__body {
+  transform: translateY(0);
+}
 
 .cal-detail__date {
   margin: 0 0 12px;
@@ -557,7 +608,8 @@ button { font: inherit; }
   .pf-corp,
   .pf-nav__item,
   .carousel__rail,
-  .cal-detail {
+  .cal-detail,
+  .cal-detail__body {
     transition: none !important;
     animation: none !important;
   }
@@ -584,14 +636,14 @@ button { font: inherit; }
   body { padding: 24px 16px 40px; }
 
   .pf-header {
-    min-height: 58px;
-    padding: 10px 20px;
+    min-height: 64px;
+    padding: 0 0 0 20px;
   }
-  .pf-logo img { height: 34px; }
+  .pf-logo img { height: 44px; }
   .pf-corp {
-    padding: 9px 14px;
-    font-size: 11px;
-    letter-spacing: 0.03em;
+    padding: 8px 20px;
+    font-size: 12px;
+    letter-spacing: 0.08em;
   }
 
   /* Menu full width of the card */
@@ -620,8 +672,8 @@ button { font: inherit; }
   }
   .pf-section__icon { width: 36px; height: 36px; }
   .pf-section__icon--tickets {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 3.25rem;
+    height: 3.25rem;
   }
   .pf-section__head .cal__note {
     margin-left: 1.5rem;
@@ -665,18 +717,18 @@ button { font: inherit; }
   }
 
   .pf-header {
-    width: min(100% - 48px, var(--shell-max));
-    margin: 0 auto;
-    min-height: 60px;
-    padding: 12px 0;
+    width: 100%;
+    margin: 0;
+    min-height: 70px;
+    padding: 0 0 0 24px;
   }
 
-  .pf-logo img { height: 36px; }
+  .pf-logo img { height: 48px; }
 
   .pf-corp {
-    padding: 9px 16px;
-    font-size: 12px;
-    letter-spacing: 0.04em;
+    padding: 10px 26px;
+    font-size: 13px;
+    letter-spacing: 0.1em;
   }
 
   /* Menu: full viewport width, TDR-like compact scale */
@@ -758,8 +810,8 @@ button { font: inherit; }
   }
 
   .pf-section__icon--tickets {
-    width: 2.75rem;
-    height: 2.75rem;
+    width: 3.6rem;
+    height: 3.6rem;
   }
 
   .pf-section__head .cal__note {
@@ -786,7 +838,10 @@ button { font: inherit; }
 @media (min-width: 1280px) {
   :root { --shell-max: 1280px; }
 
-  .pf-header,
+  .pf-header {
+    padding-left: 32px;
+  }
+
   .pf-band {
     width: min(100% - 64px, var(--shell-max));
   }
@@ -794,8 +849,8 @@ button { font: inherit; }
   .pf-band { gap: 44px; }
 
   .pf-section__icon--tickets {
-    width: 2.85rem;
-    height: 2.85rem;
+    width: 3.85rem;
+    height: 3.85rem;
   }
 
   #heroCarousel .carousel__slide {

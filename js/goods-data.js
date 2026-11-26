@@ -133,7 +133,7 @@ const GOODS = [
     day: 7,
     desc: 'おしりの小謎の問題集！',
     hue: 55,
-    image: 'oshiriddle.jpeg',
+    image: 'oshiriddle.jpg',
     price: '1,300',
     detail: [
       'おしりの小謎がい〜っぱい。',
