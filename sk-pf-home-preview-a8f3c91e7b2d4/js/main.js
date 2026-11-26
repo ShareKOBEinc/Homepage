@@ -183,6 +183,8 @@
     kv: KV.nazokaruta,
   });
 
+  const TIGET_NAZOKARUTA_1205 = 'https://tiget.net/events/536341';
+
   const SCHEDULE = {
     '2026-11-01': [nazokarutaShow('13:00 / 16:00')],
     '2026-11-03': [nazokarutaShow('11:00 / 14:00 / 17:00')],
@@ -207,6 +209,29 @@
     '2026-11-23': [nazokarutaShow('11:00 / 14:00 / 17:00')],
     '2026-11-28': [nazokarutaShow('13:00 / 16:00')],
     '2026-11-29': [nazokarutaShow('11:00 / 14:00 / 17:00')],
+    '2026-12-05': [
+      {
+        title: 'ナゾカルタ EXPERT EDITION',
+        time: '10:00〜18:00（1時間おき）',
+        place: 'ヒカリホールディングス 貸会議室・イベントホール（岡山県）',
+        team: '1〜2人',
+        duration: '約40分',
+        price: 'ソロ ¥1,800 / ペア ¥3,500',
+        link: '/works/nazokaruta-ex.html',
+        kv: KV.nazokaruta,
+        slots: [
+          { time: '10:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '11:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '12:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '13:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '14:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '15:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '16:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '17:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+          { time: '18:00', soldOut: true, url: TIGET_NAZOKARUTA_1205 },
+        ],
+      },
+    ],
   };
 
   const cal = document.getElementById('ticketCal');
@@ -257,17 +282,27 @@
         const kv = show.kv
           ? `<img class="cal-show__kv" src="${escapeHtml(show.kv)}" alt="">`
           : '';
+        const slotsHtml = show.slots?.length
+          ? `<div class="cal-slots" aria-label="公演時間帯">${show.slots
+              .map((slot) => {
+                const stateClass = slot.soldOut ? 'is-soldout' : 'is-available';
+                const mark = slot.soldOut ? '×' : '◯';
+                const label = `${slot.time} ${slot.soldOut ? '売り切れ' : '残席あり'}`;
+                return `<a class="cal-slot ${stateClass}" href="${escapeHtml(slot.url)}" target="_blank" rel="noopener noreferrer" aria-label="${escapeHtml(label)}"><span class="cal-slot__time">${escapeHtml(slot.time)}</span><span class="cal-slot__mark" aria-hidden="true">${mark}</span></a>`;
+              })
+              .join('')}</div>`
+          : '';
         return `
       <article class="cal-show">
         ${kv}
         <h3 class="cal-show__title">${escapeHtml(show.title)}</h3>
         <dl class="cal-show__meta">
-          <div><dt>開演</dt><dd>${escapeHtml(show.time)}</dd></div>
           <div><dt>会場</dt><dd>${escapeHtml(show.place)}</dd></div>
           <div><dt>人数</dt><dd>${escapeHtml(show.team)}</dd></div>
           <div><dt>所要</dt><dd>${escapeHtml(show.duration)}</dd></div>
           <div><dt>料金</dt><dd>${escapeHtml(show.price)}</dd></div>
         </dl>
+        ${slotsHtml}
         <a class="cal-show__link" href="${escapeHtml(show.link)}">詳細をみる</a>
       </article>`;
       })

@@ -584,6 +584,61 @@ button { font: inherit; }
 
 .cal-show__link:hover { opacity: 0.88; }
 
+.cal-slots {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.cal-slot {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 6px;
+  border: 1.5px solid var(--line-strong);
+  background: #fff;
+  color: var(--ink-deep);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.2;
+  transition: background 0.18s, color 0.18s, border-color 0.18s;
+}
+
+.cal-slot__time {
+  font-family: var(--font-en);
+  letter-spacing: 0.03em;
+}
+
+.cal-slot__mark {
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.cal-slot.is-available .cal-slot__mark {
+  color: var(--accent);
+}
+
+.cal-slot.is-available:hover {
+  background: #fff1ef;
+  border-color: var(--accent);
+}
+
+.cal-slot.is-soldout {
+  border-color: var(--line);
+  background: #efefec;
+  color: var(--muted);
+}
+
+.cal-slot.is-soldout .cal-slot__mark {
+  color: var(--muted);
+}
+
+.cal-slot.is-soldout:hover {
+  background: #e6e6e2;
+}
+
 @keyframes cal-detail-in {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
